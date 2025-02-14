@@ -35,7 +35,6 @@ export default function Login() {
         return;
       }
 
-
       // 로그인 성공 시 처리 (예: 토큰 저장, 화면 전환)
       setMessage(message || "로그인 성공!");
       localStorage.setItem("user_id", user_id);
@@ -71,9 +70,9 @@ export default function Login() {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <LinearGradient
         colors={['#000022', '#000000', '#0000AA']} // 검은색 → 약한 남색 → 진한 파란색
-        locations={[0, 0.7, 1]} // 30%까지 검은색, 이후 점점 파란색
-        start={{ x: 0, y: 0 }} // 왼쪽 위에서 시작
-        end={{ x: 1, y: 1 }} // 오른쪽 아래로 진행
+        locations={[0, 0.8, 1]} // 30%까지 검은색, 이후 점점 파란색
+        start={{ x: 1, y: 0 }} // 왼쪽 위에서 시작
+        end={{ x: 0, y: 1 }} // 오른쪽 아래로 진행
         style={styles.container}
       >
 
@@ -142,7 +141,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#000000',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: moderateScale(5)
+    padding: moderateScale(20)
   },
   // spectrum: {
   //   backgroundColor: 'black',
@@ -209,7 +208,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: moderateScale(50),
     justifyContent: 'center',
-    backgroundColor: '#2A79FF',
+    backgroundColor: '#507DFA',
     alignItems: 'center',
     borderRadius: 3,
   },
