@@ -9,7 +9,7 @@ import api from '../../api';
 
 //flask run <- 서버 여는 코드
 
-export default function Login() {
+export default function Login({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState("");
@@ -58,7 +58,7 @@ export default function Login() {
   };
 
   const handleSignUp = () => {
-    console.log('회원가입 클릭됨');
+    navigation.navigate("Agree")
   };
 
   const handleKakaoLogin = () => {
