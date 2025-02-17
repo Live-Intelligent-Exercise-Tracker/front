@@ -1,10 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 
-export default function Agree({ navigation }) {
+export default function My({ navigation }) {
     return (
         <View style={styles.container}>
-            <Text>약관동의</Text>
+            <Text>마이페이지</Text>
             <StatusBar style="auto" />
         </View>
     );
