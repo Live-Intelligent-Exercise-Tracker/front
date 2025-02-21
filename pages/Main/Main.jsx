@@ -6,9 +6,9 @@ export default function Main({ navigation }) {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <LinearGradient
-        colors={['#000022', '#000000', '#0000AA']} // 검은색 → 약한 남색 → 진한 파란색
-        locations={[0, 0.8, 1]} // 30%까지 검은색, 이후 점점 파란색
-        start={{ x: 1, y: 0 }} // 왼쪽 위에서 시작
+        colors={['#000000', '#000000', '#0000AA']} // 검은색 → 약한 남색 → 진한 파란색
+        locations={[0, 0.85, 1]} // 30%까지 검은색, 이후 점점 파란색
+        start={{ x: 0, y: 0 }} // 왼쪽 위에서 시작
         end={{ x: 0, y: 1 }} // 오른쪽 아래로 진행
         style={styles.container}
       >
@@ -23,34 +23,46 @@ export default function Main({ navigation }) {
           <View style={{ flex: 1, left: moderateScale(-15) }}>
             <TouchableOpacity style={styles.healthAndRunning}>
               <View style={{ paddingLeft: moderateScale(15), paddingTop: moderateScale(10) }}>
-                <Text style={{ color: '#FFFFFF', fontWeight: 'bold', fontSize: moderateScale(18), marginBottom: moderateScale(5) }}>헬스</Text>
-                <Text style={{ color: '#D0D0D0', fontSize: moderateScale(8) }}>근육 성장을 위한 첫 걸음!</Text>
+                <Text style={{ color: '#FFFFFF', fontWeight: 'bold', fontSize: moderateScale(19), marginBottom: moderateScale(5) }}>헬스</Text>
+                <Text style={{ color: '#D0D0D0', fontSize: moderateScale(9) }}>근육 성장을 위한 첫 걸음!</Text>
               </View>
               <Image
                 source={require('../../assets/dumbbell.png')}
-                style={{ width: moderateScale(65.86), height: moderateScale(42.29), alignSelf: 'flex-end', bottom: moderateScale(-20) }}
+                style={{ width: moderateScale(85.86), height: moderateScale(62.29), alignSelf: 'flex-end', bottom: moderateScale(-10) }}
               />
             </TouchableOpacity>
             <TouchableOpacity style={styles.healthAndRunning}>
               <View style={{ paddingLeft: moderateScale(15), paddingTop: moderateScale(10) }}>
-                <Text style={{ color: '#FFFFFF', fontWeight: 'bold', fontSize: moderateScale(18), marginBottom: moderateScale(5) }}>러닝</Text>
-                <Text style={{ color: '#D0D0D0', fontSize: moderateScale(8) }}>오늘도 활기찬 하루를 시작해볼까요?</Text>
+                <Text style={{ color: '#FFFFFF', fontWeight: 'bold', fontSize: moderateScale(19), marginBottom: moderateScale(5) }}>러닝</Text>
+                <Text style={{ color: '#D0D0D0', fontSize: moderateScale(9) }}>오늘도 활기찬 하루를 시작해볼까요?</Text>
               </View>
-              <Image
-                source={require('../../assets/rode.png')}
-                style={{ width: moderateScale(187), height: moderateScale(86) }}
-              />
+              <View style={{ flex: 1, flexDirection: 'row' }}>
+                <Image
+                  source={require('../../assets/tree.png')}
+                  style={{ width: moderateScale(46), height: moderateScale(56.7), position: 'absolute', right: moderateScale(120), bottom: moderateScale(-6) }}
+                />
+                <Image
+                  source={require('../../assets/rode.png')}
+                  style={{ width: moderateScale(187), height: moderateScale(86) }}
+                />
+              </View>
             </TouchableOpacity>
           </View>
           <TouchableOpacity style={[styles.healthAndRunning, { flex: 1, justifyContent: 'flex-end', width: moderateScale(158), height: moderateScale(246), right: moderateScale(-15) }]}>
-            <View style={{ paddingLeft: moderateScale(15), paddingTop: moderateScale(10), top: moderateScale(-62.5) }}>
-              <Text style={{ color: '#FFFFFF', fontWeight: 'bold', fontSize: moderateScale(18), marginBottom: moderateScale(5) }}>계단 오르기</Text>
-              <Text style={{ color: '#D0D0D0', fontSize: moderateScale(8) }}>계단은 인생의 업힐,{'\n'}정상을 향해 한 걸음 더!</Text>
+            <View style={{ paddingLeft: moderateScale(15), paddingTop: moderateScale(10), top: moderateScale(-2.5) }}>
+              <Text style={{ color: '#FFFFFF', fontWeight: 'bold', fontSize: moderateScale(19), marginBottom: moderateScale(5) }}>계단 오르기</Text>
+              <Text style={{ color: '#D0D0D0', fontSize: moderateScale(9) }}>계단은 인생의 업힐,{'\n'}정상을 향해 한 걸음 더!</Text>
             </View>
-            <Image
-              source={require('../../assets/63Building.png')}
-              style={{ width: moderateScale(64), height: moderateScale(129), alignSelf: 'flex-end' }}
-            />
+            <View style={{ flex: 1, flexDirection: 'row' }}>
+              <Image
+                source={require('../../assets/Union.png')}
+                style={{ width: moderateScale(65), height: moderateScale(207.5), flex: 1, flexDirection: 'row', left: moderateScale(-10) }}
+              />
+              <Image
+                source={require('../../assets/63빌딛.png')}
+                style={{ width: moderateScale(109), height: moderateScale(174), flex: 1, flexDirection: 'row', alignSelf: 'flex-end' }}
+              />
+            </View>
           </TouchableOpacity>
         </View>
       </LinearGradient>

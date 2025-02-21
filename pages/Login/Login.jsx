@@ -68,9 +68,9 @@ export default function Login({ navigation }) {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <LinearGradient
-        colors={['#000022', '#000000', '#0000AA']} // 검은색 → 약한 남색 → 진한 파란색
-        locations={[0, 0.8, 1]} // 30%까지 검은색, 이후 점점 파란색
-        start={{ x: 1, y: 0 }} // 왼쪽 위에서 시작
+        colors={['#000000', '#000000', '#0000AA']} // 검은색 → 약한 남색 → 진한 파란색
+        locations={[0, 0.75, 1]} // 30%까지 검은색, 이후 점점 파란색
+        start={{ x: 0, y: 0 }} // 왼쪽 위에서 시작
         end={{ x: 0, y: 1 }} // 오른쪽 아래로 진행
         style={styles.container}
       >
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   text: {
-    color: 'white',
+    color: '#FFFFFF',
     fontSize: moderateScale(26),
     marginBottom: moderateScale(20),
     fontWeight: 'semibold',
