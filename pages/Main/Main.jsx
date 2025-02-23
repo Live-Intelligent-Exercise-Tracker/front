@@ -48,7 +48,7 @@ export default function Main({ navigation }) {
               </View>
             </TouchableOpacity>
           </View>
-          <TouchableOpacity style={[styles.healthAndRunning, { flex: 1, justifyContent: 'flex-end', width: moderateScale(158), height: moderateScale(246), right: moderateScale(-15) }]}>
+          <TouchableOpacity onPress={() => navigation.navigate("StairsTarget")} style={[styles.healthAndRunning, { flex: 1, justifyContent: 'flex-end', width: moderateScale(158), height: moderateScale(246), right: moderateScale(-15) }]}>
             <View style={{ paddingLeft: moderateScale(15), paddingTop: moderateScale(10), top: moderateScale(-2.5) }}>
               <Text style={{ color: '#FFFFFF', fontWeight: 'bold', fontSize: moderateScale(19), marginBottom: moderateScale(5) }}>계단 오르기</Text>
               <Text style={{ color: '#D0D0D0', fontSize: moderateScale(9) }}>계단은 인생의 업힐,{'\n'}정상을 향해 한 걸음 더!</Text>

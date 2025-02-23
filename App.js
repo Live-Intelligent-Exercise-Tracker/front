@@ -10,6 +10,7 @@ import Main from "./pages/Main/Main";
 import My from "./pages/Main/My";
 import Group from "./pages/Main/Group";
 import SignUp from "./pages/SignUp/SignUp";
+import StairsTarget from "./pages/Main/Exercise/Stairs/StairsTarget";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -70,6 +71,12 @@ export default function App() {
           headerBackTitle: ''
         }} />
         <Stack.Screen name="MainTabs" component={MainTabs} options={{ headerShown: false }} />
+        <Stack.Screen name="StairsTarget" component={StairsTarget} options={{
+          title: "목표를 설정해봐요!",
+          headerTintColor: "#FFFFFF",
+          headerStyle: { backgroundColor: '#0A0A0A', shadowOpacity: 0, elevation: 0, borderBottomWidth: 0, },
+          headerBackTitle: ''
+        }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
