@@ -11,6 +11,8 @@ import My from "./pages/Main/My";
 import Group from "./pages/Main/Group";
 import SignUp from "./pages/SignUp/SignUp";
 import StairsTarget from "./pages/Main/Exercise/Stairs/StairsTarget";
+import HrvMeasurement from "./pages/Main/Exercise/common/HrvMeasurement";
+import HrvResult from "./pages/Main/Exercise/common/HrvResult";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -71,6 +73,18 @@ export default function App() {
           headerBackTitle: ''
         }} />
         <Stack.Screen name="MainTabs" component={MainTabs} options={{ headerShown: false }} />
+        <Stack.Screen name="HrvMeasurement" component={HrvMeasurement} options={{
+          title: "",
+          headerStyle: { backgroundColor: '#0A0A0A', shadowOpacity: 0, elevation: 0, borderBottomWidth: 0, },
+          headerTintColor: "#FFFFFF",
+          headerBackTitle: ''
+        }} />
+        <Stack.Screen name="HrvResult" component={HrvResult} options={{
+          title: "",
+          headerStyle: { backgroundColor: '#0A0A0A', shadowOpacity: 0, elevation: 0, borderBottomWidth: 0, },
+          headerTintColor: "#FFFFFF",
+          headerBackTitle: ''
+        }} />
         <Stack.Screen name="StairsTarget" component={StairsTarget} options={{
           title: "목표를 설정해봐요!",
           headerTintColor: "#FFFFFF",

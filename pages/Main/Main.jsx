@@ -31,7 +31,7 @@ export default function Main({ navigation }) {
                 style={{ width: moderateScale(85.86), height: moderateScale(62.29), alignSelf: 'flex-end', bottom: moderateScale(-10) }}
               />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.healthAndRunning}>
+            <TouchableOpacity style={styles.healthAndRunning} onPress={() => navigation.navigate("HrvMeasurement", { button: '러닝' })}>
               <View style={{ paddingLeft: moderateScale(15), paddingTop: moderateScale(10) }}>
                 <Text style={{ color: '#FFFFFF', fontWeight: 'bold', fontSize: moderateScale(19), marginBottom: moderateScale(5) }}>러닝</Text>
                 <Text style={{ color: '#D0D0D0', fontSize: moderateScale(9) }}>오늘도 활기찬 하루를 시작해볼까요?</Text>

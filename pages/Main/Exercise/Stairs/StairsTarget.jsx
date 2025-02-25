@@ -8,10 +8,10 @@ export default function StairsTarget({ navigation }) {
     const [selectedTower, setSelectedTower] = useState(null);
 
     const images = {
-        tower1: require('../../../../assets/남산타워 1.png'),
-        tower2: require('../../../../assets/포스코타워 4.png'),
-        tower3: require('../../../../assets/엘시티 1.png'),
-        tower4: require('../../../../assets/롯데타워 3.png'),
+        tower1: require('../../../../assets/남산타워.png'),
+        tower2: require('../../../../assets/포스코타워 5.png'),
+        tower3: require('../../../../assets/엘시티 타워 1.png'),
+        tower4: require('../../../../assets/롯데타워.png'),
     };
 
     const handleSelectTower = (towerName) => {
@@ -81,6 +81,7 @@ export default function StairsTarget({ navigation }) {
                     selectedTower ? styles.buttonEnabled : styles.buttonDisabled,
                 ]}
                 disabled={!selectedTower} // 선택한 타워가 없으면 비활성화
+                onPress={() => navigation.navigate("HrvMeasurement", { button: '계단 오르기' })}
             >
                 <Text style={styles.buttonText}>선택 완료</Text>
             </TouchableOpacity>
