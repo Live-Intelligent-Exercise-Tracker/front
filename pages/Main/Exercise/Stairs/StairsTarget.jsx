@@ -8,10 +8,10 @@ export default function StairsTarget({ navigation }) {
     const [selectedTower, setSelectedTower] = useState(null);
 
     const images = {
-        tower1: require('../../../../assets/남산타워.png'),
-        tower2: require('../../../../assets/포스코타워 5.png'),
-        tower3: require('../../../../assets/엘시티 타워 1.png'),
-        tower4: require('../../../../assets/롯데타워.png'),
+        tower1: require('../../../../assets/남산타워 1.png'),
+        tower2: require('../../../../assets/포스코타워 4.png'),
+        tower3: require('../../../../assets/엘시티 1.png'),
+        tower4: require('../../../../assets/롯데타워 3.png'),
     };
 
     const handleSelectTower = (towerName) => {
@@ -20,8 +20,8 @@ export default function StairsTarget({ navigation }) {
 
     return (
         <LinearGradient
-            colors={['#000000', '#000000', '#0000AA']} // 검은색 → 약한 남색 → 진한 파란색
-            locations={[0, 0.75, 1]} // 30%까지 검은색, 이후 점점 파란색
+            colors={['#0A0A0A', '#0A0A0A', '#111F45']} // 검은색 → 약한 남색 → 진한 파란색
+            locations={[0, 0.7, 1]} // 30%까지 검은색, 이후 점점 파란색
             start={{ x: 0, y: 0 }} // 왼쪽 위에서 시작
             end={{ x: 0, y: 1 }} // 오른쪽 아래로 진행
             style={styles.container}
