@@ -1,11 +1,17 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Button } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { logout } from '../../slices/userSlice';
 
 export default function My({ navigation }) {
+    const dispatch = useDispatch()
+
+    const handleLogout = () => {
+        dispatch(logout())
+        navigation.replace("Login")
+    }
     return (
         <View style={styles.container}>
-            <Text>마이페이지</Text>
-            <StatusBar style="auto" />
+            <Button title='로그아웃' onPress={handleLogout}></Button>
         </View>
     );
 }

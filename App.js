@@ -1,4 +1,7 @@
 import React from "react";
+import { useSelector } from "react-redux";
+import { Provider } from "react-redux";
+import { store } from "./store"; // 스토어 import
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { moderateScale } from 'react-native-size-matters';
 import { NavigationContainer } from "@react-navigation/native";
@@ -56,43 +59,73 @@ function MainTabs() {
 }
 
 export default function App() {
+
+  const [isLoading, setIsLoading] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { user } = useSelector((state) => state.user)
+
+  useEffect(() => {
+    const checkLoginStatus = async () => {
+      try {
+        const token = user; // 저장된 토큰 가져오기
+        setIsLoggedIn(!!token); // 토큰이 있으면 로그인 상태
+      } catch (error) {
+        console.error("토큰 확인 오류:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    checkLoginStatus();
+  }, []);
+
+  if (isLoading) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "#000" }}>
+        <ActivityIndicator size="large" color="#507DFA" />
+      </View>
+    );
+  }
+
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
-        <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
-        <Stack.Screen name="Agree" component={Agree} options={{
-          title: "약관 동의",
-          headerStyle: { backgroundColor: '#161616', shadowOpacity: 0, elevation: 0, borderBottomWidth: 0, },
-          headerTintColor: "#FFFFFF",
-          headerBackTitle: ''
-        }} />
-        <Stack.Screen name="SignUp" component={SignUp} options={{
-          title: "회원가입",
-          headerStyle: { backgroundColor: '#FFFFFF', shadowOpacity: 0, elevation: 0, borderBottomWidth: 0, },
-          headerTintColor: "#000000",
-          headerBackTitle: ''
-        }} />
-        <Stack.Screen name="MainTabs" component={MainTabs} options={{ headerShown: false }} />
-        <Stack.Screen name="HrvMeasurement" component={HrvMeasurement} options={{
-          title: "",
-          headerStyle: { backgroundColor: '#0A0A0A', shadowOpacity: 0, elevation: 0, borderBottomWidth: 0, },
-          headerTintColor: "#FFFFFF",
-          headerBackTitle: ''
-        }} />
-        <Stack.Screen name="HrvResult" component={HrvResult} options={{
-          title: "",
-          headerStyle: { backgroundColor: '#0A0A0A', shadowOpacity: 0, elevation: 0, borderBottomWidth: 0, },
-          headerTintColor: "#FFFFFF",
-          headerBackTitle: ''
-        }} />
-        <Stack.Screen name="StairsTarget" component={StairsTarget} options={{
-          title: "목표를 설정해봐요!",
-          headerTintColor: "#FFFFFF",
-          headerStyle: { backgroundColor: '#0A0A0A', shadowOpacity: 0, elevation: 0, borderBottomWidth: 0, },
-          headerBackTitle: ''
-        }} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName={isLoggedIn ? "MainTabs" : "Login"}>
+          <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+          <Stack.Screen name="Agree" component={Agree} options={{
+            title: "약관 동의",
+            headerStyle: { backgroundColor: '#161616', shadowOpacity: 0, elevation: 0, borderBottomWidth: 0, },
+            headerTintColor: "#FFFFFF",
+            headerBackTitle: ''
+          }} />
+          <Stack.Screen name="SignUp" component={SignUp} options={{
+            title: "회원가입",
+            headerStyle: { backgroundColor: '#FFFFFF', shadowOpacity: 0, elevation: 0, borderBottomWidth: 0, },
+            headerTintColor: "#000000",
+            headerBackTitle: ''
+          }} />
+          <Stack.Screen name="MainTabs" component={MainTabs} options={{ headerShown: false }} />
+          <Stack.Screen name="HrvMeasurement" component={HrvMeasurement} options={{
+            title: "",
+            headerStyle: { backgroundColor: '#0A0A0A', shadowOpacity: 0, elevation: 0, borderBottomWidth: 0, },
+            headerTintColor: "#FFFFFF",
+            headerBackTitle: ''
+          }} />
+          <Stack.Screen name="HrvResult" component={HrvResult} options={{
+            title: "",
+            headerStyle: { backgroundColor: '#0A0A0A', shadowOpacity: 0, elevation: 0, borderBottomWidth: 0, },
+            headerTintColor: "#FFFFFF",
+            headerBackTitle: ''
+          }} />
+          <Stack.Screen name="StairsTarget" component={StairsTarget} options={{
+            title: "목표를 설정해봐요!",
+            headerTintColor: "#FFFFFF",
+            headerStyle: { backgroundColor: '#0A0A0A', shadowOpacity: 0, elevation: 0, borderBottomWidth: 0, },
+            headerBackTitle: ''
+          }} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 }
 

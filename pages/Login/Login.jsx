@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   StyleSheet, Text, View, TextInput, TouchableOpacity,
   Keyboard, TouchableWithoutFeedback, Image
@@ -6,48 +6,39 @@ import {
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
 import { LinearGradient } from 'expo-linear-gradient'
 import api from '../../api';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginWithEmail } from '../../slices/userSlice';
+import { clearErrors } from '../../slices/userSlice';
 
 //flask run <- 서버 여는 코드
 
 export default function Login({ navigation }) {
-  const [email, setEmail] = useState('');
+  const dispatch = useDispatch()
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState("");
+  const { user } = useSelector((state) => state.user)
+  const { loginError } = useSelector((state) => state.user)
+
+  useEffect(() => {
+    if (loginError) {
+      dispatch(clearErrors())
+    }
+  })
 
   const handleLogin = async () => {
-    // 로그인 처리 로직을 여기에 작성
-    // if (!email || !password) {
-    //   alert('아이디와 비밀번호를 입력하세요');
-    //   return;
-    // }
-    navigation.navigate("MainTabs"); // 넘어가지는지 확인용
-    // try {
-    //   const response = await api.post("/auth/login", {
-    //     email: email,
-    //     password: password
-    //   });
-    //   console.log(response)
-    //   const { user_id, token, message } = response.data;
-
-    //   if (!response.data || !user_id || !token) {
-    //     setMessage("로그인에 실패했습니다.");
-    //     console.log(message)
-    //     return;
-    //   }
-
-    //   // 로그인 성공 시 처리 (예: 토큰 저장, 화면 전환)
-    //   setMessage(message || "로그인 성공!");
-    //   localStorage.setItem("user_id", user_id);
-    //   localStorage.setItem("token", token);
-    //   console.log('로그인 성공:', response.data);
-    //   navigation.replace("Main");
-    // } catch (error) {
-    //   console.error('로그인 실패:', error.response?.data || error.message);
-    //   alert('로그인에 실패했습니다.');
-    // }
-    // console.log('Email:', email);
-    // console.log('Password:', password);
+    event.preventDefault()
+    if (!username || !password) {
+      alert('아이디와 비밀번호를 입력하세요');
+      return;
+    }
+    dispatch(loginWithEmail({ username, password }))
+    navigation.navigate("MainTabs");
   };
+
+  // if (loginError) {
+  //   alert("로그인 에러")
+  // }
 
   const handleFindId = () => {
     console.log('아이디 찾기 클릭됨');
