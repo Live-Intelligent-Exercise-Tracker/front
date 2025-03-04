@@ -27,7 +27,6 @@ export default function Login({ navigation }) {
   })
 
   const handleLogin = async () => {
-    event.preventDefault()
     if (!username || !password) {
       alert('아이디와 비밀번호를 입력하세요');
       return;
@@ -79,8 +78,8 @@ export default function Login({ navigation }) {
           style={styles.input}
           placeholder="아이디를 입력하세요"
           placeholderTextColor="#D3D3D3"
-          value={email}
-          onChangeText={setEmail}
+          value={username}
+          onChangeText={setUsername}
           keyboardType="email-address"
         />
 

@@ -1,8 +1,6 @@
 import axios from "axios";
 import { Platform } from "react-native";
-import { MMKV } from 'react-native-mmkv';
-
-const storage = new MMKV();
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const API_BASE_URL =
   Platform.OS === "android"
@@ -14,13 +12,13 @@ const api = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
-  withCredentials: true, // 세션을 유지하기 위해 필요요
+  withCredentials: true, // 세션을 유지하기 위해 필요
 });
 
 // ✅ 요청 인터셉터 (Access Token 추가)
 api.interceptors.request.use(
   async (config) => {
-    const token = storage.getString("token"); // MMKV에서 Access Token 가져오기
+    const token = await AsyncStorage.getItem("token"); // MMKV에서 Access Token 가져오기
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -47,13 +45,13 @@ api.interceptors.response.use(
         );
 
         const newAccessToken = refreshResponse.data.token;
-        storage.setString("token", newAccessToken); // 새로운 Access Token 저장
+        await AsyncStorage.setItem("token", newAccessToken); // 새로운 Access Token 저장
 
         // ✅ 요청 헤더에 새로운 Access Token 추가 후 재요청
         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
         return api(originalRequest);
       } catch (refreshError) {
-        storage.delete("token");
+        await AsyncStorage.removeItem("token");
         return Promise.reject(refreshError);
       }
     }

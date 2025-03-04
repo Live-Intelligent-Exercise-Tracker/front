@@ -1,8 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../api';
-import { MMKV } from 'react-native-mmkv';
-
-const storage = new MMKV();
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const loginWithEmail = createAsyncThunk(
   "user/loginWithEmail",
@@ -12,7 +10,7 @@ export const loginWithEmail = createAsyncThunk(
       console.log(response)
       const { user_id, token } = response.data;
 
-      storage.setString("token", token); // ✅ Access Token 저장
+      await AsyncStorage.setItem("token", token);  // ✅ Access Token 저장
 
       return response.data;
     } catch (error) {
@@ -24,7 +22,7 @@ export const loginWithEmail = createAsyncThunk(
 export const logout = () => async (dispatch) => {
   try {
     await api.post("/api/logout", {}) // ✅ 서버에서 세션 삭제
-    storage.delete("token"); // ✅ 로컬 토큰 삭제
+    await AsyncStorage.removeItem("token"); // ✅ 로컬 토큰 삭제
     dispatch(userLoggedOut()); // ✅ Redux 상태 초기화
   } catch (error) {
     console.error("로그아웃 오류:", error);
