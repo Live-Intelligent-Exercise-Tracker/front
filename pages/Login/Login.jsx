@@ -1,24 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import {
   StyleSheet, Text, View, TextInput, TouchableOpacity,
-  Keyboard, TouchableWithoutFeedback, Image
+  Keyboard, TouchableWithoutFeedback, Image, ActivityIndicator
 } from 'react-native';
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
 import { LinearGradient } from 'expo-linear-gradient'
-import api from '../../api';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginWithEmail } from '../../slices/userSlice';
-import { clearErrors } from '../../slices/userSlice';
-
-//flask run <- 서버 여는 코드
+import { loginWithEmail, clearErrors } from '../../slices/userSlice';
 
 export default function Login({ navigation }) {
   const dispatch = useDispatch()
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [message, setMessage] = useState("");
   const { user } = useSelector((state) => state.user)
   const { loginError } = useSelector((state) => state.user)
+  const { loading } = useSelector((state) => state.user)
 
   useEffect(() => {
     if (loginError) {
@@ -34,10 +30,6 @@ export default function Login({ navigation }) {
     dispatch(loginWithEmail({ username, password }))
     navigation.navigate("MainTabs");
   };
-
-  // if (loginError) {
-  //   alert("로그인 에러")
-  // }
 
   const handleFindId = () => {
     console.log('아이디 찾기 클릭됨');
@@ -64,7 +56,14 @@ export default function Login({ navigation }) {
         end={{ x: 0, y: 1 }} // 오른쪽 아래로 진행
         style={styles.container}
       >
-
+        {loading && (
+          <View style={{
+            position: "absolute",
+            zIndex: 10
+          }}>
+            <ActivityIndicator size="large" color="#B3B3B3" />
+          </View>
+        )}
         <View style={styles.textContainer}>
           <Text style={styles.text}>데이터로 설계하는{'\n'}실시간 지능형 운동 추적기</Text>
         </View>

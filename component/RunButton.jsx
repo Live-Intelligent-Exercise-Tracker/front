@@ -1,5 +1,4 @@
-import { TouchableOpacity } from 'react-native';
-import { StyleSheet, Text, View } from 'react-native';
+import { TouchableOpacity, StyleSheet, Text, View } from 'react-native';
 import { moderateScale } from 'react-native-size-matters';
 
 export default function RunButton({ button }) {

@@ -8,13 +8,15 @@ export const loginWithEmail = createAsyncThunk(
     try {
       const response = await api.post("/api/login/", { username, password })
       console.log(response)
-      const { user_id, token } = response.data;
 
-      await AsyncStorage.setItem("token", token);  // ✅ Access Token 저장
+      const authHeader = response.headers.authorization
+
+      const accessToken = authHeader.replace("Bearer ", "").trim()
+      await AsyncStorage.setItem("access_token", accessToken);  // ✅ Access Token 저장
 
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response?.data || "로그인 실패");
+      return rejectWithValue(error.response?.data || error.message);
     }
   }
 )
@@ -22,7 +24,7 @@ export const loginWithEmail = createAsyncThunk(
 export const logout = () => async (dispatch) => {
   try {
     await api.post("/api/logout", {}) // ✅ 서버에서 세션 삭제
-    await AsyncStorage.removeItem("token"); // ✅ 로컬 토큰 삭제
+    await AsyncStorage.removeItem("access_token"); // ✅ 로컬 토큰 삭제
     dispatch(userLoggedOut()); // ✅ Redux 상태 초기화
   } catch (error) {
     console.error("로그아웃 오류:", error);
@@ -33,10 +35,10 @@ export const loginWithToken = createAsyncThunk(
   "user/loginWithToken",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await api.get("유저정보") //누구의 토큰인지 요청
+      const response = await api.get("/auth/profile") //누구의 토큰인지 요청
       return response.data
     } catch (error) {
-      return rejectWithValue(error.response?.data || "자동 로그인 실패");
+      return rejectWithValue(error.error);
     }
   }
 )
@@ -71,25 +73,27 @@ const userSlice = createSlice({
       // ✅ 로그인 요청 시작
       .addCase(loginWithEmail.pending, (state) => {
         state.loading = true;
-        state.loginError = null;
-        state.success = false;
       })
       // ✅ 로그인 성공
       .addCase(loginWithEmail.fulfilled, (state, action) => {
         state.loading = false;
-        state.user = action.payload; // 사용자 정보 저장
-        state.success = true;
+        state.user = action.payload.user; // 사용자 정보 저장
+        state.loginError = null;
       })
       // ✅ 로그인 실패
       .addCase(loginWithEmail.rejected, (state, action) => {
         state.loading = false;
         state.loginError = action.payload;
       })
+      .addCase(loginWithToken.pending, (state) => {
+        state.loading = true;
+      })
       .addCase(loginWithToken.fulfilled, (state, action) => {
-        state.user = action.payload; // ✅ 자동 로그인 성공 시 사용자 정보 저장
+        state.user = action.payload.user; // ✅ 자동 로그인 성공 시 사용자 정보 저장
       })
       .addCase(loginWithToken.rejected, (state) => {
         state.user = null; // ✅ 자동 로그인 실패 시 초기화
+        state.loading = false;
       })
   },
 })

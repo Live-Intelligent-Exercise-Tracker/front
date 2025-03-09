@@ -18,7 +18,7 @@ const api = axios.create({
 // ✅ 요청 인터셉터 (Access Token 추가)
 api.interceptors.request.use(
   async (config) => {
-    const token = await AsyncStorage.getItem("token"); // MMKV에서 Access Token 가져오기
+    const token = await AsyncStorage.getItem("access_token");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -31,6 +31,24 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
+    if (!error.response) {
+      // console.error("🚨 [Axios] 서버 응답 없음:", error.error);
+      alert("서버에 연결할 수 없습니다. 네트워크 상태를 확인해주세요.");
+      return Promise.reject("서버에 연결할 수 없습니다.");
+    }
+
+    if (error.response.status === 400) {
+      // console.error("🚨 [Axios] 400 Unauthorized", error.error);
+      alert("아이디 또는 비밀번호가 일치하지 않습니다.");
+      return Promise.reject("아이디 또는 비밀번호가 일치하지 않습니다.");
+    }
+    
+    if (error.response.status === 404) {
+      // console.error("🚨 [Axios] 404 Unauthorized", error.error);
+      alert("존재하지 않는 아이디입니다.");
+      return Promise.reject("존재하지 않는 아이디입니다.");
+    }
+
     const originalRequest = error.config;
 
     if (error.response?.status === 401 && !originalRequest._retry) {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { moderateScale } from 'react-native-size-matters';
 import { NavigationContainer } from "@react-navigation/native";
@@ -14,8 +14,8 @@ import SignUp from "../pages/SignUp/SignUp";
 import StairsTarget from "../pages/Main/Exercise/Stairs/StairsTarget";
 import HrvMeasurement from "../pages/Main/Exercise/common/HrvMeasurement";
 import HrvResult from "../pages/Main/Exercise/common/HrvResult";
-import { View } from "react-native";
-
+import { View, ActivityIndicator } from "react-native";
+import { loginWithToken } from "../slices/userSlice";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -60,37 +60,30 @@ function MainTabs() {
 
 export default function App() {
 
-  const [isLoading, setIsLoading] = useState(true);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const dispatch = useDispatch()
   const { user } = useSelector((state) => state.user)
+  const { loading } = useSelector((state) => state.user)
 
   useEffect(() => {
-    const checkLoginStatus = async () => {
-      try {
-        const token = user; // 저장된 토큰 가져오기
-        setIsLoggedIn(!!token); // 토큰이 있으면 로그인 상태
-      } catch (error) {
-        console.error("토큰 확인 오류:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+    dispatch(loginWithToken())
+  }, []);
 
-    checkLoginStatus();
-  }, [user]);
-
-  if (isLoading) {
+  if (loading) {
     return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "#000" }}>
-        
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <View style={{
+          position: "absolute",
+          zIndex: 10
+        }}>
+          <ActivityIndicator size="large" color="#B3B3B3" />
+        </View>
       </View>
     );
   }
 
   return (
-
     <NavigationContainer>
-      <Stack.Navigator initialRouteName={isLoggedIn ? "MainTabs" : "Login"}>
+      <Stack.Navigator initialRouteName={!user ? "Login" : "MainTabs"}>
         <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
         <Stack.Screen name="Agree" component={Agree} options={{
           title: "약관 동의",
@@ -125,7 +118,6 @@ export default function App() {
         }} />
       </Stack.Navigator>
     </NavigationContainer>
-
   );
 }
 

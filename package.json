@@ -41,6 +41,7 @@
     "react-native-webview": "^13.13.2",
     "react-redux": "^9.2.0"
   },
+  
   "devDependencies": {
     "@babel/core": "^7.20.0"
   },
