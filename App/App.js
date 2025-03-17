@@ -19,7 +19,7 @@ import { loginWithToken } from "../slices/userSlice";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
-
+//asdf
 function MainTabs() {
   return (
     <Tab.Navigator initialRouteName="Main"
