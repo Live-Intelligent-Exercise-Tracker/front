@@ -1,15 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { moderateScale } from 'react-native-size-matters';
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { Ionicons } from 'react-native-vector-icons';
 import Login from "../screens/auth/Login/Login";
 import Terms from "../screens/auth/SignUp/Terms";
-import Home from "../screens/Home/Home";
-import My from "../screens/Home/My";
-import Group from "../screens/Home/Group";
 import SignUp from "../screens/auth/SignUp/SignUp";
 import StairsGoal from "../screens/Stairs/StairsGoal";
 import HrvMeasurement from "../screens/HRVMeasure/HrvMeasurement";
@@ -19,48 +13,8 @@ import { loginWithToken } from "../redux/slices/userSlice";
 import MainTabNavigator from "./MainTabNavigator";
 
 const Stack = createStackNavigator();
-const Tab = createBottomTabNavigator();
-
-function MainTabs() {
-  return (
-    <Tab.Navigator initialRouteName="Home"
-      screenOptions={{
-        headerShown: false,
-        tabBarLabel: () => null,
-      }}>
-      <Tab.Screen
-        name="My"
-        component={My}
-        options={{
-          tabBarIcon: ({ focused }) => (
-            <Ionicons name="person-outline" size={moderateScale(24)} color={focused ? "#507DFA" : "#505050"} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Home"
-        component={Home}
-        options={{
-          tabBarIcon: ({ focused }) => (
-            <Ionicons name="home-outline" size={moderateScale(24)} color={focused ? "#507DFA" : "#505050"} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Group"
-        component={Group}
-        options={{
-          tabBarIcon: ({ focused }) => (
-            <Ionicons name="people-outline" size={moderateScale(24)} color={focused ? "#507DFA" : "#505050"} />
-          ),
-        }}
-      />
-    </Tab.Navigator>
-  )
-}
 
 export default function RootNavigator() {
-
   const dispatch = useDispatch()
   const { user } = useSelector((state) => state.user)
   const { loading } = useSelector((state) => state.user)

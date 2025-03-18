@@ -1,6 +1,6 @@
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import My from '../screens/Home/My';
+import MyInfo from '../screens/Home/MyInfo';
 import Home from '../screens/Home/Home';
 import Group from '../screens/Home/Group';
 import { Ionicons } from 'react-native-vector-icons';
@@ -16,8 +16,8 @@ const MainTabNavigator = () => {
         tabBarLabel: () => null,
       }}>
       <Tab.Screen
-        name="My"
-        component={My}
+        name="MyInfo"
+        component={MyInfo}
         options={{
           tabBarIcon: ({ focused }) => (
             <Ionicons name="person-outline" size={moderateScale(24)} color={focused ? "#507DFA" : "#505050"} />
