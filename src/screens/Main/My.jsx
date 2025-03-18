@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, Button } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { logout } from '../../slices/userSlice';
+import { logout } from '../../redux/slices/userSlice';
 
 export default function My({ navigation }) {
     const dispatch = useDispatch()

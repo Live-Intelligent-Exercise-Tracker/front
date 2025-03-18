@@ -5,21 +5,22 @@ import { moderateScale } from 'react-native-size-matters';
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Ionicons } from 'react-native-vector-icons';
-import Login from "../pages/Login/Login";
-import Agree from "../pages/SignUp/Agree";
-import Main from "../pages/Main/Main";
-import My from "../pages/Main/My";
-import Group from "../pages/Main/Group";
-import SignUp from "../pages/SignUp/SignUp";
-import StairsTarget from "../pages/Main/Exercise/Stairs/StairsTarget";
-import HrvMeasurement from "../pages/Main/Exercise/common/HrvMeasurement";
-import HrvResult from "../pages/Main/Exercise/common/HrvResult";
+import Login from "../screens/Login/Login";
+import Agree from "../screens/SignUp/Agree";
+import Main from "../screens/Main/Main";
+import My from "../screens/Main/My";
+import Group from "../screens/Main/Group";
+import SignUp from "../screens/SignUp/SignUp";
+import StairsTarget from "../screens/Main/Exercise/Stairs/StairsTarget";
+import HrvMeasurement from "../screens/Main/Exercise/common/HrvMeasurement";
+import HrvResult from "../screens/Main/Exercise/common/HrvResult";
 import { View, ActivityIndicator } from "react-native";
-import { loginWithToken } from "../slices/userSlice";
+import { loginWithToken } from "../redux/slices/userSlice";
+import MainTabNavigator from "./MainTabNavigator";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
-//asdf
+
 function MainTabs() {
   return (
     <Tab.Navigator initialRouteName="Main"
@@ -83,7 +84,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName={!user ? "Login" : "MainTabs"}>
+      <Stack.Navigator initialRouteName={!user ? "Login" : "MainTabNavigator"}>
         <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
         <Stack.Screen name="Agree" component={Agree} options={{
           title: "약관 동의",
@@ -97,7 +98,7 @@ export default function App() {
           headerTintColor: "#000000",
           headerBackTitle: ''
         }} />
-        <Stack.Screen name="MainTabs" component={MainTabs} options={{ headerShown: false }} />
+        <Stack.Screen name="MainTabNavigator" component={MainTabNavigator} options={{ headerShown: false }} />
         <Stack.Screen name="HrvMeasurement" component={HrvMeasurement} options={{
           title: "",
           headerStyle: { backgroundColor: '#0A0A0A', shadowOpacity: 0, elevation: 0, borderBottomWidth: 0, },
