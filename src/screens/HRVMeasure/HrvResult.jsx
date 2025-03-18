@@ -2,7 +2,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useEffect } from 'react';
 import { moderateScale } from 'react-native-size-matters';
 import Chart from './Chart';
-import RunButton from '../../../../component/RunButton';
+import RunButton from './RunButton';
 
 export default function HrvResult({ navigation, route }) {
     const { button } = route.params;

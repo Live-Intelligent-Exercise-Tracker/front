@@ -5,15 +5,15 @@ import { moderateScale } from 'react-native-size-matters';
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Ionicons } from 'react-native-vector-icons';
-import Login from "../screens/Login/Login";
-import Agree from "../screens/SignUp/Agree";
-import Main from "../screens/Main/Main";
-import My from "../screens/Main/My";
-import Group from "../screens/Main/Group";
-import SignUp from "../screens/SignUp/SignUp";
-import StairsTarget from "../screens/Main/Exercise/Stairs/StairsTarget";
-import HrvMeasurement from "../screens/Main/Exercise/common/HrvMeasurement";
-import HrvResult from "../screens/Main/Exercise/common/HrvResult";
+import Login from "../screens/auth/Login/Login";
+import Terms from "../screens/auth/SignUp/Terms";
+import Home from "../screens/Home/Home";
+import My from "../screens/Home/My";
+import Group from "../screens/Home/Group";
+import SignUp from "../screens/auth/SignUp/SignUp";
+import StairsGoal from "../screens/Stairs/StairsGoal";
+import HrvMeasurement from "../screens/HRVMeasure/HrvMeasurement";
+import HrvResult from "../screens/HRVMeasure/HrvResult";
 import { View, ActivityIndicator } from "react-native";
 import { loginWithToken } from "../redux/slices/userSlice";
 import MainTabNavigator from "./MainTabNavigator";
@@ -23,7 +23,7 @@ const Tab = createBottomTabNavigator();
 
 function MainTabs() {
   return (
-    <Tab.Navigator initialRouteName="Main"
+    <Tab.Navigator initialRouteName="Home"
       screenOptions={{
         headerShown: false,
         tabBarLabel: () => null,
@@ -38,8 +38,8 @@ function MainTabs() {
         }}
       />
       <Tab.Screen
-        name="Main"
-        component={Main}
+        name="Home"
+        component={Home}
         options={{
           tabBarIcon: ({ focused }) => (
             <Ionicons name="home-outline" size={moderateScale(24)} color={focused ? "#507DFA" : "#505050"} />
@@ -59,14 +59,14 @@ function MainTabs() {
   )
 }
 
-export default function App() {
+export default function RootNavigator() {
 
   const dispatch = useDispatch()
   const { user } = useSelector((state) => state.user)
   const { loading } = useSelector((state) => state.user)
 
   useEffect(() => {
-    dispatch(loginWithToken())
+    // dispatch(loginWithToken())
   }, []);
 
   if (loading) {
@@ -86,7 +86,7 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator initialRouteName={!user ? "Login" : "MainTabNavigator"}>
         <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
-        <Stack.Screen name="Agree" component={Agree} options={{
+        <Stack.Screen name="Terms" component={Terms} options={{
           title: "약관 동의",
           headerStyle: { backgroundColor: '#161616', shadowOpacity: 0, elevation: 0, borderBottomWidth: 0, },
           headerTintColor: "#FFFFFF",
@@ -111,7 +111,7 @@ export default function App() {
           headerTintColor: "#FFFFFF",
           headerBackTitle: ''
         }} />
-        <Stack.Screen name="StairsTarget" component={StairsTarget} options={{
+        <Stack.Screen name="StairsGoal" component={StairsGoal} options={{
           title: "목표를 설정해봐요!",
           headerTintColor: "#FFFFFF",
           headerStyle: { backgroundColor: '#0A0A0A', shadowOpacity: 0, elevation: 0, borderBottomWidth: 0, },

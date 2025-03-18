@@ -6,7 +6,7 @@ import {
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
 import { LinearGradient } from 'expo-linear-gradient'
 import { useDispatch, useSelector } from 'react-redux';
-import { loginWithEmail, clearErrors } from '../../redux/slices/userSlice';
+import { loginWithEmail, clearErrors } from '../../../redux/slices/userSlice';
 
 export default function Login({ navigation }) {
   const dispatch = useDispatch()
@@ -27,8 +27,8 @@ export default function Login({ navigation }) {
       alert('아이디와 비밀번호를 입력하세요');
       return;
     }
-    dispatch(loginWithEmail({ username, password }))
-    navigation.navigate("MainTabs");
+    // dispatch(loginWithEmail({ username, password }))
+    navigation.navigate("MainTabNavigator");
   };
 
   const handleFindId = () => {
@@ -40,7 +40,7 @@ export default function Login({ navigation }) {
   };
 
   const handleSignUp = () => {
-    navigation.navigate("Agree")
+    navigation.navigate("Terms")
   };
 
   const handleKakaoLogin = () => {
@@ -69,7 +69,7 @@ export default function Login({ navigation }) {
         </View>
 
         {/* <Image
-          source={require('../../assets/images/spectrum.png')}
+          source={require('../../../assets/images/Login/spectrum.png')}
           style={styles.spectrum}
         /> */}
 
@@ -112,7 +112,7 @@ export default function Login({ navigation }) {
         </TouchableOpacity>
         <TouchableOpacity style={[styles.button, { backgroundColor: '#FDE500', flexDirection: 'row' }]} onPress={handleKakaoLogin}>
           <Image
-            source={require('../../assets/images/kakao_icon.png')} // 이미지 경로 맞춰줘야 함
+            source={require('../../../assets/images/Login/kakao_icon.png')} // 이미지 경로 맞춰줘야 함
             style={styles.kakaoIcon}
           />
           <Text style={[styles.buttonText, { color: '#381F1F', left: moderateScale(-10) }]}>카카오톡 로그인</Text>

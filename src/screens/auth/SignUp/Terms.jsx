@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity, Animated, Modal } from 'react
 import { moderateScale } from 'react-native-size-matters';
 import Checkbox from "expo-checkbox";
 
-export default function Agree({ navigation }) {
+export default function Terms({ navigation }) {
     const [isChecked, setIsChecked] = useState({
         all: false,
         age: false,

@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, TouchableWithoutFeedback, Keyboard, TouchableOp
 import { LinearGradient } from 'expo-linear-gradient'
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
 
-export default function Main({ navigation }) {
+export default function Home({ navigation }) {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <LinearGradient
@@ -13,7 +13,7 @@ export default function Main({ navigation }) {
         style={styles.container}
       >
         <Image
-          source={require('../../assets/images/Liet.png')}
+          source={require('../../assets/images/Home/Liet.png')}
           style={styles.liet}
         />
         <View style={styles.advertisement}>
@@ -27,7 +27,7 @@ export default function Main({ navigation }) {
                 <Text style={{ color: '#D0D0D0', fontSize: moderateScale(9) }}>근육 성장을 위한 첫 걸음!</Text>
               </View>
               <Image
-                source={require('../../assets/images/dumbbell.png')}
+                source={require('../../assets/images/Home/dumbbell.png')}
                 style={{ width: moderateScale(85.86), height: moderateScale(62.29), alignSelf: 'flex-end', bottom: moderateScale(-10) }}
               />
             </TouchableOpacity>
@@ -38,28 +38,28 @@ export default function Main({ navigation }) {
               </View>
               <View style={{ flex: 1, flexDirection: 'row' }}>
                 <Image
-                  source={require('../../assets/images/tree.png')}
+                  source={require('../../assets/images/Home/tree.png')}
                   style={{ width: moderateScale(46), height: moderateScale(56.7), position: 'absolute', right: moderateScale(120), bottom: moderateScale(-6) }}
                 />
                 <Image
-                  source={require('../../assets/images/rode.png')}
+                  source={require('../../assets/images/Home/rode.png')}
                   style={{ width: moderateScale(187), height: moderateScale(86) }}
                 />
               </View>
             </TouchableOpacity>
           </View>
-          <TouchableOpacity onPress={() => navigation.navigate("StairsTarget")} style={[styles.healthAndRunning, { flex: 1, justifyContent: 'flex-end', width: moderateScale(158), height: moderateScale(246), right: moderateScale(-15) }]}>
+          <TouchableOpacity onPress={() => navigation.navigate("StairsGoal")} style={[styles.healthAndRunning, { flex: 1, justifyContent: 'flex-end', width: moderateScale(158), height: moderateScale(246), right: moderateScale(-15) }]}>
             <View style={{ paddingLeft: moderateScale(15), paddingTop: moderateScale(10), top: moderateScale(-2.5) }}>
               <Text style={{ color: '#FFFFFF', fontWeight: 'bold', fontSize: moderateScale(19), marginBottom: moderateScale(5) }}>계단 오르기</Text>
               <Text style={{ color: '#D0D0D0', fontSize: moderateScale(9) }}>계단은 인생의 업힐,{'\n'}정상을 향해 한 걸음 더!</Text>
             </View>
             <View style={{ flex: 1, flexDirection: 'row' }}>
               <Image
-                source={require('../../assets/images/Union.png')}
+                source={require('../../assets/images/Home/Union.png')}
                 style={{ width: moderateScale(65), height: moderateScale(207.5), flex: 1, flexDirection: 'row', left: moderateScale(-10) }}
               />
               <Image
-                source={require('../../assets/images/63빌딛.png')}
+                source={require('../../assets/images/Home/63빌딛.png')}
                 style={{ width: moderateScale(109), height: moderateScale(174), flex: 1, flexDirection: 'row', alignSelf: 'flex-end' }}
               />
             </View>

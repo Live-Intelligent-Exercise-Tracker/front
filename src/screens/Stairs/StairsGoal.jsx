@@ -4,14 +4,14 @@ import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
 import Tower from './Tower';
 import { useState } from 'react';
 
-export default function StairsTarget({ navigation }) {
+export default function StairsGoal({ navigation }) {
     const [selectedTower, setSelectedTower] = useState(null);
 
     const images = {
-        tower1: require('../../../../assets/images/남산타워 1.png'),
-        tower2: require('../../../../assets/images/포스코타워 4.png'),
-        tower3: require('../../../../assets/images/엘시티 1.png'),
-        tower4: require('../../../../assets/images/롯데타워 3.png'),
+        tower1: require('../../assets/images/StairsGoal/남산타워 1.png'),
+        tower2: require('../../assets/images/StairsGoal/포스코타워 4.png'),
+        tower3: require('../../assets/images/StairsGoal/엘시티 1.png'),
+        tower4: require('../../assets/images/StairsGoal/롯데타워 3.png'),
     };
 
     const handleSelectTower = (towerName) => {
