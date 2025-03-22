@@ -1,22 +1,35 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../../utils/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import SecureStore from "react-native-secure-store";
+import { saveToken, getToken, removeToken } from "../../screens/auth/Login/secureStorage"
 
 export const loginWithEmail = createAsyncThunk(
   "user/loginWithEmail",
-  async ({ username, password }, { rejectWithValue }) => {
+  async ({ login_id, password }, { rejectWithValue }) => {
     try {
-      const response = await api.post("/api/login/", { username, password })
-      console.log(response)
+      const response = await api.post("/api/users/login/", { login_id, password })
+      console.log(response.data)
 
-      const authHeader = response.headers.authorization
+      // if (response.data?.token) {
+      //   await saveToken(response.data.token);
+      //   return response.data.token;
+      // }
 
-      const accessToken = authHeader.replace("Bearer ", "").trim()
-      await AsyncStorage.setItem("access_token", accessToken);  // ✅ Access Token 저장
+      // throw new Error("토큰 없음");
+      // const authHeader = response.headers.authorization
 
+      // const accessToken = authHeader.replace("Bearer ", "").trim()
+      // console.log(response.data.token)
+      await AsyncStorage.setItem("access_token", response.data.token);  // ✅ Access Token 저장
+      await AsyncStorage.setItem("refresh_token", response.data.refresh_token);
+      // await AsyncStorage.setItem("user_id", response.data.user_id);
+      // await AsyncStorage.setItem("refresh_token", response.data.refresh_token);
+
+      
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response?.data || error.message);
+      return rejectWithValue(error.error);
     }
   }
 )
@@ -25,9 +38,10 @@ export const logout = () => async (dispatch) => {
   try {
     await api.post("/api/logout", {}) // ✅ 서버에서 세션 삭제
     await AsyncStorage.removeItem("access_token"); // ✅ 로컬 토큰 삭제
+    await AsyncStorage.removeItem("refresh_token");
     dispatch(userLoggedOut()); // ✅ Redux 상태 초기화
   } catch (error) {
-    console.error("로그아웃 오류:", error);
+    console.error("로그아웃 오류:", error.error);
   }
 }
 

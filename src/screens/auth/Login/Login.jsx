@@ -10,7 +10,7 @@ import { loginWithEmail, clearErrors } from '../../../redux/slices/userSlice';
 
 export default function Login({ navigation }) {
   const dispatch = useDispatch()
-  const [username, setUsername] = useState('');
+  const [login_id, setLogin_id] = useState('');
   const [password, setPassword] = useState('');
   const { user } = useSelector((state) => state.user)
   const { loginError } = useSelector((state) => state.user)
@@ -23,11 +23,11 @@ export default function Login({ navigation }) {
   })
 
   const handleLogin = async () => {
-    if (!username || !password) {
+    if (!login_id || !password) {
       alert('아이디와 비밀번호를 입력하세요');
       return;
     }
-    // dispatch(loginWithEmail({ username, password }))
+    dispatch(loginWithEmail({ login_id, password }))
     navigation.navigate("MainTabNavigator");
   };
 
@@ -77,8 +77,8 @@ export default function Login({ navigation }) {
           style={styles.input}
           placeholder="아이디를 입력하세요"
           placeholderTextColor="#D3D3D3"
-          value={username}
-          onChangeText={setUsername}
+          value={login_id}
+          onChangeText={setLogin_id}
           keyboardType="email-address"
         />
 
