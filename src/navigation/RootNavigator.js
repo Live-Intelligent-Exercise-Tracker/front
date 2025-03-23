@@ -38,7 +38,8 @@ export default function RootNavigator() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName={!user ? "Login" : "MainTabNavigator"}>
+      <Stack.Navigator initialRouteName={"Terms"}>
+      {/* <Stack.Navigator initialRouteName={!user ? "Login" : "MainTabNavigator"}> */}
         <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
         <Stack.Screen name="Terms" component={Terms} options={{
           title: "약관 동의",
@@ -47,10 +48,11 @@ export default function RootNavigator() {
           headerBackTitle: ''
         }} />
         <Stack.Screen name="SignUp" component={SignUp} options={{
-          title: "회원가입",
+          title: "",
           headerStyle: { backgroundColor: '#FFFFFF', shadowOpacity: 0, elevation: 0, borderBottomWidth: 0, },
           headerTintColor: "#000000",
-          headerBackTitle: ''
+          headerBackTitle: '',
+          
         }} />
         <Stack.Screen name="MainTabNavigator" component={MainTabNavigator} options={{ headerShown: false }} />
         <Stack.Screen name="HrvMeasurement" component={HrvMeasurement} options={{
