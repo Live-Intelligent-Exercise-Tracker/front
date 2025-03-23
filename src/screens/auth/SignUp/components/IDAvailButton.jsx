@@ -14,7 +14,7 @@ export default IDAvailButton;
 
 const styles = StyleSheet.create({
   IDAvailButton: {
-    backgroundColor: "#03d1b6",
+    backgroundColor: "#507DFA",
     justifyContent: "center",
     alignItems: "center",
     // marginBottom: moderateScale(35),

@@ -10,7 +10,7 @@ import InfoRow from './components/InfoRow';
 const {width, height} = Dimensions.get('window');
 
 export default function SignUp({ navigation }) {
-    const [page, setPage] = useState(2);
+    const [page, setPage] = useState(1);
     const [id, setId] = useState("");
     const [idCheck,setIdCheck]=useState(false);
     const [nick, setNick] = useState("");
