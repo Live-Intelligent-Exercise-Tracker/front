@@ -18,7 +18,6 @@ export const refreshToken = async () => {
         console.log(newAccessToken)
         await AsyncStorage.setItem("access_token", newAccessToken);
         const getAccessToken = await AsyncStorage.getItem("access_token");
-        console.log("새 access토큰 저장성공", getAccessToken)
         return getAccessToken
     } catch (error) {
         console.log('리프레시 토큰 기간 만료', error.message) //refresh토큰 기간 만료
