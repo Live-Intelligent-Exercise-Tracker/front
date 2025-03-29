@@ -23,10 +23,6 @@ export default function Login({ navigation }) {
   })
 
   const handleLogin = async () => {
-    if (!login_id || !password) {
-      alert('아이디와 비밀번호를 입력하세요');
-      return;
-    }
     dispatch(loginWithEmail({ login_id, password }))
     navigation.navigate("MainTabNavigator");
   };

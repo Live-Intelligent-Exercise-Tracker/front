@@ -39,7 +39,7 @@ api.interceptors.response.use(
     
     const originalRequest = error.config;
     const status = error.response.status;
-    const errorMessage = error.response
+    const errorMessage = error.response.data.message
 
     switch (status) {
       case 400:
