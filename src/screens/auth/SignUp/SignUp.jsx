@@ -6,10 +6,14 @@ import { useEffect, useState } from 'react';
 import SignupButton from './components/SignupButton';
 import PasswordRow from './components/PasswordRow';
 import InfoRow from './components/InfoRow';
+import { useDispatch } from 'react-redux';
+import { registerUser } from '../../../redux/slices/userSlice';
 
 const {width, height} = Dimensions.get('window');
 
 export default function SignUp({ navigation }) {
+    const dispatch = useDispatch();
+
     const [page, setPage] = useState(1);
     const [id, setId] = useState("");
     const [idCheck,setIdCheck]=useState(false);
@@ -214,9 +218,10 @@ export default function SignUp({ navigation }) {
             }
         }else if(page===2){
             if (errors?.age===null&&errors?.height===null&&errors?.weight===null&&errors?.email===null) {
-                Alert.alert("회원가입 완료", "회원가입이 완료되었습니다!", [
-                    {text: "확인", onPress: () => navigation.navigate("Login")},
-                ]);
+                dispatch(registerUser({login_id:id,nickname:nick,password:pass,age,height,weight,email,navigation}))
+                // Alert.alert("회원가입 완료", "회원가입이 완료되었습니다!", [
+                //     {text: "확인", onPress: () => navigation.navigate("Login")},
+                // ]);
             } else{
                 validateField("age",age);
                 validateField("height",height);

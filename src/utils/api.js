@@ -4,8 +4,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const API_BASE_URL =
   Platform.OS === "android"
-    ? "http://10.0.2.2:5000/"  // Android 에뮬레이터에서는 이렇게 설정
-    : "http://127.0.0.1:5000/"; // iOS 및 웹에서는 이렇게 설정
+    ? "http://10.0.2.2:8000/"  // Android 에뮬레이터에서는 이렇게 설정
+    : "http://127.0.0.1:8000/"; // iOS 및 웹에서는 이렇게 설정
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -31,11 +31,11 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
-    if (!error.response) {
-      // console.error("🚨 [Axios] 서버 응답 없음:", error.error);
-      alert("서버에 연결할 수 없습니다. 네트워크 상태를 확인해주세요.");
-      return Promise.reject("서버에 연결할 수 없습니다.");
-    }
+    // if (!error.response) {
+    //   // console.error("🚨 [Axios] 서버 응답 없음:", error.error);
+    //   alert("서버에 연결할 수 없습니다. 네트워크 상태를 확인해주세요.");
+    //   return Promise.reject("서버에 연결할 수 없습니다.");
+    // }
 
     if (error.response.status === 400) {
       // console.error("🚨 [Axios] 400 Unauthorized", error.error);

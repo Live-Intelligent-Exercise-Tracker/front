@@ -27,7 +27,7 @@ export default function Login({ navigation }) {
       alert('아이디와 비밀번호를 입력하세요');
       return;
     }
-    // dispatch(loginWithEmail({ username, password }))
+    dispatch(loginWithEmail({ username, password }))
     navigation.navigate("MainTabNavigator");
   };
 

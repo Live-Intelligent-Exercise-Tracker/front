@@ -4,22 +4,23 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const loginWithEmail = createAsyncThunk(
   "user/loginWithEmail",
-  async ({ username, password }, { rejectWithValue }) => {
+  async ({ login_id, password }, { rejectWithValue }) => {
     try {
-      const response = await api.post("/api/login/", { username, password })
-      console.log(response)
-
-      const authHeader = response.headers.authorization
-
-      const accessToken = authHeader.replace("Bearer ", "").trim()
-      await AsyncStorage.setItem("access_token", accessToken);  // ✅ Access Token 저장
-
+      const response = await api.post("/api/users/login/", { login_id, password })
+      console.log(response.data)
+      
+      await AsyncStorage.setItem("access_token", response.data.token); 
+      await AsyncStorage.setItem("refresh_token", response.data.refresh_token);
+      // await saveToken("access_token", response.data.token); // access token 저장
+      // await saveToken("refresh_token", response.data.refresh_token); // refresh token 저장
+      
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response?.data || error.message);
+      return rejectWithValue(error.message);
     }
   }
 )
+
 
 export const logout = () => async (dispatch) => {
   try {
@@ -30,6 +31,33 @@ export const logout = () => async (dispatch) => {
     console.error("로그아웃 오류:", error);
   }
 }
+
+export const registerUser = createAsyncThunk(
+  "user/registerUser",
+  async(
+    {login_id,nickname,password,age,height,weight,email,navigation},
+    {dispatch, rejectWithValue}
+  )=>{
+    try{
+      const response = await api.post("/api/users/register/",{login_id,nickname,password,age,height,weight,email})
+      // console.log("response",response.data.message)
+
+      Alert.alert("회원가입 완료", "회원가입이 완료되었습니다!", [
+        {text: "확인", onPress: () => navigation.navigate("Login")},
+      ]);
+      
+      return response.data;
+    }catch(error){
+      // console.log("response",response)
+
+      Alert.alert("회원가입 실패", "회원가입이 실패했습니다.", [
+        {text: "확인"},
+      ]);
+
+      return rejectWithValue(error.error);
+    }
+  }
+)
 
 export const loginWithToken = createAsyncThunk(
   "user/loginWithToken",
@@ -85,6 +113,19 @@ const userSlice = createSlice({
         state.loading = false;
         state.loginError = action.payload;
       })
+
+      .addCase(registerUser.pending,(state)=>{
+        state.loading=true;
+        state.registrationError=null;
+      })
+      .addCase(registerUser.fulfilled, (state)=>{
+        state.loading=false;
+        state.registrationError=null;
+      })
+      .addCase(registerUser.rejected,(state,action)=>{
+        state.registrationError=action.payload;
+      })
+
       .addCase(loginWithToken.pending, (state) => {
         state.loading = true;
       })
