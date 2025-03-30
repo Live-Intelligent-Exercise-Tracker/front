@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from "axios";
+import api from './api';
 
 export const refreshToken = async () => {
     try {
@@ -9,9 +10,9 @@ export const refreshToken = async () => {
             console.log("refresh토큰이 없습니다.")
         }
         console.log(getRefreshToken);
-        const response = await axios.post(
+        const response = await api.post(
             '/api/users/refresh/',
-            { refresh_token: getRefreshToken },
+            { refresh_token: getRefreshToken }
         )
         console.log(response)
         const newAccessToken = response.data.token;
@@ -20,7 +21,7 @@ export const refreshToken = async () => {
         const getAccessToken = await AsyncStorage.getItem("access_token");
         return getAccessToken
     } catch (error) {
-        console.log('리프레시 토큰 기간 만료', error.message) //refresh토큰 기간 만료
+        console.log('에러', error.message) //refresh토큰 기간 만료
         return Promise.reject(error)
     }
 }

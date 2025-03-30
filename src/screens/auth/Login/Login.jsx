@@ -24,7 +24,7 @@ export default function Login({ navigation }) {
 
   const handleLogin = async () => {
     dispatch(loginWithEmail({ login_id, password }))
-    navigation.navigate("MainTabNavigator");
+    navigation.replace("MainTabNavigator");
   };
 
   const handleFindId = () => {

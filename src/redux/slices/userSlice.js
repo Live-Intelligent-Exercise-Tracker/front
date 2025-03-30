@@ -77,7 +77,7 @@ const userSlice = createSlice({
       })
       .addCase(loginWithEmail.fulfilled, (state, action) => {
         state.loading = false;
-        state.user = action.payload.user;
+        state.user = action.payload.user_id;
         state.loginError = null;
       })
       .addCase(loginWithEmail.rejected, (state, action) => {

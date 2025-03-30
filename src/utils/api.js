@@ -19,6 +19,10 @@ const api = axios.create({
 
 api.interceptors.request.use(
   async (config) => {
+    const noAuthRoutes = ["/api/users/refresh/"];
+    if (noAuthRoutes.includes(config.url)) {
+      return config;
+    }
     const access_token = await AsyncStorage.getItem("access_token");
     if (access_token) {
       config.headers.Authorization = `Bearer ${access_token}`;
@@ -53,7 +57,7 @@ api.interceptors.response.use(
           const newAccessToken = await refreshToken();
           if (newAccessToken) {
             originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-            // return api(originalRequest);
+            return api(originalRequest);
           }
         }
         break;
