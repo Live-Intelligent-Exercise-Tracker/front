@@ -19,9 +19,8 @@ const api = axios.create({
 
 api.interceptors.request.use(
   async (config) => {
-    const noAuthRoutes = ["/api/users/refresh/"];
-    if (noAuthRoutes.includes(config.url)) {
-      return config;
+    if (config.url.includes("/login") || config.url.includes("/register")) {
+      return config;  // 로그인, 회원가입 요청은 토큰을 붙이지 않음
     }
     const access_token = await AsyncStorage.getItem("access_token");
     if (access_token) {
@@ -29,7 +28,6 @@ api.interceptors.request.use(
     }
     return config;
   },
-  (error) => Promise.reject(error)
 );
 
 api.interceptors.response.use(
@@ -40,7 +38,7 @@ api.interceptors.response.use(
       alert("서버에 연결할 수 없습니다. 네트워크 상태를 확인해주세요.");
       return Promise.reject("서버에 연결할 수 없습니다.");
     }
-    
+
     const originalRequest = error.config;
     const status = error.response.status;
     const errorMessage = error.response.data.message
@@ -66,7 +64,7 @@ api.interceptors.response.use(
         alert(errorMessage);
         break;
       default:
-        console.error(`🚨 [Axios] ${status} 오류 발생:`, error.response.data);
+        console.error(`🚨 [Axios] ${status} 오류 발생:`, error.response.data.message);
         alert("요청을 처리하는 중 오류가 발생했습니다.");
     }
   }

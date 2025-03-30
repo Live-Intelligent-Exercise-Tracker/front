@@ -1,5 +1,4 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios from "axios";
 import api from './api';
 
 export const refreshToken = async () => {
@@ -21,7 +20,8 @@ export const refreshToken = async () => {
         const getAccessToken = await AsyncStorage.getItem("access_token");
         return getAccessToken
     } catch (error) {
-        console.log('에러', error.message) //refresh토큰 기간 만료
+        console.log('에러', error.message) 
+        //로그아웃 들어갈 부분
         return Promise.reject(error)
     }
 }
