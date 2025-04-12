@@ -39,20 +39,21 @@ export const registerUser = createAsyncThunk(
     {dispatch, rejectWithValue}
   )=>{
     try{
-      const response = await api.post("/api/users/register/",{login_id,nickname,password,age,height,weight,email})
-      // console.log("response",response.data.message)
+      // const response = await api.post("/api/users/register/",{login_id,nickname,password,age,height,weight,email})
+      const response = await api.post("/api/auth/register/",{login_id,nickname,password,age,height,weight,email})
+      console.log("response",response.data.message)
 
-      Alert.alert("회원가입 완료", "회원가입이 완료되었습니다!", [
-        {text: "확인", onPress: () => navigation.navigate("Login")},
-      ]);
+      // Alert.alert("회원가입 완료", "회원가입이 완료되었습니다!", [
+      //   {text: "확인", onPress: () => navigation.navigate("Login")},
+      // ]);
       
       return response.data;
     }catch(error){
       // console.log("response",response)
-
-      Alert.alert("회원가입 실패", "회원가입이 실패했습니다.", [
-        {text: "확인"},
-      ]);
+      
+      // Alert.alert("회원가입 실패", "회원가입이 실패했습니다.", [
+      //   {text: "확인"},
+      // ]);
 
       return rejectWithValue(error.error);
     }

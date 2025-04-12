@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { Alert, Dimensions, StyleSheet, Text, View } from 'react-native';
+import { Alert, Button, Dimensions, StyleSheet, Text, View } from 'react-native';
 import SignupRow from './components/SignupRow';
 import { moderateScale } from 'react-native-size-matters';
 import { useEffect, useState } from 'react';
@@ -232,6 +232,10 @@ export default function SignUp({ navigation }) {
         }
     }
 
+    const apiButton = () => {
+        dispatch(registerUser({login_id:"bmbaadwaaaax08",nickname:"bmbax08",password:"1234Aa!!",age:28,height:175,weight:75,email:"bmbxaa08@bu.ac.kr",navigation}))
+    }
+
     return (
         <View style={styles.container}>
             {page===1?
@@ -242,6 +246,7 @@ export default function SignUp({ navigation }) {
                         <SignupRow type="닉네임" data={nick} setData={setNick}  validateField={validateField} errors={errors} placeholder="닉네임을 입력해 주세요."/>
                         <PasswordRow type="비밀번호" pass={pass} verifPass={verifPass} setData={setPass} setVerifPass={setVerifPass} validateField={validateField} errors={errors} placeholder="영어, 숫자를 포함한 8~20자리를 입력해 주세요."/>
                     </View>
+                    <Button title="호출 테스트" onPress={apiButton}/>
 
                     <View style={styles.signupButtonSection}>
                         <SignupButton isFormValid={isFormValid} page={page} handleSignupButton={handleSignupButton}/>
