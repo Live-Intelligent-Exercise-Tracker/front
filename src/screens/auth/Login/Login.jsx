@@ -1,29 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import {
   StyleSheet, Text, View, TextInput, TouchableOpacity,
-  Keyboard, TouchableWithoutFeedback, Image, ActivityIndicator
+  Keyboard, TouchableWithoutFeedback, Image, ActivityIndicator, Alert
 } from 'react-native';
-import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
+import { moderateScale } from 'react-native-size-matters';
 import { LinearGradient } from 'expo-linear-gradient'
 import { useDispatch, useSelector } from 'react-redux';
-import { loginWithEmail, clearErrors } from '../../../redux/slices/userSlice';
+import { loginUser } from '../../../redux/slices/userSlice';
 
 export default function Login({ navigation }) {
   const dispatch = useDispatch()
-  const [login_id, setLogin_id] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { user } = useSelector((state) => state.user)
-  const { loginError } = useSelector((state) => state.user)
   const { loading } = useSelector((state) => state.user)
 
-  useEffect(() => {
-    if (loginError) {
-      dispatch(clearErrors())
-    }
-  })
-
   const handleLogin = async () => {
-    dispatch(loginWithEmail({ login_id, password }))
+    dispatch(loginUser({ email, password }))
     navigation.replace("MainTabNavigator");
   };
 
@@ -73,8 +66,8 @@ export default function Login({ navigation }) {
           style={styles.input}
           placeholder="아이디를 입력하세요"
           placeholderTextColor="#D3D3D3"
-          value={login_id}
-          onChangeText={setLogin_id}
+          value={email}
+          onChangeText={setEmail}
           keyboardType="email-address"
         />
 
