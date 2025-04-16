@@ -1,6 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../../utils/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import registerApi from '../../utils/registerApi';
+import { Alert } from 'react-native';
 
 export const loginWithEmail = createAsyncThunk(
   "user/loginWithEmail",
@@ -32,34 +34,6 @@ export const logout = () => async (dispatch) => {
   }
 }
 
-export const registerUser = createAsyncThunk(
-  "user/registerUser",
-  async(
-    {login_id,nickname,password,age,height,weight,email,navigation},
-    {dispatch, rejectWithValue}
-  )=>{
-    try{
-      // const response = await api.post("/api/users/register/",{login_id,nickname,password,age,height,weight,email})
-      const response = await api.post("/api/auth/register/",{login_id,nickname,password,age,height,weight,email})
-      console.log("response",response.data.message)
-
-      // Alert.alert("회원가입 완료", "회원가입이 완료되었습니다!", [
-      //   {text: "확인", onPress: () => navigation.navigate("Login")},
-      // ]);
-      
-      return response.data;
-    }catch(error){
-      // console.log("response",response)
-      
-      // Alert.alert("회원가입 실패", "회원가입이 실패했습니다.", [
-      //   {text: "확인"},
-      // ]);
-
-      return rejectWithValue(error.error);
-    }
-  }
-)
-
 export const loginWithToken = createAsyncThunk(
   "user/loginWithToken",
   async (_, { rejectWithValue }) => {
@@ -68,6 +42,55 @@ export const loginWithToken = createAsyncThunk(
       return response.data
     } catch (error) {
       return rejectWithValue(error.error);
+    }
+  }
+)
+
+export const registerUser = createAsyncThunk(
+  "user/registerUser",
+  async(
+    {email,nickname,password,gender,age,height,weight,navigation},
+    {dispatch, rejectWithValue}
+  )=>{
+    try{
+      const response = await registerApi.post("/api/users/register/",{email,nickname,password,gender,age,height,weight})
+      console.log("response",response)
+
+        //웹용 알람
+        alert("회원가입 성공!");
+        navigation.navigate("Login");
+        
+        // 앱용 알람
+        // Alert.alert("회원가입 성공", "회원가입이 완료되었습니다!", [
+        //   {text: "확인", onPress: () => navigation.navigate("Login")},
+        // ]); 
+      
+      return response.data;
+    }catch(error){
+      console.log("error",error.response.data.error)
+      // Alert.alert("회원가입 실패", "회원가입이 실패했습니다.", [
+      //   {text: "확인"},
+      // ]);
+
+      return rejectWithValue(error.response);
+    }
+  }
+)
+
+export const checkEmailDup = createAsyncThunk(
+  "user/checkEmailDup",
+  async(
+    {email},
+    {dispatch, rejectWithValue}
+  )=>{
+    try{
+      const response = await registerApi.post("/api/users/checkloginid/",{email})
+      console.log("response",response)
+      
+      alert("사용 가능한 이메일입니다!")
+    }catch(err){
+      console.log("error",error.response.data.error)
+      alert("사용 불가한 아이디입니다.")  
     }
   }
 )

@@ -5,34 +5,37 @@ import IDAvailButton from "./IDAvailButton";
 
 const {width,height}= Dimensions.get('window');
 
-const SignupRow = ({type, data, setData, validateField, IDAvailCheck, errors, placeholder}) => {
+const SignupRow = ({type, data, handleInputChange, checkEmptyField, IDAvailCheck, checkedStatus, errors, placeholder}) => {
   const handleSignupInput = (event) => {
     setData(event.nativeEvent.text);
   };
 
   return (
     <View style={styles.signupRow}>
-      <Text style={styles.rowTitle}>{type}</Text>
+      <Text style={styles.rowTitle}>
+        {type==="email"&&"이메일"}
+        {type==="nick"&&"닉네임"}
+      </Text>
       <View style={styles.signupBox}>
         <TextInput
-          onChange={handleSignupInput}
-          onBlur={()=>validateField((type==="아이디"&&"id")||(type==="닉네임"&&"nick")||(type==="이메일"&&"email"),data)}
+          // onChange={handleSignupInput}
+          onChangeText={(text)=>handleInputChange(type,text)}
+          onBlur={()=>checkEmptyField(type,data)}
+          // onBlur={()=>checkEmptyField(type,data)}
           style={[
             styles.signupInput,
-            type==="아이디"&&errors?.id&&styles.errorInput,
-            type==="닉네임"&&errors?.nick&&styles.errorInput,
-            type==="이메일"&&errors?.email&&styles.errorInput,
+            type==="nick"&&errors?.nick&&styles.errorInput,
+            type==="email"&&errors?.email&&styles.errorInput,
           ]}
           placeholder={placeholder}
           placeholderTextColor="#CED3DE"
         />
-        {type==="아이디"?
-        <IDAvailButton IDAvailCheck={IDAvailCheck}/>
+        {type==="email"||type==="nick"?
+        <IDAvailButton IDAvailCheck={IDAvailCheck} type={type} checkedStatus={checkedStatus}/>
         :""}
       </View>
-      {type==="아이디"&&errors?.id?<Text style={styles.errorText}>{errors?.id}</Text>:""}
-      {type==="닉네임"&&errors?.nick?<Text style={styles.errorText}>{errors?.nick}</Text>:""}
-      {type==="이메일"&&errors?.email?<Text style={styles.errorText}>{errors?.email}</Text>:""}
+      {type==="email"&&errors?.email?<Text style={styles.errorText}>{errors?.email}</Text>:""}
+      {type==="nick"&&errors?.nick?<Text style={styles.errorText}>{errors?.nick}</Text>:""}
     </View>
   );
 };

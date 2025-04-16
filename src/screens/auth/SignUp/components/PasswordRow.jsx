@@ -4,25 +4,19 @@ import {moderateScale} from "react-native-size-matters";
 
 const {width,height}= Dimensions.get('window');
 
-const PasswordRow = ({type, pass, verifPass, setData, setVerifPass, validateField,  errors, placeholder}) => {
-  const handleSignupInput = (event) => {
-    setData(event.nativeEvent.text);
-  };
-
-  const handlePassVerify = (event) => {
-    setVerifPass(event.nativeEvent.text);
-  };
+const PasswordRow = ({type, pass, verifPass, handleInputChange, checkEmptyField,  errors, placeholder}) => {
 
   return (
     <View style={styles.signupRow}>
-      <Text style={styles.rowTitle}>{type}</Text>
+      <Text style={styles.rowTitle}>{type=="pass"&&"비밀번호"}</Text>
 
         <View style={styles.signupBox}>
             <TextInput
-            onChange={handleSignupInput}
-            onBlur={()=>validateField("pass",pass)}
+            onChangeText={(text)=>handleInputChange("pass",text)}
+            // onChange={handleSignupInput}
+            onBlur={()=>checkEmptyField("pass",pass)}
             style={[styles.signupInput,errors?.pass&&styles.errorInput]}
-            secureTextEntry={type==="비밀번호"?true:false}
+            secureTextEntry={type==="pass"?true:false}
             placeholder={placeholder}
             placeholderTextColor="#CED3DE"
             />
@@ -30,15 +24,15 @@ const PasswordRow = ({type, pass, verifPass, setData, setVerifPass, validateFiel
         {errors.pass?<Text style={styles.errorText}>{errors?.pass}</Text>:""}
 
         <TextInput
-          onChange={handlePassVerify}
-          onBlur={()=>validateField("verifPass",verifPass)}
+          onChangeText={(text)=>handleInputChange("verifPass",text)}
+          // onChange={handlePassVerify}
+          onBlur={()=>checkEmptyField("verifPass",verifPass)}
           style={[styles.signupInput, styles.passInputMargin, errors?.verifPass&&styles.errorInput]}
-          secureTextEntry={type==="비밀번호"?true:false}
+          secureTextEntry={type==="pass"?true:false}
           placeholder="비밀번호를 다시 입력해 주세요."
           placeholderTextColor="#CED3DE"
         />
-        {errors.verifPass?<Text style={styles.errorText}>{errors?.verifPass}</Text>:""}
-        
+        {errors.verifPass?<Text style={styles.errorText}>{errors?.verifPass}</Text>:""}        
     </View>
   );
 };

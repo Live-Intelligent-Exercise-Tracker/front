@@ -2,11 +2,30 @@ import {StyleSheet, Text, TouchableOpacity} from "react-native";
 import React from "react";
 import { moderateScale } from "react-native-size-matters";
 
-const IDAvailButton = ({IDAvailCheck}) => {
+const IDAvailButton = ({IDAvailCheck, type, checkedStatus}) => {
   return (
-    <TouchableOpacity style={styles.IDAvailButton} onPress={IDAvailCheck}>
-      <Text style={styles.ButtonText}>중복 확인</Text>
-    </TouchableOpacity>
+    <>
+    {type==="email"&&
+      <TouchableOpacity 
+        style={[styles.IDAvailButton,checkedStatus.emailChecked&&styles.disabledButton]} 
+        onPress={()=>IDAvailCheck(type)}
+        disabled={checkedStatus.emailChecked}
+      >
+        <Text style={styles.ButtonText}>중복 확인</Text>
+      </TouchableOpacity>
+    }
+    {type==="nick"&&
+      <TouchableOpacity 
+        style={[styles.IDAvailButton,checkedStatus.nickChecked&&styles.disabledButton]} 
+        onPress={()=>IDAvailCheck(type)}
+        disabled={checkedStatus.nickChecked}
+      >
+        <Text style={styles.ButtonText}>중복 확인</Text>
+      </TouchableOpacity>
+
+    }
+    
+    </>
   );
 };
 
@@ -14,7 +33,7 @@ export default IDAvailButton;
 
 const styles = StyleSheet.create({
   IDAvailButton: {
-    backgroundColor: "#507DFA",
+    backgroundColor: "#01B99F",
     justifyContent: "center",
     alignItems: "center",
     // marginBottom: moderateScale(35),
@@ -22,6 +41,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: moderateScale(8),
     marginLeft:moderateScale(6),
     borderRadius: 6,
+  },
+  disabledButton:{
+    backgroundColor:"#CED3DE"
   },
   ButtonText:{
     color:"white"
