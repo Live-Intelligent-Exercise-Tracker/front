@@ -1,30 +1,34 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
+import { moderateScale } from 'react-native-size-matters'
 
-const GenderRow = () => {
+const GenderRow = ({data,handleBioInput,bioErrors}) => {
   return (
     <View style={styles.signupRow}>
-        <Text>성별</Text>
+        <Text style={styles.rowTitle}>성별</Text>
         <View style={styles.genderContainer}>
             <TouchableOpacity
             style={[
                 styles.genderButton,
-                formData.gender === 'MALE' && styles.genderSelected,
+                bioErrors?.gender&&styles.errorInput,
+                data === 'MALE' && styles.genderSelected,
             ]}
-            onPress={() => handleChange('gender', 'MALE')}
+            onPress={() => handleBioInput('gender', 'MALE')}
             >
-            <Text>남성</Text>
+            <Text style={[styles.genderText,data==="MALE" && styles.selectedText]}>남성</Text>
             </TouchableOpacity>
             <TouchableOpacity
             style={[
                 styles.genderButton,
-                formData.gender === 'FEMALE' && styles.genderSelected,
+                bioErrors?.gender&&styles.errorInput,
+                data === 'FEMALE' && styles.genderSelected,
             ]}
-            onPress={() => handleChange('gender', 'FEMALE')}
+            onPress={() => handleBioInput('gender', 'FEMALE')}
             >
-            <Text>여성</Text>
+            <Text style={[styles.genderText,data==="FEMALE" && styles.selectedText]}>여성</Text>
             </TouchableOpacity>
         </View>
+        {bioErrors?.gender?<Text style={styles.errorText}>{bioErrors?.gender}</Text>:""}
     </View>
     
   )
@@ -34,10 +38,39 @@ export default GenderRow
 
 const styles = StyleSheet.create({
     signupRow:{
-        marginBottom: moderateScale(10),
+        marginBottom: moderateScale(17),
+    },
+    rowTitle:{
+        fontSize: moderateScale(14),
+        marginBottom: moderateScale(8),
     },
     genderContainer:{
         flexDirection:"row",
-        justifyContent:"space-around"
+    },
+    genderButton: {
+        paddingVertical: moderateScale(14),
+        paddingHorizontal: moderateScale(26),
+        marginRight: moderateScale(9),
+        borderWidth: 1,
+        borderColor: '#ccc',
+        borderRadius: 8,
+    },
+    genderSelected: {
+        backgroundColor:"#5ac0b3",
+        borderWidth: 0,
+    },
+    genderText:{
+
+    },
+    selectedText:{
+        color: "white",
+    },
+    errorInput:{
+        borderColor:'red',
+    },
+    errorText:{
+        color:"red",
+        fontSize:moderateScale(11),
     }
+    
 })

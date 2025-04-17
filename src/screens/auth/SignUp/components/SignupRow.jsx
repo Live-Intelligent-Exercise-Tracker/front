@@ -6,9 +6,6 @@ import IDAvailButton from "./IDAvailButton";
 const {width,height}= Dimensions.get('window');
 
 const SignupRow = ({type, data, handleInputChange, checkEmptyField, IDAvailCheck, checkedStatus, errors, placeholder}) => {
-  const handleSignupInput = (event) => {
-    setData(event.nativeEvent.text);
-  };
 
   return (
     <View style={styles.signupRow}>
@@ -18,10 +15,8 @@ const SignupRow = ({type, data, handleInputChange, checkEmptyField, IDAvailCheck
       </Text>
       <View style={styles.signupBox}>
         <TextInput
-          // onChange={handleSignupInput}
           onChangeText={(text)=>handleInputChange(type,text)}
           onBlur={()=>checkEmptyField(type,data)}
-          // onBlur={()=>checkEmptyField(type,data)}
           style={[
             styles.signupInput,
             type==="nick"&&errors?.nick&&styles.errorInput,
@@ -44,11 +39,11 @@ export default SignupRow;
 
 const styles = StyleSheet.create({
   signupRow: {
-    marginBottom: moderateScale(10),
+    marginBottom: moderateScale(15),
   },
   rowTitle: {
     fontSize: moderateScale(14),
-    marginBottom: moderateScale(2),
+    marginBottom: moderateScale(8),
   },
   signupBox:{
     flexDirection:"row",
@@ -59,9 +54,8 @@ const styles = StyleSheet.create({
     borderColor: "#CED3DE",
     borderRadius: 10,
     paddingHorizontal: moderateScale(14),
-    paddingVertical: moderateScale(12),
+    paddingVertical: moderateScale(16),
     flex:1,
-    marginVertical: moderateScale(6),
   },
   errorInput:{
     borderColor:'red',

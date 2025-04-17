@@ -4,40 +4,39 @@ import {moderateScale} from "react-native-size-matters";
 
 const {width,height}= Dimensions.get('window');
 
-const InfoRow = ({type, data, setData, validateField, errors, placeholder}) => {
-  const handleSignupInput = (event) => {
-    setData(event.nativeEvent.text);
-  };
+const InfoRow = ({type, data, handleBioInput, checkEmptyBioField, bioErrors, placeholder}) => {
 
   return (
     <View style={styles.signupRow}>
-      <Text style={styles.rowTitle}>{type}</Text>
+      <Text style={styles.rowTitle}>
+        {type==="age"&&"나이"}
+        {type==="height"&&"키"}
+        {type==="weight"&&"몸무게"}
+      </Text>
       <View style={styles.signupBox}>
         <TextInput
           value={data}
-          onChange={handleSignupInput}
-          onBlur={()=>validateField((type==="나이"&&"age")||(type==="키"&&"height")||(type==="몸무게"&&"weight"),data)}
+          onChangeText={(text)=>handleBioInput(type,text)}
+          onBlur={()=>checkEmptyBioField(type,data)}
           style={[
             styles.signupInput,
-            type==="나이"&&errors?.age&&styles.errorInput,
-            type==="키"&&errors?.height&&styles.errorInput,
-            type==="몸무게"&&errors?.weight&&styles.errorInput,
+            type==="age"&&bioErrors?.age&&styles.errorInput,
+            type==="height"&&bioErrors?.height&&styles.errorInput,
+            type==="weight"&&bioErrors?.weight&&styles.errorInput,
           ]}
           placeholder={placeholder}
           placeholderTextColor="#CED3DE"
-          keyboardType={type==="나이"||type=="키"||type=="몸무게"?"number-pad":""}
+          keyboardType={type==="age"||type=="height"||type=="weight"?"number-pad":""}
         />
         <Text>
-          {type==="나이"?"세":""}
-          {type==="키"?"cm":""}
-          {type==="몸무게"?"kg":""}
+          {type==="age"?"세":""}
+          {type==="height"?"cm":""}
+          {type==="weight"?"kg":""}
         </Text>
       </View>
-      {/* {type==="아이디"&&errors?.id?<Text style={styles.errorText}>{errors?.id}</Text>:""}
-      {type==="닉네임"&&errors?.nick?<Text style={styles.errorText}>{errors?.nick}</Text>:""} */}
-      {type==="나이"&&errors?.age?<Text style={styles.errorText}>{errors?.age}</Text>:""}
-      {type==="키"&&errors?.height?<Text style={styles.errorText}>{errors?.height}</Text>:""}
-      {type==="몸무게"&&errors?.weight?<Text style={styles.errorText}>{errors?.weight}</Text>:""}
+      {type==="age"&&bioErrors?.age?<Text style={styles.errorText}>{bioErrors?.age}</Text>:""}
+      {type==="height"&&bioErrors?.height?<Text style={styles.errorText}>{bioErrors?.height}</Text>:""}
+      {type==="weight"&&bioErrors?.weight?<Text style={styles.errorText}>{bioErrors?.weight}</Text>:""}
     </View>
   );
 };
@@ -46,24 +45,23 @@ export default InfoRow;
 
 const styles = StyleSheet.create({
   signupRow: {
-    marginBottom: moderateScale(10),
+    marginBottom: moderateScale(17),
   },
   rowTitle: {
     fontSize: moderateScale(14),
-    marginBottom: moderateScale(2),
+    marginBottom: moderateScale(8),
   },
   signupBox:{
     flexDirection:"row",
     alignItems:"center",
   },
   signupInput: {
-    width: width*0.3,
+    width: width*0.4,
     borderWidth: 1,
     borderColor: "#CED3DE",
     borderRadius: 10,
     paddingHorizontal: moderateScale(14),
-    paddingVertical:moderateScale(10),
-    marginVertical: moderateScale(6),
+    paddingVertical:moderateScale(14),
     marginRight: width*0.02,
     
   },

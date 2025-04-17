@@ -13,7 +13,6 @@ const PasswordRow = ({type, pass, verifPass, handleInputChange, checkEmptyField,
         <View style={styles.signupBox}>
             <TextInput
             onChangeText={(text)=>handleInputChange("pass",text)}
-            // onChange={handleSignupInput}
             onBlur={()=>checkEmptyField("pass",pass)}
             style={[styles.signupInput,errors?.pass&&styles.errorInput]}
             secureTextEntry={type==="pass"?true:false}
@@ -25,7 +24,6 @@ const PasswordRow = ({type, pass, verifPass, handleInputChange, checkEmptyField,
 
         <TextInput
           onChangeText={(text)=>handleInputChange("verifPass",text)}
-          // onChange={handlePassVerify}
           onBlur={()=>checkEmptyField("verifPass",verifPass)}
           style={[styles.signupInput, styles.passInputMargin, errors?.verifPass&&styles.errorInput]}
           secureTextEntry={type==="pass"?true:false}
@@ -41,11 +39,11 @@ export default PasswordRow;
 
 const styles = StyleSheet.create({
   signupRow: {
-    marginBottom: moderateScale(10),
+    marginBottom: moderateScale(15),
   },
   rowTitle: {
     fontSize: moderateScale(14),
-    marginBottom: moderateScale(5),
+    marginBottom: moderateScale(8),
   },
   signupBox:{
     flexDirection:"row",
@@ -56,9 +54,9 @@ const styles = StyleSheet.create({
     borderColor: "#CED3DE",
     borderRadius: 10,
     paddingHorizontal: moderateScale(14),
-    paddingVertical: moderateScale(12),
+    paddingVertical: moderateScale(16),
     width: width*0.9,
-    marginVertical: moderateScale(3),
+    marginBottom: moderateScale(8),
   },
   errorInput:{
     borderColor:'red',
