@@ -7,7 +7,7 @@ const {width, height} = Dimensions.get('window');
 const SignupButton = ({isFormValid, page, handleSignupButton}) => {
   return (
     <TouchableOpacity
-    style={[styles.signupButton]}
+    style={[styles.signupButton, !isFormValid && styles.disabledButton]}
     disabled={!isFormValid}
     onPress={handleSignupButton}
     >
