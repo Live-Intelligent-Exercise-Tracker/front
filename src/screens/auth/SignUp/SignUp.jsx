@@ -18,7 +18,7 @@ export default function SignUp({ navigation }) {
     const { nickDupError } = useSelector((state)=>state.user)
     const { regSuccess } = useSelector((state)=>state.user)
 
-    const [page, setPage] = useState(2);
+    const [page, setPage] = useState(1);
 
     const [formData,setFormData] = useState({
         email: '',
