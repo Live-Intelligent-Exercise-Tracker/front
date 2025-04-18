@@ -8,29 +8,31 @@ const PasswordRow = ({type, pass, verifPass, handleInputChange, checkEmptyField,
 
   return (
     <View style={styles.signupRow}>
-      <Text style={styles.rowTitle}>{type=="pass"&&"비밀번호"}</Text>
-
-        <View style={styles.signupBox}>
-            <TextInput
-            onChangeText={(text)=>handleInputChange("pass",text)}
-            onBlur={()=>checkEmptyField("pass",pass)}
-            style={[styles.signupInput,errors?.pass&&styles.errorInput]}
-            secureTextEntry={type==="pass"?true:false}
-            placeholder={placeholder}
-            placeholderTextColor="#CED3DE"
-            />
-        </View>
-        {errors.pass?<Text style={styles.errorText}>{errors?.pass}</Text>:""}
-
+      <View style={styles.firstPassBox}>
+        <Text style={styles.rowTitle}>{type=="pass"&&"비밀번호"}</Text>
         <TextInput
-          onChangeText={(text)=>handleInputChange("verifPass",text)}
-          onBlur={()=>checkEmptyField("verifPass",verifPass)}
-          style={[styles.signupInput, styles.passInputMargin, errors?.verifPass&&styles.errorInput]}
+          onChangeText={(text)=>handleInputChange("pass",text)}
+          onBlur={()=>checkEmptyField("pass",pass)}
+          style={[styles.signupInput,errors?.pass&&styles.errorInput]}
           secureTextEntry={type==="pass"?true:false}
-          placeholder="비밀번호를 다시 입력해 주세요."
+          placeholder={placeholder}
           placeholderTextColor="#CED3DE"
         />
-        {errors.verifPass?<Text style={styles.errorText}>{errors?.verifPass}</Text>:""}        
+        {/* {errors.pass?<Text style={[!errors?.pass&&styles.noError,styles.errorText]}>{errors?.pass}</Text>:""} */}
+        <Text style={[styles.noError,errors?.pass&&styles.errorText]}>{errors?.pass}</Text>
+      </View>
+      
+
+      <TextInput
+        onChangeText={(text)=>handleInputChange("verifPass",text)}
+        onBlur={()=>checkEmptyField("verifPass",verifPass)}
+        style={[styles.signupInput, styles.passInputMargin, errors?.verifPass&&styles.errorInput]}
+        secureTextEntry={type==="pass"?true:false}
+        placeholder="비밀번호를 다시 입력해 주세요."
+        placeholderTextColor="#CED3DE"
+      />
+      {/* {errors.verifPass?<Text style={styles.errorText}>{errors?.verifPass}</Text>:""} */}
+      <Text style={styles.errorText}>{errors?.verifPass}</Text>
     </View>
   );
 };
@@ -41,6 +43,9 @@ const styles = StyleSheet.create({
   signupRow: {
     marginBottom: moderateScale(15),
   },
+  // firstPassBox:{
+  //   marginBottom: moderateScale(10),
+  // },
   rowTitle: {
     fontSize: moderateScale(14),
     marginBottom: moderateScale(8),
@@ -56,7 +61,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: moderateScale(14),
     paddingVertical: moderateScale(16),
     width: width*0.9,
-    marginBottom: moderateScale(8),
+    // marginBottom: moderateScale(8),
   },
   errorInput:{
     borderColor:'red',
@@ -70,6 +75,11 @@ const styles = StyleSheet.create({
   errorText:{
     color:'red',
     fontSize:moderateScale(11),
-    marginBottom:moderateScale(6),
+    height: height*0.02,
+    marginTop:moderateScale(2),
+    marginBottom:moderateScale(8),
   },
+  noError:{
+    height: height*0.015,
+  }
 });

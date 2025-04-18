@@ -1,6 +1,8 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { moderateScale } from 'react-native-size-matters'
+
+const {width,height}= Dimensions.get('window');
 
 const GenderRow = ({data,handleBioInput,bioErrors}) => {
   return (
@@ -28,7 +30,7 @@ const GenderRow = ({data,handleBioInput,bioErrors}) => {
             <Text style={[styles.genderText,data==="FEMALE" && styles.selectedText]}>여성</Text>
             </TouchableOpacity>
         </View>
-        {bioErrors?.gender?<Text style={styles.errorText}>{bioErrors?.gender}</Text>:""}
+        <Text style={styles.errorText}>{bioErrors?.gender}</Text>
     </View>
     
   )
@@ -38,7 +40,7 @@ export default GenderRow
 
 const styles = StyleSheet.create({
     signupRow:{
-        marginBottom: moderateScale(17),
+        marginBottom: moderateScale(3),
     },
     rowTitle:{
         fontSize: moderateScale(14),
@@ -71,6 +73,7 @@ const styles = StyleSheet.create({
     errorText:{
         color:"red",
         fontSize:moderateScale(11),
-    }
-    
+        height: height*0.02,
+        marginTop:moderateScale(2),
+    } 
 })

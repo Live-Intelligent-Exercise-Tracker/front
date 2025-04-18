@@ -18,7 +18,7 @@ export default function SignUp({ navigation }) {
     const { nickDupError } = useSelector((state)=>state.user)
     const { regSuccess } = useSelector((state)=>state.user)
 
-    const [page, setPage] = useState(1);
+    const [page, setPage] = useState(2);
 
     const [formData,setFormData] = useState({
         email: '',
@@ -61,7 +61,6 @@ export default function SignUp({ navigation }) {
     },[nickDupError])
 
     useEffect(()=>{
-        
         if(regSuccess){
             dispatch(setSuccFalse());
             // Alert.alert("회원가입 성공", "회원가입이 완료되었습니다!", [
@@ -70,7 +69,6 @@ export default function SignUp({ navigation }) {
             alert("회원가입 성공!");
             navigation.navigate("Login")
         }
-        
     },[regSuccess])
 
     const handleInputChange = (field, value) => {
@@ -147,9 +145,9 @@ export default function SignUp({ navigation }) {
                     ...prevErrors,
                     nick: null,
                 }))
-                Alert.alert("닉네임 중복 확인", "사용할 수 있는 닉네임입니다!", [
-                    {text: "확인"},
-                ]);
+                // Alert.alert("닉네임 중복 확인", "사용할 수 있는 닉네임입니다!", [
+                //     {text: "확인"},
+                // ]);
             }
         }
     }

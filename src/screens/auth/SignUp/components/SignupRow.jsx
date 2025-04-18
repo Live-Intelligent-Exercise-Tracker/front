@@ -29,8 +29,10 @@ const SignupRow = ({type, data, handleInputChange, checkEmptyField, IDAvailCheck
         <IDAvailButton IDAvailCheck={IDAvailCheck} type={type} checkedStatus={checkedStatus}/>
         :""}
       </View>
-      {type==="email"&&errors?.email?<Text style={styles.errorText}>{errors?.email}</Text>:""}
-      {type==="nick"&&errors?.nick?<Text style={styles.errorText}>{errors?.nick}</Text>:""}
+      <Text style={styles.errorText}>
+        {type==="email"&&errors.email&&`${errors?.email}`}
+        {type==="nick"&&errors.nick&&`${errors?.nick}`}
+      </Text>
     </View>
   );
 };
@@ -39,7 +41,7 @@ export default SignupRow;
 
 const styles = StyleSheet.create({
   signupRow: {
-    marginBottom: moderateScale(15),
+    marginBottom: moderateScale(9),
   },
   rowTitle: {
     fontSize: moderateScale(14),
@@ -70,6 +72,7 @@ const styles = StyleSheet.create({
   errorText:{
     color:'red',
     fontSize:moderateScale(11),
-    marginBottom:moderateScale(6),
+    height: height*0.02,
+    marginTop:moderateScale(2),
   },
 });

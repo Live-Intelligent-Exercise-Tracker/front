@@ -34,9 +34,11 @@ const InfoRow = ({type, data, handleBioInput, checkEmptyBioField, bioErrors, pla
           {type==="weight"?"kg":""}
         </Text>
       </View>
-      {type==="age"&&bioErrors?.age?<Text style={styles.errorText}>{bioErrors?.age}</Text>:""}
-      {type==="height"&&bioErrors?.height?<Text style={styles.errorText}>{bioErrors?.height}</Text>:""}
-      {type==="weight"&&bioErrors?.weight?<Text style={styles.errorText}>{bioErrors?.weight}</Text>:""}
+      <Text style={styles.errorText}>
+        {type==="age"&&bioErrors?.age}
+        {type==="height"&&bioErrors?.height}
+        {type==="weight"&&bioErrors?.weight}
+      </Text>
     </View>
   );
 };
@@ -45,7 +47,7 @@ export default InfoRow;
 
 const styles = StyleSheet.create({
   signupRow: {
-    marginBottom: moderateScale(17),
+    marginBottom: moderateScale(3),
   },
   rowTitle: {
     fontSize: moderateScale(14),
@@ -71,6 +73,8 @@ const styles = StyleSheet.create({
   errorText:{
     color:'red',
     fontSize:moderateScale(11),
+    height: height*0.02,
+    marginTop: moderateScale(2),
     marginBottom:moderateScale(6),
   },
 });
