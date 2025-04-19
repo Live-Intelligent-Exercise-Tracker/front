@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import api from './api';
+import tokenApi from './tokenApi';
 
 export const refreshToken = async () => {
     try {
@@ -9,7 +9,7 @@ export const refreshToken = async () => {
             console.log("refresh토큰이 없습니다.")
         }
 
-        const response = await api.post(
+        const response = await tokenApi.post(
             '/api/users/refresh/',
             { getRefreshToken }
         )

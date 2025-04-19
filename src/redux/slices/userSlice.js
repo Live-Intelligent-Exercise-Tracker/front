@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../../utils/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import logoutApi from '../../utils/logoutApi';
 
 export const loginUser = createAsyncThunk(
   "user/loginUser",
@@ -23,7 +24,7 @@ export const logout = async () => {
   try {
     const getRefreshToken = await AsyncStorage.getItem('refresh_token');
 
-    const response = await api.post("/api/users/logout/", { getRefreshToken })
+    const response = await logoutApi.post("/api/users/logout/", { refresh_token: getRefreshToken })
     console.log(response.data)
 
     await AsyncStorage.removeItem("access_token");
@@ -32,6 +33,8 @@ export const logout = async () => {
   }
 }
 
+// [자동로그인 관련 추후수정사항2]
+// 엑세스 유무 필드 추가
 const userSlice = createSlice({
   name: "user",
   initialState: {
@@ -39,7 +42,7 @@ const userSlice = createSlice({
     loading: false,
   },
   reducers: {
-    
+
   },
   extraReducers: (builder) => {
     builder

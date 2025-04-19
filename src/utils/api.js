@@ -1,9 +1,6 @@
 import axios from "axios";
 import { Platform, Alert } from "react-native";
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { refreshToken } from "./common";
-import { logout } from "../redux/slices/userSlice";
-import { navigate } from "../navigation/RootNavigator";
 
 const API_BASE_URL =
   Platform.OS === "android"
@@ -20,10 +17,6 @@ const api = axios.create({
 
 api.interceptors.request.use(
   async (config) => {
-    const access_token = await AsyncStorage.getItem("access_token");
-    if (access_token) {
-      config.headers.Authorization = `Bearer ${access_token}`;
-    }
     return config;
   },
   (error) => {
@@ -34,23 +27,11 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
-    if (!error.response) { // 네트워크 연결 불가로 인한 에러
-      console.error(error.message);
-      Alert.alert(
-        "서버에 연결할 수 없습니다. 네트워크 상태를 확인해주세요.",
-        undefined,
-        [
-          { text: "확인", onPress: () => console.log("확인 버튼 눌림") }
-        ]
-      )
-      return Promise.reject("서버에 연결할 수 없습니다.");
-    }
 
     const originalRequest = error.config;
     const status = error.response.status;
     const errorMessage = error.response.data.message
 
-    if (originalRequest.url.includes("/login")) { // 로그인 post 에러
       switch (status) {
         case 400:
           console.warn(errorMessage);
@@ -87,46 +68,6 @@ api.interceptors.response.use(
             ]
           )
       }
-    }
-
-    if (originalRequest.url.includes("/logout")) { // 로그아웃 post 에러
-      switch (status) {
-        case 400:
-          console.warn(errorMessage);
-          Alert.alert(
-            errorMessage,
-            undefined,
-            [
-              { text: "확인", onPress: () => console.log("확인 버튼 눌림") }
-            ]
-          )
-          break;
-        default:
-          console.error(`🚨 [Axios] ${status} 오류 발생:`, errorMessage);
-          Alert.alert(
-            `error code ${status}`,
-            undefined,
-            [
-              { text: "확인", onPress: () => console.log("확인 버튼 눌림") }
-            ]
-          )
-      }
-    }
-
-    if (originalRequest.url.includes("/refresh")) { // 엑세스 토큰 재발급 post 에러
-      switch (status) {
-        case 400:
-          console.warn(errorMessage);
-          break;
-        case 401:
-          console.warn(errorMessage);
-          await logout();
-          navigate("Login");
-          break;
-        default:
-          console.error(`🚨 [Axios] ${status} 오류 발생:`, errorMessage);
-      }
-    }
 
     return Promise.reject(error);
   }
