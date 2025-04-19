@@ -17,13 +17,14 @@ const Stack = createStackNavigator();
 export default function RootNavigator() {
   const dispatch = useDispatch()
   const { user } = useSelector((state) => state.user)
-  const { loading } = useSelector((state) => state.user)
+  const { loading:userLoading } = useSelector((state) => state.user)
+  const { loading:registerLoading} = useSelector((state)=>state.reg)
 
   useEffect(() => {
     // dispatch(loginWithToken())
   }, []);
 
-  if (loading) {
+  if (userLoading||registerLoading) {
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
         <View style={{

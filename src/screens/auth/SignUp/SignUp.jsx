@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { Alert, Button, Dimensions, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Alert, Button, Dimensions, StyleSheet, Text, View } from 'react-native';
 import SignupRow from './components/SignupRow';
 import { moderateScale } from 'react-native-size-matters';
 import { useEffect, useState } from 'react';
@@ -7,19 +7,20 @@ import SignupButton from './components/SignupButton';
 import PasswordRow from './components/PasswordRow';
 import InfoRow from './components/InfoRow';
 import { useDispatch, useSelector } from 'react-redux';
-import { checkEmailDup, checkNickDup, clearMsgs, registerUser, setSuccFalse } from '../../../redux/slices/userSlice';
+import { checkEmailDup, checkNickDup, clearMsgs, registerUser, setSuccFalse } from '../../../redux/slices/registerSlice';
 import GenderRow from './components/GenderRow';
 
 const {width, height} = Dimensions.get('window');
 
 export default function SignUp({ navigation }) {
     const dispatch = useDispatch();
-    const { emailDupSucc } = useSelector((state)=>state.user)
-    const { emailDupError } =useSelector((state)=>state.user)
-    const { nickDupSucc } = useSelector((state)=>state.user)
-    const { nickDupError } = useSelector((state)=>state.user)
-    const { regSuccess } = useSelector((state)=>state.user)
-    const { regError } = useSelector((state)=>state.user)
+    const { emailDupSucc } = useSelector((state)=>state.reg)
+    const { emailDupError } =useSelector((state)=>state.reg)
+    const { nickDupSucc } = useSelector((state)=>state.reg)
+    const { nickDupError } = useSelector((state)=>state.reg)
+    const { regSuccess } = useSelector((state)=>state.reg)
+    const { regError } = useSelector((state)=>state.reg)
+    const { loading } = useSelector((state)=>state.reg)
 
     const [page, setPage] = useState(1);
 

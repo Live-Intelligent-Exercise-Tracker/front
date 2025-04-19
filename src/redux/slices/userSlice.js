@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../../utils/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import registerApi from '../../utils/registerApi';
 
 export const loginWithEmail = createAsyncThunk(
   "user/loginWithEmail",
@@ -45,54 +44,6 @@ export const loginWithToken = createAsyncThunk(
   }
 )
 
-export const registerUser = createAsyncThunk(
-  "user/registerUser",
-  async(
-    {email,nickname,password,gender,age,height,weight,navigation},
-    {rejectWithValue}
-  )=>{
-    try{
-      const response = await registerApi.post("/api/users/register/",{email,nickname,password,gender,age,height,weight})
-
-      return response.data;
-    }catch(error){
-      return rejectWithValue(error.response.data);
-    }
-  }
-)
-
-export const checkEmailDup = createAsyncThunk(
-  "user/checkEmailDup",
-  async(
-    {email},
-    {dispatch, rejectWithValue}
-  )=>{
-    try{
-      const response = await registerApi.post("/api/users/checkemail/",{email})
-
-      return response.data;
-    }catch(error){
-      return rejectWithValue(error.response.data.message)
-    }
-  }
-)
-
-export const checkNickDup = createAsyncThunk(
-  "user/checkNickDup",
-  async(
-    {nickname},
-    {dispatch, rejectWithValue}
-  )=>{
-    try{
-      const response = await registerApi.post("/api/users/checknickname/",{nickname})
-
-      return response.data;
-    }catch(error){
-      return rejectWithValue(error.response.data.message)
-    }
-  }
-)
-
 const userSlice = createSlice({
   name: "user",
   initialState: {
@@ -100,13 +51,6 @@ const userSlice = createSlice({
     loading: false,
     loginError: null,
     success: false,
-
-    emailDupSucc: null,
-    emailDupError: null,
-    nickDupSucc: null,
-    nickDupError: null,
-    regError: null,
-    regSuccess: false,
   },
   reducers: {
     setUser: (state, action) => {
@@ -123,15 +67,6 @@ const userSlice = createSlice({
       state.regError = null;
       state.success = false;
     },
-    setSuccFalse:(state)=>{
-      state.regSuccess= false;
-    },
-    clearMsgs:(state)=>{
-      state.emailDupSucc=null;
-      state.emailDupError=null;
-      state.nickDupSucc=null;
-      state.nickDupError=null;
-    }
   },
   extraReducers: (builder) => {
     builder
@@ -160,32 +95,8 @@ const userSlice = createSlice({
         state.user = null; // ✅ 자동 로그인 실패 시 초기화
         state.loading = false;
       })
-      .addCase(checkEmailDup.fulfilled, (state,action)=>{
-        state.emailDupSucc = action.payload.message;
-      })
-      .addCase(checkEmailDup.rejected,(state,action)=>{
-        state.emailDupError=action.payload;
-      })
-      .addCase(checkNickDup.fulfilled, (state,action)=>{
-        state.nickDupSucc=action.payload.message
-      })
-      .addCase(checkNickDup.rejected,(state,action)=>{
-        state.nickDupError=action.payload;
-      })
-      .addCase(registerUser.pending,(state)=>{
-        state.loading=true;
-        state.regError=null;
-      })
-      .addCase(registerUser.fulfilled, (state)=>{
-        state.loading=false;
-        state.regError=null;
-        state.regSuccess=true;
-      })
-      .addCase(registerUser.rejected,(state,action)=>{
-        state.regError=action.payload.message;
-      })
   },
 })
 
-export const { setUser, clearErrors, userLoggedOut, clearMsgs, setSuccFalse } = userSlice.actions;
+export const { setUser, clearErrors, userLoggedOut } = userSlice.actions;
 export default userSlice.reducer;
