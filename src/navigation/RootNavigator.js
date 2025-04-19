@@ -38,6 +38,7 @@ export default function RootNavigator() {
 
   return (
     <NavigationContainer>
+      {/* <Stack.Navigator initialRouteName={"MainTabNavigator"}> */}
       <Stack.Navigator initialRouteName={"SignUp"}>
       {/* <Stack.Navigator initialRouteName={!user ? "Login" : "MainTabNavigator"}> */}
         <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />

@@ -7,16 +7,19 @@ import SignupButton from './components/SignupButton';
 import PasswordRow from './components/PasswordRow';
 import InfoRow from './components/InfoRow';
 import { useDispatch, useSelector } from 'react-redux';
-import { checkEmailDup, checkNickDup, registerUser, setSuccFalse } from '../../../redux/slices/userSlice';
+import { checkEmailDup, checkNickDup, clearMsgs, registerUser, setSuccFalse } from '../../../redux/slices/userSlice';
 import GenderRow from './components/GenderRow';
 
 const {width, height} = Dimensions.get('window');
 
 export default function SignUp({ navigation }) {
     const dispatch = useDispatch();
+    const { emailDupSucc } = useSelector((state)=>state.user)
     const { emailDupError } =useSelector((state)=>state.user)
+    const { nickDupSucc } = useSelector((state)=>state.user)
     const { nickDupError } = useSelector((state)=>state.user)
     const { regSuccess } = useSelector((state)=>state.user)
+    const { regError } = useSelector((state)=>state.user)
 
     const [page, setPage] = useState(1);
 
@@ -53,21 +56,44 @@ export default function SignUp({ navigation }) {
     const isFormValid2 = bioData.gender && bioData.age && bioData.height && bioData.weight;
 
     useEffect(()=>{
-        setErrors((prev)=>({...prev,email:emailDupError}))
-    },[emailDupError])
+        if(emailDupSucc){
+            Alert.alert("이메일 중복 확인", emailDupSucc, [
+                {text: "확인"},
+            ]);
+            // alert(emailDupSucc);
+            dispatch(clearMsgs());
+        } else if(emailDupError){
+            setErrors((prev)=>({...prev,email:emailDupError}))
+            dispatch(clearMsgs());
+        }
+    },[emailDupSucc,emailDupError])
 
     useEffect(()=>{
-        setErrors((prev)=>({...prev,nick:nickDupError}))
-    },[nickDupError])
+        if(nickDupSucc){
+            Alert.alert("닉네임 중복 확인", nickDupSucc, [
+                {text: "확인"},
+            ]);
+            // alert(nickDupSucc);
+            dispatch(clearMsgs());
+        } else if(nickDupError){
+            setErrors((prev)=>({...prev,nick:nickDupError}));
+            dispatch(clearMsgs());
+        }
+    },[nickDupSucc,nickDupError])
 
     useEffect(()=>{
         if(regSuccess){
             dispatch(setSuccFalse());
-            // Alert.alert("회원가입 성공", "회원가입이 완료되었습니다!", [
-            //     {text: "확인", onPress: () => navigation.navigate("Login")},
-            // ]); 
-            alert("회원가입 성공!");
+            Alert.alert("회원가입 성공", "회원가입이 완료되었습니다!", [
+                {text: "확인", onPress: () => navigation.navigate("Login")},
+            ]); 
+            // alert("회원가입 성공!");
             navigation.navigate("Login")
+        } else if(regError){
+            Alert.alert("회원가입 실패", regError, [
+                {text: "확인", onPress: () => navigation.navigate("Login")},
+            ]); 
+            // alert(regError);
         }
     },[regSuccess])
 
@@ -140,7 +166,7 @@ export default function SignUp({ navigation }) {
                 //백엔드 중복 확인 api
                 dispatch(checkNickDup({nickname:formData.nick}))
                 //중복 아닐 시
-                setNickChecked(true);;
+                setNickChecked(true);
                 setErrors((prevErrors) => ({
                     ...prevErrors,
                     nick: null,
@@ -190,10 +216,10 @@ export default function SignUp({ navigation }) {
         }
     }
 
-    // const apiButton = () => {
-    //     dispatch(registerUser({email:"bmbgwrahadaagxaaaaser08@gmail.com",nickname:"bmasaaaadsba3x08",password:"1234Aa!!",gender:"MALE",age:28,height:175,weight:75,navigation}))
-    //     navigation.navigate("Login");
-    // }
+    const apiButton = () => {
+        dispatch(registerUser({email:"",nickname:"bmasaaaadsba3x08",password:"1234Aa!!",gender:"MALE",age:28,height:175,weight:75,navigation}))
+        navigation.navigate("Login");
+    }
 
     return (
         <View style={styles.container}>
@@ -206,7 +232,7 @@ export default function SignUp({ navigation }) {
                         <PasswordRow type="pass" pass={formData.pass} verifPass={formData.verifPass} handleInputChange={handleInputChange} checkEmptyField={checkEmptyField} errors={errors} placeholder="영어, 숫자를 포함한 8~20자리를 입력해 주세요."/>
                     </View>
 
-                    {/* <Button title="호출 테스트" onPress={apiButton}/> */}
+                    <Button title="호출 테스트" onPress={apiButton}/>
 
                     <View style={styles.signupButtonSection}>
                         <SignupButton isFormValid={isFormValid} page={page} handleSignupButton={handleSignupButton}/>

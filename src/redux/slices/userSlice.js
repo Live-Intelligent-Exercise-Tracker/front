@@ -2,7 +2,6 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../../utils/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import registerApi from '../../utils/registerApi';
-import { Alert } from 'react-native';
 
 export const loginWithEmail = createAsyncThunk(
   "user/loginWithEmail",
@@ -50,24 +49,14 @@ export const registerUser = createAsyncThunk(
   "user/registerUser",
   async(
     {email,nickname,password,gender,age,height,weight,navigation},
-    {dispatch, rejectWithValue}
+    {rejectWithValue}
   )=>{
     try{
       const response = await registerApi.post("/api/users/register/",{email,nickname,password,gender,age,height,weight})
-      console.log("response",response)
 
-        // Alert.alert("회원가입 성공", "회원가입이 완료되었습니다!", [
-        //   {text: "확인", onPress: () => navigation.navigate("Login")},
-        // ]); 
-      
       return response.data;
     }catch(error){
-      console.log("error",error.response.data.error)
-      // Alert.alert(`${error.response.status} 에러`, "회원가입이 실패했습니다.", [
-      //   {text: "확인"},
-      // ]);
-
-      return rejectWithValue(error.response);
+      return rejectWithValue(error.response.data);
     }
   }
 )
@@ -80,14 +69,9 @@ export const checkEmailDup = createAsyncThunk(
   )=>{
     try{
       const response = await registerApi.post("/api/users/checkemail/",{email})
-      console.log("response",response)
-      Alert.alert("이메일 중복 확인", "사용할 수 있는 이메일입니다!", [
-        {text: "확인"},
-      ]);
-      alert("사용 가능한 이메일입니다!")
+
+      return response.data;
     }catch(error){
-      console.log("error",error.response.data.message)
-      alert("사용 불가한 아이디입니다.")  
       return rejectWithValue(error.response.data.message)
     }
   }
@@ -101,14 +85,9 @@ export const checkNickDup = createAsyncThunk(
   )=>{
     try{
       const response = await registerApi.post("/api/users/checknickname/",{nickname})
-      console.log("response",response)
-      Alert.alert("닉네임 중복 확인", "사용할 수 있는 닉네임입니다!", [
-        {text: "확인"},
-      ]);
-      alert("사용 가능한 닉네임입니다!")
+
+      return response.data;
     }catch(error){
-      console.log("error",error.response.data.message)
-      alert("사용 불가한 닉네임입니다.")  
       return rejectWithValue(error.response.data.message)
     }
   }
@@ -122,9 +101,11 @@ const userSlice = createSlice({
     loginError: null,
     success: false,
 
+    emailDupSucc: null,
     emailDupError: null,
+    nickDupSucc: null,
     nickDupError: null,
-    registrationError: false,
+    regError: null,
     regSuccess: false,
   },
   reducers: {
@@ -133,18 +114,24 @@ const userSlice = createSlice({
     },
     clearErrors: (state) => {
       state.loginError = null;
-      state.registrationError = null;
+      state.regError = null;
     },
     userLoggedOut: (state) => {
       state.user = null;
       state.loading = false;
       state.loginError = null;
-      state.registrationError = null;
+      state.regError = null;
       state.success = false;
     },
     setSuccFalse:(state)=>{
       state.regSuccess= false;
     },
+    clearMsgs:(state)=>{
+      state.emailDupSucc=null;
+      state.emailDupError=null;
+      state.nickDupSucc=null;
+      state.nickDupError=null;
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -173,26 +160,32 @@ const userSlice = createSlice({
         state.user = null; // ✅ 자동 로그인 실패 시 초기화
         state.loading = false;
       })
+      .addCase(checkEmailDup.fulfilled, (state,action)=>{
+        state.emailDupSucc = action.payload.message;
+      })
       .addCase(checkEmailDup.rejected,(state,action)=>{
         state.emailDupError=action.payload;
+      })
+      .addCase(checkNickDup.fulfilled, (state,action)=>{
+        state.nickDupSucc=action.payload.message
       })
       .addCase(checkNickDup.rejected,(state,action)=>{
         state.nickDupError=action.payload;
       })
       .addCase(registerUser.pending,(state)=>{
         state.loading=true;
-        state.registrationError=null;
+        state.regError=null;
       })
       .addCase(registerUser.fulfilled, (state)=>{
         state.loading=false;
-        state.registrationError=null;
+        state.regError=null;
         state.regSuccess=true;
       })
       .addCase(registerUser.rejected,(state,action)=>{
-        state.registrationError=action.payload;
+        state.regError=action.payload.message;
       })
   },
 })
 
-export const { setUser, clearErrors, userLoggedOut, setSuccFalse } = userSlice.actions;
+export const { setUser, clearErrors, userLoggedOut, clearMsgs, setSuccFalse } = userSlice.actions;
 export default userSlice.reducer;
