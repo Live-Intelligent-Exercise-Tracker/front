@@ -150,9 +150,7 @@ export default function SignUp({ navigation }) {
             if(!formData.email || !isValidEmail(formData.email)){
                 setErrors(prev=>({...prev, email: "올바른 이메일 형식을 입력해주세요."}))
             }else{
-                //백엔드 중복 확인 api
                 dispatch(checkEmailDup({email:formData.email}))
-                //중복 아닐 시
                 setEmailChecked(true);
                 setErrors((prevErrors) => ({
                 ...prevErrors,
@@ -164,17 +162,12 @@ export default function SignUp({ navigation }) {
             if(!formData.nick){
                 checkEmptyField("nick",formData.nick);
             }else{
-                //백엔드 중복 확인 api
                 dispatch(checkNickDup({nickname:formData.nick}))
-                //중복 아닐 시
                 setNickChecked(true);
                 setErrors((prevErrors) => ({
                     ...prevErrors,
                     nick: null,
                 }))
-                // Alert.alert("닉네임 중복 확인", "사용할 수 있는 닉네임입니다!", [
-                //     {text: "확인"},
-                // ]);
             }
         }
     }
