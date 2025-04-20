@@ -24,7 +24,7 @@ export const logout = async () => {
   try {
     const getRefreshToken = await AsyncStorage.getItem('refresh_token');
 
-    const response = await logoutApi.post("/api/users/logout/", { refresh_token: getRefreshToken })
+    const response = await api.post("/api/users/logout/", { refresh_token: getRefreshToken })
     console.log(response.data)
 
     await AsyncStorage.removeItem("access_token");
