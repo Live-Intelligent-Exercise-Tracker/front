@@ -39,8 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # 추가된 앱
-    'users',  #  users 앱 추가
-    'oauth',  #  oauth 앱 추가
+    'users', 
+    'oauth', 
+    'points',
     'rest_framework',
     'corsheaders',
 ]
@@ -140,12 +141,12 @@ KAKAO_AUTH_URL = "https://kauth.kakao.com/oauth/token"
 KAKAO_USER_INFO_URL = "https://kapi.kakao.com/v2/user/me"
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ),
-    'DEFAULT_PARSER_CLASSES': (
-        'rest_framework.parsers.JSONParser',  # JSONParser 설정 필수
-    ),
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "users.authentication.CustomJWTAuthentication",  
+    ],
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticated",
+    ],
 }
 
 CORS_ALLOW_ALL_ORIGINS = True
@@ -153,5 +154,5 @@ CORS_ALLOW_CREDENTIALS = True
 
 
 # Token 테스트용 유효 시간 (초 단위)
-ACCESS_TOKEN_LIFETIME = 60 * 1     # 3분
+ACCESS_TOKEN_LIFETIME = 60 * 5     # 3분
 REFRESH_TOKEN_LIFETIME = 60 * 1    # 10분
