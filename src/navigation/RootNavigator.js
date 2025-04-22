@@ -24,9 +24,14 @@ export function navigate(name, params) {
 export default function RootNavigator() {
   const dispatch = useDispatch()
   const { user } = useSelector((state) => state.user)
-  const { loading } = useSelector((state) => state.user)
+  const { loading:userLoading } = useSelector((state) => state.user)
+  const { loading:registerLoading} = useSelector((state)=>state.reg)
 
-  if (loading) {
+  useEffect(() => {
+    // dispatch(loginWithToken())
+  }, []);
+
+  if (userLoading||registerLoading) {
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
         <View style={{
@@ -50,10 +55,11 @@ export default function RootNavigator() {
           headerBackTitle: ''
         }} />
         <Stack.Screen name="SignUp" component={SignUp} options={{
-          title: "회원가입",
+          title: "",
           headerStyle: { backgroundColor: '#FFFFFF', shadowOpacity: 0, elevation: 0, borderBottomWidth: 0, },
           headerTintColor: "#000000",
-          headerBackTitle: ''
+          headerBackTitle: '',
+          
         }} />
         <Stack.Screen name="MainTabNavigator" component={MainTabNavigator} options={{ headerShown: false }} />
         <Stack.Screen name="HrvMeasurement" component={HrvMeasurement} options={{
