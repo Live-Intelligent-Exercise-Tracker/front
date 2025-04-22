@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, createNavigationContainerRef } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Login from "../screens/auth/Login/Login";
 import Terms from "../screens/auth/SignUp/Terms";
@@ -9,10 +9,17 @@ import StairsGoal from "../screens/Stairs/StairsGoal";
 import HrvMeasurement from "../screens/HRVMeasure/HrvMeasurement";
 import HrvResult from "../screens/HRVMeasure/HrvResult";
 import { View, ActivityIndicator } from "react-native";
-import { loginWithToken } from "../redux/slices/userSlice";
 import MainTabNavigator from "./MainTabNavigator";
 
 const Stack = createStackNavigator();
+
+const navigationRef = createNavigationContainerRef();
+
+export function navigate(name, params) {
+  if (navigationRef.isReady()) {
+    navigationRef.navigate(name, params);
+  }
+}
 
 export default function RootNavigator() {
   const dispatch = useDispatch()
@@ -38,7 +45,7 @@ export default function RootNavigator() {
   }
 
   return (
-    <NavigationContainer>
+    <NavigationContainer ref={navigationRef}>
       <Stack.Navigator initialRouteName={!user ? "Login" : "MainTabNavigator"}>
         <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
         <Stack.Screen name="Terms" component={Terms} options={{

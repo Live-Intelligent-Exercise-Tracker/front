@@ -3,7 +3,11 @@
     "name": "Liet",
     "slug": "Liet",
     "version": "1.0.0",
-    "platforms": ["ios", "android", "web"], 
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
     "orientation": "portrait",
     "icon": "./src/assets/images/Splash/icon.png",
     "userInterfaceStyle": "light",
@@ -24,7 +28,14 @@
     },
     "web": {
       "favicon": "./src/assets/images/Splash/favicon.png"
+    },
+    "plugins": [
+      "expo-secure-store"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "3a94881f-7214-495c-8a09-346996d1dff4"
+      }
     }
   }
 }
-

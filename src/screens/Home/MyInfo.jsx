@@ -1,12 +1,10 @@
-import { StyleSheet, Text, View, Button } from 'react-native';
-import { useDispatch } from 'react-redux';
+import { StyleSheet, Text, View, Button, Alert } from 'react-native';
 import { logout } from '../../redux/slices/userSlice';
 
 export default function MyInfo({ navigation }) {
-    const dispatch = useDispatch()
 
-    const handleLogout = () => {
-        dispatch(logout())
+    const handleLogout = async () => {
+        await logout()
         navigation.replace("Login")
     }
     return (
