@@ -1,77 +1,76 @@
 import axios from "axios";
-import { Platform } from "react-native";
+import { Platform, Alert } from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { navigate } from "../navigation/RootNavigator";
 
 const API_BASE_URL =
   Platform.OS === "android"
-    ? "http://10.0.2.2:5000/"  // Android 에뮬레이터에서는 이렇게 설정
-    : "http://127.0.0.1:5000/"; // iOS 및 웹에서는 이렇게 설정
+    ? "http://10.0.2.2:5000/"  
+    : "http://127.0.0.1:8000/";
 
 const api = axios.create({
   baseURL: API_BASE_URL,
   headers: {
     "Content-Type": "application/json",
   },
-  withCredentials: true, // 세션을 유지하기 위해 필요
+  withCredentials: true,
 });
 
-// ✅ 요청 인터셉터 (Access Token 추가)
 api.interceptors.request.use(
   async (config) => {
-    const token = await AsyncStorage.getItem("access_token");
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+    const url = config.url?.split("?")[0]; // 안전하게 쿼리 제거
+
+    const publicEndpoints = [
+      "/login/",
+      "/register/",
+      "/logout/",
+      "/refresh/",
+      "/checkemail/",
+      "/checknickname/",
+      "/checkDup/"
+    ];
+
+    const isPublicAPI = publicEndpoints.some((endpoint) =>
+      url?.endsWith(endpoint)
+    );
+
+    if (!isPublicAPI) {
+      const access_token = await AsyncStorage.getItem("access_token");
+      if (access_token) {
+        config.headers.Authorization = `Bearer ${access_token}`;
+      }
     }
+
     return config;
   },
   (error) => Promise.reject(error)
 );
 
-// ✅ 응답 인터셉터 (Access Token 만료 시 Refresh Token으로 재발급)
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
-    if (!error.response) {
-      // console.error("🚨 [Axios] 서버 응답 없음:", error.error);
-      alert("서버에 연결할 수 없습니다. 네트워크 상태를 확인해주세요.");
-      return Promise.reject("서버에 연결할 수 없습니다.");
-    }
-
-    if (error.response.status === 400) {
-      // console.error("🚨 [Axios] 400 Unauthorized", error.error);
-      alert("아이디 또는 비밀번호가 일치하지 않습니다.");
-      return Promise.reject("아이디 또는 비밀번호가 일치하지 않습니다.");
-    }
-    
-    if (error.response.status === 404) {
-      // console.error("🚨 [Axios] 404 Unauthorized", error.error);
-      alert("존재하지 않는 아이디입니다.");
-      return Promise.reject("존재하지 않는 아이디입니다.");
-    }
-
     const originalRequest = error.config;
+    const url = originalRequest.url;
 
-    if (error.response?.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true; // 무한 루프 방지
+    // 토큰 만료로 401 뜨는 경우 → 자동 로그아웃 or 재발급
+    if (
+      error.response &&
+      error.response.status === 401 &&
+      !originalRequest._retry &&
+      !url.includes("/login/") &&
+      !url.includes("/register/") &&
+      !url.includes("/logout/")
+    ) {
+      originalRequest._retry = true;
 
-      try {
-        // ✅ 새로운 Access Token 요청 (서버에서 세션 사용)
-        const refreshResponse = await axios.post(
-          `${API_BASE_URL}auth/refresh`,
-          {},
-          { withCredentials: true } // 서버 세션과 연동
-        );
+      // refresh 로직 or 그냥 로그아웃
+      await AsyncStorage.removeItem("access_token");
+      await AsyncStorage.removeItem("refresh_token");
 
-        const newAccessToken = refreshResponse.data.token;
-        await AsyncStorage.setItem("token", newAccessToken); // 새로운 Access Token 저장
+      Alert.alert("세션이 만료되었습니다", "다시 로그인해주세요.");
+      navigate("Login");
 
-        // ✅ 요청 헤더에 새로운 Access Token 추가 후 재요청
-        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-        return api(originalRequest);
-      } catch (refreshError) {
-        await AsyncStorage.removeItem("token");
-        return Promise.reject(refreshError);
-      }
+      return Promise.reject(error);
     }
 
     return Promise.reject(error);
@@ -79,3 +78,81 @@ api.interceptors.response.use(
 );
 
 export default api;
+
+// import axios from "axios";
+// import { Platform, Alert } from "react-native";
+// import { refreshToken } from "./common";
+
+// const API_BASE_URL =
+//   Platform.OS === "android"
+//     ? "http://10.0.2.2:5000/"  // Android 에뮬레이터에서는 이렇게 설정
+//     : "http://127.0.0.1:8000/"; // iOS 및 웹에서는 이렇게 설정
+
+// const api = axios.create({
+//   baseURL: API_BASE_URL,
+//   headers: {
+//     "Content-Type": "application/json",
+//   },
+//   withCredentials: true,
+// });
+
+// api.interceptors.request.use(
+//   async (config) => {
+//     return config;
+//   },
+//   (error) => {
+//     return Promise.reject(error);
+//   }
+// );
+
+// api.interceptors.response.use(
+//   (response) => response,
+//   async (error) => {
+
+//     const originalRequest = error.config;
+//     const status = error.response.status;
+//     const errorMessage = error.response.data.message
+
+//       switch (status) {
+//         case 400:
+//           console.warn(errorMessage);
+//           Alert.alert(
+//             errorMessage,
+//             undefined,
+//             [
+//               { text: "확인", onPress: () => console.log("확인 버튼 눌림") }
+//             ]
+//           )
+//           break;
+//         case 401:
+//           console.warn("엑세스 토큰 기간 만료", errorMessage);
+//           const newAccessToken = await refreshToken();
+//           originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+//           return api(originalRequest);
+//         case 404:
+//           console.warn(errorMessage);
+//           Alert.alert(
+//             errorMessage,
+//             undefined,
+//             [
+//               { text: "확인", onPress: () => console.log("확인 버튼 눌림") }
+//             ]
+//           )
+//           break;
+//         default:
+//           console.error(`🚨 [Axios] ${status} 오류 발생:`, errorMessage);
+//           Alert.alert(
+//             `error code ${status}`,
+//             undefined,
+//             [
+//               { text: "확인", onPress: () => console.log("확인 버튼 눌림") }
+//             ]
+//           )
+//       }
+
+//     return Promise.reject(error);
+//   }
+// );
+
+// export default api
+
