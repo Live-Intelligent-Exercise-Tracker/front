@@ -1,8 +1,6 @@
 import axios from "axios";
 import { Platform, Alert } from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { refreshToken } from "./common";
-import { loginUser, logout } from "../redux/slices/userSlice";
 import { navigate } from "../navigation/RootNavigator";
 
 const API_BASE_URL =
