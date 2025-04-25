@@ -16,7 +16,7 @@ const Workout = () => {
 
   return (
     <View style={styles.container}>
-      {toggleWorkout===false&&
+      {/* {toggleWorkout===false&&
         <TouchableOpacity style={styles.startButton} onPress={handleWorkoutButton}>
             <Text style={styles.startText}>시작</Text>
         </TouchableOpacity>
@@ -25,7 +25,7 @@ const Workout = () => {
         <TouchableOpacity style={styles.stopButton} onPress={handleWorkoutButton}>
             <Text style={styles.stopText}>중단</Text>
         </TouchableOpacity>
-      }
+      } */}
 
     <Text style={styles.HRVText}>
         {hrv !== null ? `${hrv} ms` : '측정 중...'}
