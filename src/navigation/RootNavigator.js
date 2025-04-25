@@ -10,6 +10,7 @@ import HrvMeasurement from "../screens/HRVMeasure/HrvMeasurement";
 import HrvResult from "../screens/HRVMeasure/HrvResult";
 import { View, ActivityIndicator } from "react-native";
 import MainTabNavigator from "./MainTabNavigator";
+import Workout from "../screens/Workout/Workout";
 
 const Stack = createStackNavigator();
 
@@ -46,7 +47,8 @@ export default function RootNavigator() {
 
   return (
     <NavigationContainer ref={navigationRef}>
-      <Stack.Navigator initialRouteName={!user ? "Login" : "MainTabNavigator"}>
+      <Stack.Navigator initialRouteName={"Workout"}>
+      {/* <Stack.Navigator initialRouteName={!user ? "Login" : "MainTabNavigator"}> */}
         <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
         <Stack.Screen name="Terms" component={Terms} options={{
           title: "약관 동의",
@@ -76,6 +78,12 @@ export default function RootNavigator() {
         }} />
         <Stack.Screen name="StairsGoal" component={StairsGoal} options={{
           title: "목표를 설정해봐요!",
+          headerTintColor: "#FFFFFF",
+          headerStyle: { backgroundColor: '#0A0A0A', shadowOpacity: 0, elevation: 0, borderBottomWidth: 0, },
+          headerBackTitle: ''
+        }} />
+        <Stack.Screen name="Workout" component={Workout} options={{
+          title: "",
           headerTintColor: "#FFFFFF",
           headerStyle: { backgroundColor: '#0A0A0A', shadowOpacity: 0, elevation: 0, borderBottomWidth: 0, },
           headerBackTitle: ''
