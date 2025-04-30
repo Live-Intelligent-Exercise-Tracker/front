@@ -1,72 +1,49 @@
-import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
-import { moderateScale } from 'react-native-size-matters'
-import useHRVListener from '../../utils/hooks/useHRVListener';
+import React, { useState } from 'react';
+import { View, Text, Button, NativeModules, StyleSheet } from 'react-native';
 
-const {width, height} = Dimensions.get('window');
+const { HRVBridge } = NativeModules;
 
 const Workout = () => {
-    const hrv = useHRVListener();
+  const [hrv, setHRV] = useState(null);
+  const [error, setError] = useState(null);
 
-    const [toggleWorkout,setToggleWorkout] = useState(false)
-
-    const handleWorkoutButton = ()=>{
-        setToggleWorkout(prev=>!prev)
+  const fetchMockHRV = async () => {
+    try {
+      const value = await HRVBridge.getMockHRV(); // Promise 기반 호출
+      console.log('받은 HRV 값:', value);
+      setHRV(value);
+      setError(null);
+    } catch (err) {
+      console.error('HRV 가져오기 실패:', err);
+      setError('HRV 값을 가져오지 못했습니다.');
     }
+  };
 
   return (
     <View style={styles.container}>
-      {/* {toggleWorkout===false&&
-        <TouchableOpacity style={styles.startButton} onPress={handleWorkoutButton}>
-            <Text style={styles.startText}>시작</Text>
-        </TouchableOpacity>
-      }
-      {toggleWorkout===true&&
-        <TouchableOpacity style={styles.stopButton} onPress={handleWorkoutButton}>
-            <Text style={styles.stopText}>중단</Text>
-        </TouchableOpacity>
-      } */}
-
-    <Text style={styles.HRVText}>
-        {hrv !== null ? `${hrv} ms` : '측정 중...'}
-    </Text>
-      
-      
+      <Button title="HRV 값 요청" onPress={fetchMockHRV} />
+      {hrv !== null && <Text style={styles.hrvText}>HRV 값: {hrv}</Text>}
+      {error && <Text style={styles.errorText}>{error}</Text>}
     </View>
-  )
-}
-
-export default Workout
+  );
+};
 
 const styles = StyleSheet.create({
-    container:{
-        flex:1,
-        backgroundColor:'black',
-        justifyContent:'center',
-        alignItems:'center',
-    },
-    startButton:{
-        paddingHorizontal: width*0.3,
-        paddingVertical: moderateScale(10),
-        backgroundColor: '#507DFA',
-        borderRadius: moderateScale(15),
-    },
-    stopButton:{
-        paddingHorizontal: width*0.3,
-        paddingVertical: moderateScale(10),
-        backgroundColor: 'white',
-        borderRadius: moderateScale(15),
-    },
-    startText:{
-        color:"white",
-        fontSize: moderateScale(12),
-    },
-    stopText:{
-        color:"black",
-        fontSize:moderateScale(12),
-    },
-    HRVText:{
-        fontSize:moderateScale(20),
-        color:"white",
-    }
-})
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  hrvText: {
+    marginTop: 20,
+    fontSize: 24,
+    fontWeight: 'bold',
+  },
+  errorText: {
+    marginTop: 10,
+    fontSize: 16,
+    color: 'red',
+  },
+});
+
+export default Workout;
