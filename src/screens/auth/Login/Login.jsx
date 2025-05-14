@@ -16,7 +16,7 @@ export default function Login({ navigation }) {
   const { loading } = useSelector((state) => state.user)
 
   const handleLogin = async () => {
-    dispatch(loginUser({ email, password }))
+    // dispatch(loginUser({ email, password }))
     navigation.replace("MainTabNavigator");
   };
 

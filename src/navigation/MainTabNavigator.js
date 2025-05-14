@@ -13,14 +13,20 @@ const MainTabNavigator = () => {
     <Tab.Navigator initialRouteName="Home"
       screenOptions={{
         headerShown: false,
+        tabBarStyle: {
+          backgroundColor: '#0E0F10',
+          borderTopWidth: 0, 
+          elevation: 0,       
+          shadowOpacity: 0,   
+        },
       }}>
       <Tab.Screen
         name="MyInfo"
         component={MyInfo}
         options={{
-          title:'마이페이지',
+          title: '마이페이지',
           tabBarIcon: ({ focused }) => (
-            <Ionicons name="person-outline" size={moderateScale(24)} color={focused ? "#507DFA" : "#505050"} />
+            <Ionicons name="person-outline" size={moderateScale(24)} color={focused ? "#507DFA" : "#ffffff"} />
           ),
         }}
       />
@@ -28,9 +34,9 @@ const MainTabNavigator = () => {
         name="Home"
         component={Home}
         options={{
-          title:'홈',
+          title: '홈',
           tabBarIcon: ({ focused }) => (
-            <Ionicons name="home-outline" size={moderateScale(24)} color={focused ? "#507DFA" : "#505050"} />
+            <Ionicons name="home-outline" size={moderateScale(24)} color={focused ? "#507DFA" : "#ffffff"} />
           ),
         }}
       />
@@ -38,9 +44,9 @@ const MainTabNavigator = () => {
         name="Group"
         component={Group}
         options={{
-          title:'그룹',
+          title: '그룹',
           tabBarIcon: ({ focused }) => (
-            <Ionicons name="people-outline" size={moderateScale(24)} color={focused ? "#507DFA" : "#505050"} />
+            <Ionicons name="people-outline" size={moderateScale(24)} color={focused ? "#507DFA" : "#ffffff"} />
           ),
         }}
       />

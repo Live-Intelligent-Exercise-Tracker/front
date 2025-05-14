@@ -1,63 +1,141 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { moderateScale } from 'react-native-size-matters';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import { weekStatus, attendanceCheck, pointTotal } from '../../../redux/slices/pointSlice';
-import { useDispatch, useSelector } from 'react-redux';
-import { unwrapResult } from '@reduxjs/toolkit';
 
 export default function Attendance() {
-    const days = ['월', '화', '수', '목', '금', '토', '일'];
-    const [checkedDays, setCheckedDays] = useState(Array(7).fill(false));
-    const dispatch = useDispatch();
-    const { total } = useSelector((state) => state.point);
+    const today = new Date();
+    const [currentDate, setCurrentDate] = useState(new Date(today.getFullYear(), today.getMonth(), 1));
+    const [selectedDates, setSelectedDates] = useState([]);
+    const [checkedToday, setCheckedToday] = useState(false);
 
-    useEffect(() => {
-        const fetchWeekStatus = async () => {
-            try {
-                const resultAction = await dispatch(weekStatus());
-                const data = unwrapResult(resultAction);
-                if (data?.status && Array.isArray(data.status)) {
-                    setCheckedDays(data.status);
-                }
-                await dispatch(pointTotal());
-            } catch (error) {
-                console.error('출석 상태 불러오기 실패:', error.message);
-            }
-        };
+    const daysOfWeek = ['일', '월', '화', '수', '목', '금', '토'];
 
-        fetchWeekStatus();
-    }, []);
+    const getCalendarDates = (date) => {
+        const year = date.getFullYear();
+        const month = date.getMonth();
+        const firstDayOfMonth = new Date(year, month, 1).getDay();
+        const lastDateOfMonth = new Date(year, month + 1, 0).getDate();
+        const prevMonthLastDate = new Date(year, month, 0).getDate();
 
-    const toggleDay = async (index) => {
-        try {
-            await dispatch(attendanceCheck());
-            const updated = [...checkedDays];
-            updated[index] = !updated[index];
-            setCheckedDays(updated);
+        const dates = [];
 
-            await dispatch(pointTotal());
-        } catch (error) {
-            console.error("출석 체크 중 에러:", error.message);
+        for (let i = firstDayOfMonth - 1; i >= 0; i--) {
+            const day = prevMonthLastDate - i;
+            dates.push({ day, isCurrentMonth: false });
         }
+
+        for (let i = 1; i <= lastDateOfMonth; i++) {
+            dates.push({ day: i, isCurrentMonth: true });
+        }
+
+        while (dates.length < 35) {
+            const day = dates.length - (firstDayOfMonth + lastDateOfMonth) + 1;
+            dates.push({ day, isCurrentMonth: false });
+        }
+
+        return dates;
     };
+
+    const handlePrevMonth = () => {
+        setCurrentDate((prev) => new Date(prev.getFullYear(), prev.getMonth() - 1, 1));
+    };
+
+    const handleNextMonth = () => {
+        setCurrentDate((prev) => new Date(prev.getFullYear(), prev.getMonth() + 1, 1));
+    };
+
+    const handleCheckAttendance = () => {
+        const key = `${today.getFullYear()}-${today.getMonth()}-${today.getDate()}`;
+        setSelectedDates([key]);
+        setCheckedToday(true);
+    };
+
+    const dates = getCalendarDates(currentDate);
 
     return (
         <View style={styles.container}>
-            <Text style={{ fontWeight: 'bold', color: '#ffffff', fontSize: moderateScale(13) }}>출석체크</Text>
-            <Text style={{ fontWeight: 'regular', color: '#ffffff', fontSize: moderateScale(12), alignSelf: 'flex-end' }}>{total?.total}p</Text>
-            <View style={styles.daysContainer}>
-                {days.map((day, index) => (
-                    <View key={index} style={styles.dayItem}>
-                        <Text style={styles.dayText}>{day}</Text>
-                        <TouchableOpacity
-                            style={[styles.circle, checkedDays[index] && styles.checkedCircle]}
-                            onPress={() => toggleDay(index)}
-                        >
-                            {checkedDays[index] && <Text style={styles.checkMark}>✓</Text>}
-                        </TouchableOpacity>
-                    </View>
+            <View style={styles.header}>
+                <View style={styles.headerInner}>
+                    <TouchableOpacity onPress={handlePrevMonth}>
+                        <Ionicons name="chevron-back" size={24} color="#fff1f1" />
+                    </TouchableOpacity>
+                    <Text style={styles.monthText}>
+                        {currentDate.getFullYear()}년 {currentDate.getMonth() + 1}월
+                    </Text>
+                    <TouchableOpacity onPress={handleNextMonth}>
+                        <Ionicons name="chevron-forward" size={24} color="#fff1f1" />
+                    </TouchableOpacity>
+                </View>
+            </View>
+
+            <View style={styles.weekRow}>
+                {daysOfWeek.map((day, idx) => (
+                    <Text key={idx} style={styles.dayText}>{day}</Text>
                 ))}
             </View>
+
+            <View style={styles.dateGrid}>
+                {dates.map((item, idx) => {
+                    const key = `${currentDate.getFullYear()}-${currentDate.getMonth()}-${item.day}`;
+                    const isSelected = selectedDates.includes(key);
+
+                    const isToday =
+                        item.day === today.getDate() &&
+                        currentDate.getMonth() === today.getMonth() &&
+                        currentDate.getFullYear() === today.getFullYear() &&
+                        item.isCurrentMonth;
+
+                    const isBeforeToday =
+                        item.isCurrentMonth &&
+                        currentDate.getFullYear() === today.getFullYear() &&
+                        currentDate.getMonth() === today.getMonth() &&
+                        item.day <= today.getDate();
+
+                    const backgroundColor = isBeforeToday
+                        ? item.day % 2 === 0
+                            ? '#97D1E3' 
+                            : '#6DB5CC' 
+                        : !item.isCurrentMonth
+                            ? '#a8a8a829'
+                            : '#ffffff73';
+
+                    return (
+                        <TouchableOpacity
+                            key={idx}
+                            style={styles.dateCell}
+                            activeOpacity={1}
+                        >
+                            <View style={styles.dateWrapper}>
+                                {isSelected && <Text style={styles.checkMark}>CHECK</Text>}
+
+                                <View
+                                    style={[
+                                        styles.circle,
+                                        { backgroundColor },
+                                    ]}
+                                >
+                                    <Text
+                                        style={[
+                                            styles.dateText,
+                                            !item.isCurrentMonth && { color: '#8d8d8d' },
+                                        ]}
+                                    >
+                                        {item.day}
+                                    </Text>
+                                </View>
+
+                                {isSelected && <Text style={styles.pointText}>+10</Text>}
+                                {isToday && !checkedToday && <Text style={styles.todayLabel}>today</Text>}
+                            </View>
+                        </TouchableOpacity>
+                    );
+                })}
+            </View>
+
+            <TouchableOpacity style={styles.checkButton} onPress={handleCheckAttendance}>
+                <Text style={styles.checkButtonText}>출석체크</Text>
+            </TouchableOpacity>
         </View>
     );
 }
@@ -65,45 +143,107 @@ export default function Attendance() {
 const styles = StyleSheet.create({
     container: {
         width: moderateScale(361),
-        height: moderateScale(130),
+        height: moderateScale(410),
         borderRadius: 6,
-        backgroundColor: '#2C2C2C',
+        backgroundColor: '#ffffff1c',
         padding: moderateScale(10),
         alignItems: 'center',
+        marginTop: moderateScale(30),
     },
-    daysContainer: {
+    header: {
+        width: '100%',
+        alignItems: 'center',
+        marginBottom: moderateScale(10),
+    },
+    headerInner: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 10,
+    },
+    monthText: {
+        fontSize: moderateScale(13),
+        fontWeight: 'bold',
+        color: '#ffffff',
+        marginHorizontal: moderateScale(6),
+    },
+    weekRow: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         width: '100%',
-        paddingHorizontal: moderateScale(10),
-    },
-    dayItem: {
-        alignItems: 'center',
-        marginTop: moderateScale(10),
+        marginBottom: moderateScale(5),
     },
     dayText: {
-        color: '#ffffff',
+        width: `${100 / 7}%`,
+        textAlign: 'center',
         fontWeight: 'light',
         fontSize: moderateScale(10),
-        marginBottom: moderateScale(5),
+        color: '#ffffff',
+    },
+    dateGrid: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        width: '100%',
+    },
+    dateCell: {
+        width: `${100 / 7}%`,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    dateWrapper: {
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        position: 'relative',
+        height: moderateScale(60),
     },
     circle: {
         width: moderateScale(37),
         height: moderateScale(37),
-        borderRadius: moderateScale(18.5),
-        borderWidth: 1,
-        borderColor: '#ffffff',
+        borderRadius: 50,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#ffffff',
+        zIndex: 1,
     },
-    checkedCircle: {
-        backgroundColor: '#507dfa',
-        borderColor: '#507dfa',
+    dateText: {
+        fontSize: moderateScale(10),
+        color: '#ffffff',
     },
     checkMark: {
-        color: '#ffffff',
-        fontSize: moderateScale(16),
+        position: 'absolute',
+        top: '32%',
+        left: '45%',
+        fontSize: moderateScale(8),
         fontWeight: 'bold',
+        color: '#9D4F8D',
+        transform: [
+            { translateX: -moderateScale(18) },
+            { translateY: -moderateScale(4) },
+            { rotate: '-15.82deg' }
+        ],
+        zIndex: 2,
+        textAlign: 'center',
+        lineHeight: moderateScale(8),
+    },
+    pointText: {
+        marginTop: moderateScale(2),
+        fontSize: moderateScale(8),
+        color: '#E9E8ED',
+    },
+    todayLabel: {
+        marginTop: moderateScale(2),
+        fontSize: moderateScale(8),
+        color: '#E9E8ED',
+    },
+    checkButton: {
+        width: moderateScale(176),
+        height: moderateScale(35),
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#507DFA',
+        borderRadius: 10,
+    },
+    checkButtonText: {
+        color: '#fff',
+        fontSize: moderateScale(12),
+        fontWeight: 'regular',
     },
 });
