@@ -29,7 +29,7 @@ export default function Header() {
                 />
             </View>
             <View style={styles.side}>
-                <Text style={styles.pointText}>🪙 200</Text>
+                <Text style={styles.pointText}>🪙 {total?.total}</Text>
             </View>
         </View>
     );

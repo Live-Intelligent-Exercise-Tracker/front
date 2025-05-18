@@ -1,15 +1,34 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { moderateScale } from 'react-native-size-matters';
+import { unwrapResult } from '@reduxjs/toolkit';
+import { useDispatch } from 'react-redux';
+import { monthStatus, pointTotal, attendanceCheck } from '../../../redux/slices/pointSlice';
 
 export default function Attendance() {
     const today = new Date();
+    const dispatch = useDispatch();
     const [currentDate, setCurrentDate] = useState(new Date(today.getFullYear(), today.getMonth(), 1));
     const [selectedDates, setSelectedDates] = useState([]);
-    const [checkedToday, setCheckedToday] = useState(false);
 
     const daysOfWeek = ['일', '월', '화', '수', '목', '금', '토'];
+
+    useEffect(() => {
+        const fetchMonthStatus = async () => {
+            try {
+                const resultAction = await dispatch(monthStatus());
+                const data = unwrapResult(resultAction);
+
+                const { year, month, checked_days } = data;
+                const formattedDates = checked_days.map(day => `${year}-${month - 1}-${day}`);
+                setSelectedDates(formattedDates);
+            } catch (error) {
+                console.error('출석 상태 불러오기 실패:', error.message);
+            }
+        };
+        fetchMonthStatus();
+    }, []);
 
     const getCalendarDates = (date) => {
         const year = date.getFullYear();
@@ -45,10 +64,21 @@ export default function Attendance() {
         setCurrentDate((prev) => new Date(prev.getFullYear(), prev.getMonth() + 1, 1));
     };
 
-    const handleCheckAttendance = () => {
-        const key = `${today.getFullYear()}-${today.getMonth()}-${today.getDate()}`;
-        setSelectedDates([key]);
-        setCheckedToday(true);
+    const handleCheckAttendance = async () => {
+        try {
+            await dispatch(attendanceCheck());
+
+            const resultAction = await dispatch(monthStatus());
+            const data = unwrapResult(resultAction);
+
+            const { year, month, checked_days } = data;
+            const formattedDates = checked_days.map(day => `${year}-${month - 1}-${day}`);
+            setSelectedDates(formattedDates);
+
+            await dispatch(pointTotal());
+        } catch (error) {
+            console.error('출석체크 실패:', error.message);
+        }
     };
 
     const dates = getCalendarDates(currentDate);
@@ -94,8 +124,8 @@ export default function Attendance() {
 
                     const backgroundColor = isBeforeToday
                         ? item.day % 2 === 0
-                            ? '#97D1E3' 
-                            : '#6DB5CC' 
+                            ? '#97D1E3'
+                            : '#6DB5CC'
                         : !item.isCurrentMonth
                             ? '#a8a8a829'
                             : '#ffffff73';
@@ -107,26 +137,14 @@ export default function Attendance() {
                             activeOpacity={1}
                         >
                             <View style={styles.dateWrapper}>
-                                {isSelected && <Text style={styles.checkMark}>CHECK</Text>}
-
-                                <View
-                                    style={[
-                                        styles.circle,
-                                        { backgroundColor },
-                                    ]}
-                                >
-                                    <Text
-                                        style={[
-                                            styles.dateText,
-                                            !item.isCurrentMonth && { color: '#8d8d8d' },
-                                        ]}
-                                    >
+                                <View style={[styles.circle, { backgroundColor }]}>
+                                    <Text style={[styles.dateText, !item.isCurrentMonth && { color: '#8d8d8d' }]}>
                                         {item.day}
                                     </Text>
+                                    {isSelected && <Text style={styles.checkMark}>CHECK</Text>}
                                 </View>
-
-                                {isSelected && <Text style={styles.pointText}>+10</Text>}
-                                {isToday && !checkedToday && <Text style={styles.todayLabel}>today</Text>}
+                                {isSelected && <Text style={styles.pointText}>+50</Text>}
+                                {isToday && !isSelected && <Text style={styles.todayLabel}>today</Text>}
                             </View>
                         </TouchableOpacity>
                     );
@@ -142,8 +160,8 @@ export default function Attendance() {
 
 const styles = StyleSheet.create({
     container: {
-        width: moderateScale(361),
-        height: moderateScale(410),
+        width: moderateScale(336),
+        height: moderateScale(500),
         borderRadius: 6,
         backgroundColor: '#ffffff1c',
         padding: moderateScale(10),
@@ -209,19 +227,12 @@ const styles = StyleSheet.create({
     },
     checkMark: {
         position: 'absolute',
-        top: '32%',
-        left: '45%',
         fontSize: moderateScale(8),
         fontWeight: 'bold',
         color: '#9D4F8D',
-        transform: [
-            { translateX: -moderateScale(18) },
-            { translateY: -moderateScale(4) },
-            { rotate: '-15.82deg' }
-        ],
+        transform: [{ rotate: '-15.82deg' }],
         zIndex: 2,
         textAlign: 'center',
-        lineHeight: moderateScale(8),
     },
     pointText: {
         marginTop: moderateScale(2),

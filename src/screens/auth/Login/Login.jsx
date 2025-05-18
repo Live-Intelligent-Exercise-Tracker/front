@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet, Text, View, TextInput, TouchableOpacity,
   Keyboard, TouchableWithoutFeedback, Image, ActivityIndicator, Alert
@@ -12,11 +12,10 @@ export default function Login({ navigation }) {
   const dispatch = useDispatch()
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { user } = useSelector((state) => state.user)
   const { loading } = useSelector((state) => state.user)
 
   const handleLogin = async () => {
-    // dispatch(loginUser({ email, password }))
+    dispatch(loginUser({ email, password }))
     navigation.replace("MainTabNavigator");
   };
 
@@ -79,7 +78,7 @@ export default function Login({ navigation }) {
           onChangeText={setPassword}
           secureTextEntry
         />
-        {/* 아이디 찾기 | 비밀번호 찾기 */}
+      
         <View style={styles.findContainer}>
           <View style={styles.account}>
             <TouchableOpacity onPress={handleFindId}>
@@ -101,7 +100,7 @@ export default function Login({ navigation }) {
         </TouchableOpacity>
         <TouchableOpacity style={[styles.button, { backgroundColor: '#FDE500', flexDirection: 'row' }]} onPress={handleKakaoLogin}>
           <Image
-            source={require('../../../assets/images/Login/kakao_icon.png')} // 이미지 경로 맞춰줘야 함
+            source={require('../../../assets/images/Login/kakao_icon.png')} 
             style={styles.kakaoIcon}
           />
           <Text style={[styles.buttonText, { color: '#381F1F', left: moderateScale(-10) }]}>카카오톡 로그인</Text>
@@ -125,14 +124,14 @@ const styles = StyleSheet.create({
   //   marginBottom: '50'
   // },
   kakaoIcon: {
-    width: moderateScale(24),  // 아이콘 크기 조절
+    width: moderateScale(24),  
     height: moderateScale(24),
-    resizeMode: 'contain',  // 비율 유지
+    resizeMode: 'contain',  
     left: moderateScale(-75),
   },
   textContainer: {
     flexDirection: 'row',
-    alignItems: 'center',  // 세로 정렬 맞추기
+    alignItems: 'center',  
     width: '100%',
   },
   text: {
@@ -141,7 +140,7 @@ const styles = StyleSheet.create({
     marginBottom: moderateScale(20),
     fontWeight: 'semibold',
     flexDirection: 'row',
-    flex: 1, // 왼쪽 영역 차지
+    flex: 1, 
   },
   input: {
     width: '100%',
@@ -156,20 +155,20 @@ const styles = StyleSheet.create({
     height: moderateScale(50),
   },
   findContainer: {
-    flexDirection: 'row',  // 가로 정렬
-    justifyContent: 'space-between', // 양 끝 정렬
-    alignItems: 'center',  // 세로 정렬 맞추기
+    flexDirection: 'row',  
+    justifyContent: 'space-between', 
+    alignItems: 'center',  
     marginBottom: moderateScale(10),
     width: '100%',
   },
   account: {
     flexDirection: 'row',
-    flex: 1, // 왼쪽 영역 차지
+    flex: 1, 
   },
   signup: {
     flexDirection: 'row',
-    flex: 1, // 오른쪽 영역 차지
-    justifyContent: 'flex-end', // 오른쪽 정렬
+    flex: 1, 
+    justifyContent: 'flex-end', 
   },
   findText: {
     color: '#BFBFBF',

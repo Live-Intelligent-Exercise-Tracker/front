@@ -2,8 +2,8 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../../utils/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export const weekStatus = createAsyncThunk(
-    "point/weekStatus",
+export const monthStatus = createAsyncThunk(
+    "point/monthStatus",
     async (_, { rejectWithValue }) => {
         try {
             const token = await AsyncStorage.getItem('access_token');
@@ -69,14 +69,14 @@ const pointSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            .addCase(weekStatus.pending, (state) => {
+            .addCase(monthStatus.pending, (state) => {
                 state.loading = true;
                 state.error = null;
             })
-            .addCase(weekStatus.fulfilled, (state) => {
+            .addCase(monthStatus.fulfilled, (state) => {
                 state.loading = false;
             })
-            .addCase(weekStatus.rejected, (state, action) => {
+            .addCase(monthStatus.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload?.message || "오류가 발생했습니다.";
             })
