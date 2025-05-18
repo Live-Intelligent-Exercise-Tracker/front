@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View, TouchableWithoutFeedback, Keyboard, TouchableOpacity, Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient'
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
+import Toast from 'react-native-toast-message';
 
 export default function Home({ navigation }) {
   return (

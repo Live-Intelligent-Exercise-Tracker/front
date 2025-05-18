@@ -10,8 +10,6 @@ export const loginUser = createAsyncThunk(
       const response = await api.post("/api/users/login/", { email, password })
       console.log(response.data)
 
-      // await AsyncStorage.setItem("access_token", response.data.token);
-      // await AsyncStorage.setItem("refresh_token", response.data.refresh_token);
       const accessToken = response.data.token
       const refreshToken = response.data.refresh_token
       if(accessToken){
@@ -30,12 +28,10 @@ export const loginUser = createAsyncThunk(
 
 export const logout = async () => {
   try {
-    // const getRefreshToken = await AsyncStorage.getItem('refresh_token');
     const refreshToken = await getRefreshToken();
 
     const response = await api.post("/api/users/logout/", { refresh_token: refreshToken })
 
-    // await AsyncStorage.removeItem("access_token");
     await deleteTokens();
   } catch (error) {
     console.error("로그아웃 오류:", error.message);
