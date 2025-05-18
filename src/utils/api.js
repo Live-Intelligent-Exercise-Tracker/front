@@ -2,6 +2,7 @@ import axios from "axios";
 import { Platform, Alert } from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { navigate } from "../navigation/RootNavigator";
+import { getAccessToken } from "../screens/auth/Login/secureStorage";
 
 const API_BASE_URL =
   Platform.OS === "android"
@@ -35,7 +36,8 @@ api.interceptors.request.use(
     );
 
     if (!isPublicAPI) {
-      const access_token = await AsyncStorage.getItem("access_token");
+      // const access_token = await AsyncStorage.getItem("access_token");
+      const access_token = await getAccessToken();
       if (access_token) {
         config.headers.Authorization = `Bearer ${access_token}`;
       }
@@ -64,8 +66,8 @@ api.interceptors.response.use(
       originalRequest._retry = true;
 
       // refresh 로직 or 그냥 로그아웃
-      await AsyncStorage.removeItem("access_token");
-      await AsyncStorage.removeItem("refresh_token");
+      // await AsyncStorage.removeItem("access_token");
+      // await AsyncStorage.removeItem("refresh_token");
 
       Alert.alert("세션이 만료되었습니다", "다시 로그인해주세요.");
       navigate("Login");
