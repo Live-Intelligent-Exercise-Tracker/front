@@ -10,17 +10,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { checkEmailDup, checkNickDup, clearMsgs, registerUser, setSuccFalse } from '../../../redux/slices/registerSlice';
 import GenderRow from './components/GenderRow';
 import Toast from 'react-native-toast-message';
+import LoadingSpinner from '../../../common/component/LoadingSpinner';
 
 const {width, height} = Dimensions.get('window');
 
 export default function SignUp({ navigation }) {
     const dispatch = useDispatch();
-    const { emailDupSucc } = useSelector((state)=>state.reg)
-    const { emailDupError } =useSelector((state)=>state.reg)
-    const { nickDupSucc } = useSelector((state)=>state.reg)
-    const { nickDupError } = useSelector((state)=>state.reg)
-    const { regSuccess } = useSelector((state)=>state.reg)
-    const { regError } = useSelector((state)=>state.reg)
+    const { emailDupSucc,emailDupError,nickDupSucc,nickDupError,regSuccess,regError,loading } = useSelector((state)=>state.reg)
 
     const [page, setPage] = useState(1);
 
@@ -82,9 +78,6 @@ export default function SignUp({ navigation }) {
 
     useEffect(()=>{
         if(regSuccess){ 
-            // Alert.alert("회원가입 성공", "회원가입이 완료되었습니다!", [
-            //     {text: "확인", onPress: () => navigation.navigate("Login")},
-            // ]); 
             console.log("register success")
             Toast.show({
                 type: 'customToast',
@@ -93,9 +86,6 @@ export default function SignUp({ navigation }) {
             navigation.navigate("Login")
             dispatch(setSuccFalse());
         } else if(regError){
-            // Alert.alert("회원가입 실패", regError, [
-            //     {text: "확인", onPress: () => navigation.navigate("Login")},
-            // ]); 
             Toast.show({
                 type: 'customToast',
                 props:{text1:regError}
@@ -216,13 +206,17 @@ export default function SignUp({ navigation }) {
     }
 
     const apiButton = () => {
-        dispatch(registerUser({email:"hrxq@gmail.com",nickname:"qfcc",password:"1234Aa!!",gender:"MALE",age:28,height:175,weight:75,navigation}))
+        dispatch(registerUser({email:"hrhaxq@gmail.com",nickname:"qafhcc",password:"1234Aa!!",gender:"MALE",age:28,height:175,weight:75,navigation}))
 
         // Toast.show({
         //     type: 'customToast',
         //     props:{text1:'회원가입 성공!'}
         // })
         // navigation.navigate("Login");
+    }
+
+    if(loading){
+        return <LoadingSpinner/>;
     }
 
     return (
