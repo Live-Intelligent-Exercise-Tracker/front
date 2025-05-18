@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import {
   StyleSheet, Text, View, TextInput, TouchableOpacity,
-  Keyboard, TouchableWithoutFeedback, Image, ActivityIndicator, Alert
+  Keyboard, TouchableWithoutFeedback, Image,
 } from 'react-native';
 import { moderateScale } from 'react-native-size-matters';
 import { LinearGradient } from 'expo-linear-gradient'
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../../../redux/slices/userSlice';
+import LoadingSpinner from '../../../common/component/LoadingSpinner';
 
 export default function Login({ navigation }) {
   const dispatch = useDispatch()
@@ -35,6 +36,10 @@ export default function Login({ navigation }) {
     console.log('카카오 로그인');
   };
 
+  if (loading) {
+    return <LoadingSpinner />;
+  }
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <LinearGradient
@@ -44,23 +49,9 @@ export default function Login({ navigation }) {
         end={{ x: 0, y: 1 }} // 오른쪽 아래로 진행
         style={styles.container}
       >
-        {loading && (
-          <View style={{
-            position: "absolute",
-            zIndex: 10
-          }}>
-            <ActivityIndicator size="large" color="#B3B3B3" />
-          </View>
-        )}
         <View style={styles.textContainer}>
           <Text style={styles.text}>데이터로 설계하는{'\n'}실시간 지능형 운동 추적기</Text>
         </View>
-
-        {/* <Image
-          source={require('../../../assets/images/Login/spectrum.png')}
-          style={styles.spectrum}
-        /> */}
-
         <TextInput
           style={styles.input}
           placeholder="아이디를 입력하세요"
@@ -78,7 +69,7 @@ export default function Login({ navigation }) {
           onChangeText={setPassword}
           secureTextEntry
         />
-      
+
         <View style={styles.findContainer}>
           <View style={styles.account}>
             <TouchableOpacity onPress={handleFindId}>
@@ -100,7 +91,7 @@ export default function Login({ navigation }) {
         </TouchableOpacity>
         <TouchableOpacity style={[styles.button, { backgroundColor: '#FDE500', flexDirection: 'row' }]} onPress={handleKakaoLogin}>
           <Image
-            source={require('../../../assets/images/Login/kakao_icon.png')} 
+            source={require('../../../assets/images/Login/kakao_icon.png')}
             style={styles.kakaoIcon}
           />
           <Text style={[styles.buttonText, { color: '#381F1F', left: moderateScale(-10) }]}>카카오톡 로그인</Text>
@@ -119,19 +110,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: moderateScale(20)
   },
-  // spectrum: {
-  //   backgroundColor: 'black',
-  //   marginBottom: '50'
-  // },
   kakaoIcon: {
-    width: moderateScale(24),  
+    width: moderateScale(24),
     height: moderateScale(24),
-    resizeMode: 'contain',  
+    resizeMode: 'contain',
     left: moderateScale(-75),
   },
   textContainer: {
     flexDirection: 'row',
-    alignItems: 'center',  
+    alignItems: 'center',
     width: '100%',
   },
   text: {
@@ -140,7 +127,7 @@ const styles = StyleSheet.create({
     marginBottom: moderateScale(20),
     fontWeight: 'semibold',
     flexDirection: 'row',
-    flex: 1, 
+    flex: 1,
   },
   input: {
     width: '100%',
@@ -155,20 +142,20 @@ const styles = StyleSheet.create({
     height: moderateScale(50),
   },
   findContainer: {
-    flexDirection: 'row',  
-    justifyContent: 'space-between', 
-    alignItems: 'center',  
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     marginBottom: moderateScale(10),
     width: '100%',
   },
   account: {
     flexDirection: 'row',
-    flex: 1, 
+    flex: 1,
   },
   signup: {
     flexDirection: 'row',
-    flex: 1, 
-    justifyContent: 'flex-end', 
+    flex: 1,
+    justifyContent: 'flex-end',
   },
   findText: {
     color: '#BFBFBF',

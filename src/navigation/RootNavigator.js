@@ -24,25 +24,10 @@ export function navigate(name, params) {
 export default function RootNavigator() {
   const dispatch = useDispatch()
   const { user } = useSelector((state) => state.user)
-  const { loading:userLoading } = useSelector((state) => state.user)
-  const { loading:registerLoading} = useSelector((state)=>state.reg)
 
   useEffect(() => {
     // dispatch(loginWithToken())
   }, []);
-
-  if (userLoading||registerLoading) {
-    return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <View style={{
-          position: "absolute",
-          zIndex: 10
-        }}>
-          <ActivityIndicator size="large" color="#B3B3B3" />
-        </View>
-      </View>
-    );
-  }
 
   return (
     <NavigationContainer ref={navigationRef}>
@@ -59,7 +44,6 @@ export default function RootNavigator() {
           headerStyle: { backgroundColor: '#FFFFFF', shadowOpacity: 0, elevation: 0, borderBottomWidth: 0, },
           headerTintColor: "#000000",
           headerBackTitle: '',
-          
         }} />
         <Stack.Screen name="MainTabNavigator" component={MainTabNavigator} options={{ headerShown: false }} />
         <Stack.Screen name="HrvMeasurement" component={HrvMeasurement} options={{
