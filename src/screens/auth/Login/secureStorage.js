@@ -3,7 +3,7 @@ import * as SecureStore from "expo-secure-store";
 const ACCESS_TOKEN_KEY = 'access_token';
 const REFRESH_TOKEN_KEY = 'refresh_token';
 
-export const saveAccessToken = async(value) => {
+export const saveAccessToken = async (value) => {
   try {
     await SecureStore.setItemAsync(ACCESS_TOKEN_KEY, value);
     // console.log(`access token saved successfully`, value);
@@ -12,17 +12,17 @@ export const saveAccessToken = async(value) => {
   }
 }
 
-export const saveRefreshToken = async(value) => {
+export const saveRefreshToken = async (value) => {
   // async function saveToken(key, value) {
-    try {
-      await SecureStore.setItemAsync(REFRESH_TOKEN_KEY, value);
-      // console.log(`refresh token saved successfully`, value);
-    } catch (error) {
-      console.log(`refresh token saving failed`, error);
-    }
+  try {
+    await SecureStore.setItemAsync(REFRESH_TOKEN_KEY, value);
+    // console.log(`refresh token saved successfully`, value);
+  } catch (error) {
+    console.log(`refresh token saving failed`, error);
   }
+}
 
-export const getAccessToken = async() => {
+export const getAccessToken = async () => {
   try {
     const accessToken = await SecureStore.getItemAsync(ACCESS_TOKEN_KEY);
     // console.log('accessToken',accessToken);
@@ -33,7 +33,7 @@ export const getAccessToken = async() => {
   }
 }
 
-export const getRefreshToken = async() => {
+export const getRefreshToken = async () => {
   try {
     const refreshToken = await SecureStore.getItemAsync(REFRESH_TOKEN_KEY);
     // console.log('refreshToken',refreshToken);
@@ -44,7 +44,7 @@ export const getRefreshToken = async() => {
   }
 }
 
-export const deleteTokens = async() => {
+export const deleteTokens = async () => {
   try {
     await SecureStore.deleteItemAsync(ACCESS_TOKEN_KEY);
     await SecureStore.deleteItemAsync(REFRESH_TOKEN_KEY);
