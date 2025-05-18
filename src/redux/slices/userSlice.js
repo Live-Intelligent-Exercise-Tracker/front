@@ -9,8 +9,8 @@ export const loginUser = createAsyncThunk(
       const response = await api.post("/api/users/login/", { email, password })
       console.log(response.data)
 
-      await AsyncStorage.setItem("access_token", response.data.token);
-      await AsyncStorage.setItem("refresh_token", response.data.refresh_token);
+      // await AsyncStorage.setItem("access_token", response.data.token);
+      // await AsyncStorage.setItem("refresh_token", response.data.refresh_token);
 
       return response.data;
     } catch (error) {
