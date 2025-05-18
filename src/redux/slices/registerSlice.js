@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import registerApi from "../../utils/registerApi";
+import Toast from "react-native-toast-message";
 
 export const registerUser = createAsyncThunk(
     "register/registerUser",
@@ -9,7 +10,11 @@ export const registerUser = createAsyncThunk(
     )=>{
       try{
         const response = await registerApi.post("/api/users/register/",{email,nickname,password,gender,age,height,weight})
-  
+        if(response.status!==201) throw new Error("서버 에러")
+        // Toast.show({
+        //     type: 'customToast',
+        //     props:{text1:'회원가입 성공!'}
+        // })
         return response.data;
       }catch(error){
         return rejectWithValue(error.response.data);

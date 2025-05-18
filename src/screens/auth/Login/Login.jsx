@@ -7,6 +7,7 @@ import { moderateScale } from 'react-native-size-matters';
 import { LinearGradient } from 'expo-linear-gradient'
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../../../redux/slices/userSlice';
+// import { saveToken } from './secureStorage';
 import LoadingSpinner from '../../../common/component/LoadingSpinner';
 
 export default function Login({ navigation }) {
@@ -35,6 +36,10 @@ export default function Login({ navigation }) {
   const handleKakaoLogin = () => {
     console.log('카카오 로그인');
   };
+
+  useEffect(()=>{
+    // saveToken();
+  },[])
 
   if (loading) {
     return <LoadingSpinner />;
