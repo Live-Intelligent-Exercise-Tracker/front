@@ -2,12 +2,17 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../../utils/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-toast-message';
+import { getAccessToken } from '../../screens/auth/Login/secureStorage';
 
 export const monthStatus = createAsyncThunk(
     "point/monthStatus",
     async ({ year, month }, { rejectWithValue }) => {
         try {
-            const token = await AsyncStorage.getItem('access_token');
+            // 강전하 확인용
+            // const token = await AsyncStorage.getItem('access_token');
+
+            // 다른 개발자 확인용
+            const token = await getAccessToken();
             const response = await api.get(`api/points/attendance/?year=${year}&month=${month}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -25,7 +30,11 @@ export const attendanceCheck = createAsyncThunk(
     "point/attendanceCheck",
     async (_, { rejectWithValue }) => {
         try {
-            const token = await AsyncStorage.getItem('access_token');
+            // 강전하 확인용
+            // const token = await AsyncStorage.getItem('access_token');
+
+            // 다른 개발자 확인용
+            const token = await getAccessToken();
             const response = await api.post("/api/points/attendance/checkin/", {}, {
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -48,7 +57,11 @@ export const pointTotal = createAsyncThunk(
     "point/pointTotal",
     async (_, { rejectWithValue }) => {
         try {
-            const token = await AsyncStorage.getItem('access_token');
+            // 강전하 확인용
+            // const token = await AsyncStorage.getItem('access_token');
+
+            // 다른 개발자 확인용
+            const token = await getAccessToken();
             const response = await api.get("/api/points/total/", {
                 headers: {
                     Authorization: `Bearer ${token}`,
