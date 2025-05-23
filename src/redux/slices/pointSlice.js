@@ -1,13 +1,14 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../../utils/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Toast from 'react-native-toast-message';
 
 export const monthStatus = createAsyncThunk(
     "point/monthStatus",
-    async (_, { rejectWithValue }) => {
+    async ({ year, month }, { rejectWithValue }) => {
         try {
             const token = await AsyncStorage.getItem('access_token');
-            const response = await api.get("api/points/attendance/", {
+            const response = await api.get(`api/points/attendance/?year=${year}&month=${month}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -25,12 +26,17 @@ export const attendanceCheck = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         try {
             const token = await AsyncStorage.getItem('access_token');
-            const response = await api.post("/api/points/attendance/checkin/", {
+            const response = await api.post("/api/points/attendance/checkin/", {}, {
                 headers: {
-                    Authorization: `Bearer ${token}`,
-                },
+                    Authorization: `Bearer ${token}`
+                }
             });
             console.log(response.data);
+            const message = response.data.message;
+            Toast.show({
+                type: 'customToast',
+                props: { text1: message }
+            })
             return response.data;
         } catch (error) {
             return rejectWithValue(error.message);

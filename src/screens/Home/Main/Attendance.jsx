@@ -17,10 +17,12 @@ export default function Attendance() {
     useEffect(() => {
         const fetchMonthStatus = async () => {
             try {
-                const resultAction = await dispatch(monthStatus());
+                const year = currentDate.getFullYear();
+                const month = currentDate.getMonth() + 1;
+                const resultAction = await dispatch(monthStatus({ year, month }));
                 const data = unwrapResult(resultAction);
 
-                const { year, month, checked_days } = data;
+                const { checked_days } = data;
                 const formattedDates = checked_days.map(day => `${year}-${month - 1}-${day}`);
                 setSelectedDates(formattedDates);
             } catch (error) {
@@ -28,7 +30,7 @@ export default function Attendance() {
             }
         };
         fetchMonthStatus();
-    }, []);
+    }, [currentDate]);
 
     const getCalendarDates = (date) => {
         const year = date.getFullYear();
@@ -68,10 +70,13 @@ export default function Attendance() {
         try {
             await dispatch(attendanceCheck());
 
-            const resultAction = await dispatch(monthStatus());
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth() + 1;
+
+            const resultAction = await dispatch(monthStatus({ year, month }));
             const data = unwrapResult(resultAction);
 
-            const { year, month, checked_days } = data;
+            const { checked_days } = data;
             const formattedDates = checked_days.map(day => `${year}-${month - 1}-${day}`);
             setSelectedDates(formattedDates);
 

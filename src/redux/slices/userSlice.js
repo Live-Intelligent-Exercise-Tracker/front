@@ -1,27 +1,34 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../../utils/api';
-// import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { deleteTokens, getAccessToken, getRefreshToken, saveAccessToken, saveRefreshToken } from '../../screens/auth/Login/secureStorage';
+import Toast from 'react-native-toast-message';
 
 export const loginUser = createAsyncThunk(
   "user/loginUser",
-  async ({ email, password }, { rejectWithValue }) => {
+  async ({ email, password, navigation }, { rejectWithValue }) => {
     try {
       const response = await api.post("/api/users/login/", { email, password })
       console.log(response.data)
 
       const accessToken = response.data.token
       const refreshToken = response.data.refresh_token
-      if(accessToken){
-        await saveAccessToken(accessToken)
+      if (accessToken) {
+        await AsyncStorage.setItem('access_token', accessToken);
       }
-      if(refreshToken){
-        await saveRefreshToken(refreshToken);
+      if (refreshToken) {
+        await AsyncStorage.setItem('refresh_token', refreshToken);
       }
+
+      navigation.replace("MainTabNavigator");
+      Toast.show({
+        type: 'customToast',
+        props: { text1: '로그인 성공!' }
+      })
 
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.message);
+      return rejectWithValue(error.response?.data?.message || "로그인 실패");
     }
   }
 )
@@ -34,7 +41,7 @@ export const logout = async () => {
 
     await deleteTokens();
   } catch (error) {
-    console.error("로그아웃 오류:", error.message);
+    console.error(error.response.data.message);
   }
 }
 
@@ -45,9 +52,12 @@ const userSlice = createSlice({
   initialState: {
     user: null,
     loading: false,
+    loginError: null,
   },
   reducers: {
-
+    clearError: (state) => {
+      state.loginError = null;
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -56,7 +66,6 @@ const userSlice = createSlice({
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
-        state.user = action.payload.user_id;
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
@@ -65,4 +74,5 @@ const userSlice = createSlice({
   },
 })
 
+export const { clearError } = userSlice.actions;
 export default userSlice.reducer;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   StyleSheet, Text, View, TextInput, TouchableOpacity,
   Keyboard, TouchableWithoutFeedback, Image,
@@ -6,20 +6,30 @@ import {
 import { moderateScale } from 'react-native-size-matters';
 import { LinearGradient } from 'expo-linear-gradient'
 import { useDispatch, useSelector } from 'react-redux';
-import { loginUser } from '../../../redux/slices/userSlice';
-// import { saveToken } from './secureStorage';
+import { loginUser, clearError } from '../../../redux/slices/userSlice';
 import LoadingSpinner from '../../../common/component/LoadingSpinner';
+import Toast from 'react-native-toast-message';
 
 export default function Login({ navigation }) {
   const dispatch = useDispatch()
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { loading } = useSelector((state) => state.user)
+  const { loading, loginError } = useSelector((state) => state.user)
 
   const handleLogin = async () => {
-    dispatch(loginUser({ email, password }))
-    navigation.replace("MainTabNavigator");
+    await dispatch(loginUser({ email, password, navigation }))
   };
+
+  useEffect(() => {
+    console.log(loginError);
+    if (loginError) {
+      Toast.show({
+        type: 'customToast',
+        props: { text1: loginError }
+      })
+      dispatch(clearError());
+    }
+  }, [loginError])
 
   const handleFindId = () => {
     console.log('아이디 찾기 클릭됨');
@@ -36,10 +46,6 @@ export default function Login({ navigation }) {
   const handleKakaoLogin = () => {
     console.log('카카오 로그인');
   };
-
-  useEffect(()=>{
-    // saveToken();
-  },[])
 
   if (loading) {
     return <LoadingSpinner />;
