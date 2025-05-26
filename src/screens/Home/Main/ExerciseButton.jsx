@@ -16,7 +16,7 @@ export default function ExerciseButton({ navigation }) {
                     />
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.healthAndRunning} onPress={() => navigation.navigate("HrvMeasurement", { button: '러닝' })}>
+                <TouchableOpacity style={styles.healthAndRunning} onPress={() => navigation.navigate("WorkoutIntensity", { button: '러닝' })}>
                     <View style={styles.textBox}>
                         <Text style={styles.title}>러닝</Text>
                         <Text style={styles.subtitle}>오늘도 활기찬 하루를 시작해볼까요?</Text>
