@@ -2,6 +2,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { moderateScale } from 'react-native-size-matters';
 import { LinearGradient } from 'expo-linear-gradient'
 import { useState, useEffect } from 'react';
+import RotatingRings from '../../common/component/RotatingRings'
 
 export default function HrvMeasurement({ navigation, route }) {
     const { button } = route.params;
@@ -66,7 +67,7 @@ export default function HrvMeasurement({ navigation, route }) {
             </View>
             <View style={{ paddingTop: moderateScale(150) }}>
                 <View style={styles.chartContainer}>
-                    <Text style={{ color: "#ffffff" }}>심박수 차트 부분</Text>
+                    <RotatingRings />
                 </View>
                 <View style={{
                     width: moderateScale(339),
