@@ -72,6 +72,7 @@ const WorkoutIntesity = ({navigation}) => {
                     style={[
                       styles.button,
                       isSelected && styles.selectedButton,
+                      isSelected && styles.glowEffect,
                     //   isSelected && {transform: [{scale: 1.15}]},
                     ]}
                   >
@@ -158,6 +159,13 @@ const styles = StyleSheet.create({
   selectedButton: {
     backgroundColor: "#507DFA",
   },
+  glowEffect: {
+  shadowColor: '#507DFA', // 파란 빛
+  shadowOffset: { width: 0, height: 0 },
+  shadowOpacity: 0.6,
+  shadowRadius: 10,
+  elevation: 15, // Android용 그림자
+},
   circleImage: {
     width: moderateScale(12),
     height: moderateScale(12),
