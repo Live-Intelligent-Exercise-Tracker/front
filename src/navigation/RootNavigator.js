@@ -11,6 +11,7 @@ import HrvResult from "../screens/HRVMeasure/HrvResult";
 import { View, ActivityIndicator } from "react-native";
 import MainTabNavigator from "./MainTabNavigator";
 import WorkoutIntesity from "../screens/WorkoutIntensity/WorkoutIntesity";
+import HRVMeasure from "../screens/HRVMeasure/HRVMeasure";
 
 const Stack = createStackNavigator();
 
@@ -49,6 +50,12 @@ export default function RootNavigator() {
         }} />
         <Stack.Screen name="MainTabNavigator" component={MainTabNavigator} options={{ headerShown: false }} />
         <Stack.Screen name="WorkoutIntensity" component={WorkoutIntesity} options={{
+          title: "",
+          headerStyle: { backgroundColor: '#0A0A0A', shadowOpacity: 0, elevation: 0, borderBottomWidth: 0, },
+          headerTintColor: "#FFFFFF",
+          headerBackTitle: ''
+        }} />
+        <Stack.Screen name="HRVMeasure" component={HRVMeasure} options={{
           title: "",
           headerStyle: { backgroundColor: '#0A0A0A', shadowOpacity: 0, elevation: 0, borderBottomWidth: 0, },
           headerTintColor: "#FFFFFF",

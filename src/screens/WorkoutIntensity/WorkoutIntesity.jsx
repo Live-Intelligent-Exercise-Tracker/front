@@ -41,7 +41,8 @@ const WorkoutIntesity = ({navigation}) => {
 
   const handleNext = () => {
     console.log(navigation)
-    navigation.navigate("HrvMeasurement", { button: '헬스' }); //{button:'헬스'}를 추가하면 navigate할 때 오류 뜸
+    // navigation.navigate("HrvMeasurement", { button: '헬스' }); //{button:'헬스'}를 추가하면 navigate할 때 오류 뜸
+    navigation.navigate("HRVMeasure")
   };
 
   return (
