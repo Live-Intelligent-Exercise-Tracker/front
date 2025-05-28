@@ -14,20 +14,20 @@ export const loginUser = createAsyncThunk(
       const accessToken = response.data.token
       const refreshToken = response.data.refresh_token
       // 강전하 확인용
-      // if (accessToken) {
-      //   await AsyncStorage.setItem('access_token', accessToken);
-      // }
-      // if (refreshToken) {
-      //   await AsyncStorage.setItem('refresh_token', refreshToken);
-      // }
+      if (accessToken) {
+        await AsyncStorage.setItem('access_token', accessToken);
+      }
+      if (refreshToken) {
+        await AsyncStorage.setItem('refresh_token', refreshToken);
+      }
       
       // 다른 개발자 확인용
-      if(accessToken){
-        await saveAccessToken(accessToken)
-      }
-      if(refreshToken){
-        await saveRefreshToken(refreshToken);
-      }
+      // if(accessToken){
+      //   await saveAccessToken(accessToken)
+      // }
+      // if(refreshToken){
+      //   await saveRefreshToken(refreshToken);
+      // }
 
       navigation.replace("MainTabNavigator");
       Toast.show({

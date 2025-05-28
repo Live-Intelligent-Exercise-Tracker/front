@@ -9,10 +9,10 @@ export const monthStatus = createAsyncThunk(
     async ({ year, month }, { rejectWithValue }) => {
         try {
             // 강전하 확인용
-            // const token = await AsyncStorage.getItem('access_token');
+            const token = await AsyncStorage.getItem('access_token');
 
             // 다른 개발자 확인용
-            const token = await getAccessToken();
+            // const token = await getAccessToken();
             const response = await api.get(`api/points/attendance/?year=${year}&month=${month}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -31,10 +31,10 @@ export const attendanceCheck = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         try {
             // 강전하 확인용
-            // const token = await AsyncStorage.getItem('access_token');
+            const token = await AsyncStorage.getItem('access_token');
 
             // 다른 개발자 확인용
-            const token = await getAccessToken();
+            // const token = await getAccessToken();
             const response = await api.post("/api/points/attendance/checkin/", {}, {
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -58,10 +58,10 @@ export const pointTotal = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         try {
             // 강전하 확인용
-            // const token = await AsyncStorage.getItem('access_token');
+            const token = await AsyncStorage.getItem('access_token');
 
             // 다른 개발자 확인용
-            const token = await getAccessToken();
+            // const token = await getAccessToken();
             const response = await api.get("/api/points/total/", {
                 headers: {
                     Authorization: `Bearer ${token}`,

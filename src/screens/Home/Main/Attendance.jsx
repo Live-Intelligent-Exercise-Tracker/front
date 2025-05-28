@@ -146,9 +146,9 @@ export default function Attendance() {
                                     <Text style={[styles.dateText, !item.isCurrentMonth && { color: '#8d8d8d' }]}>
                                         {item.day}
                                     </Text>
-                                    {isSelected && <Text style={styles.checkMark}>CHECK</Text>}
+                                    {isSelected && item.isCurrentMonth && <Text style={styles.checkMark}>CHECK</Text>}
                                 </View>
-                                {isSelected && <Text style={styles.pointText}>+50</Text>}
+                                {isSelected && item.isCurrentMonth && <Text style={styles.pointText}>+50</Text>}
                                 {isToday && !isSelected && <Text style={styles.todayLabel}>today</Text>}
                             </View>
                         </TouchableOpacity>
