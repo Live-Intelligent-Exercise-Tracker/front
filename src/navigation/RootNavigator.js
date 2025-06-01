@@ -53,13 +53,13 @@ export default function RootNavigator() {
           title: "",
           headerStyle: { backgroundColor: '#0A0A0A', shadowOpacity: 0, elevation: 0, borderBottomWidth: 0, },
           headerTintColor: "#FFFFFF",
-          headerBackTitle: ''
+          headerBackTitle: '홈'
         }} />
         <Stack.Screen name="HRVMeasure" component={HRVMeasure} options={{
           title: "",
-          headerStyle: { backgroundColor: '#0A0A0A', shadowOpacity: 0, elevation: 0, borderBottomWidth: 0, },
+          headerStyle: { backgroundColor: '#000000', shadowOpacity: 0, elevation: 0, borderBottomWidth: 0, },
           headerTintColor: "#FFFFFF",
-          headerBackTitle: ''
+          headerBackTitle: '강도'
         }} />
         <Stack.Screen name="HrvMeasurement" component={HrvMeasurement} options={{
           title: "",
