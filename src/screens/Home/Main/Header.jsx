@@ -8,16 +8,16 @@ export default function Header() {
     const dispatch = useDispatch();
     const { total } = useSelector((state) => state.point);
 
-    useEffect(() => {
-        const fetchPointTotal = async () => {
-            try {
-                await dispatch(pointTotal());
-            } catch (error) {
-                console.error('포인트 불러오기 실패:', error.message);
-            }
-        };
-        fetchPointTotal();
-    }, []);
+    // useEffect(() => {
+    //     const fetchPointTotal = async () => {
+    //         try {
+    //             await dispatch(pointTotal());
+    //         } catch (error) {
+    //             console.error('포인트 불러오기 실패:', error.message);
+    //         }
+    //     };
+    //     fetchPointTotal();
+    // }, []);
 
     return (
         <View style={styles.container}>

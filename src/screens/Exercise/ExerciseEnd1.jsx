@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     },
     text: {
         fontWeight: 'bold',
-        fontSize: moderateScale(44),
+        fontSize: moderateScale(33),
         color: '#ffffff',
     },
     button: {

@@ -14,23 +14,23 @@ export default function Attendance() {
 
     const daysOfWeek = ['일', '월', '화', '수', '목', '금', '토'];
 
-    useEffect(() => {
-        const fetchMonthStatus = async () => {
-            try {
-                const year = currentDate.getFullYear();
-                const month = currentDate.getMonth() + 1;
-                const resultAction = await dispatch(monthStatus({ year, month }));
-                const data = unwrapResult(resultAction);
+    // useEffect(() => {
+    //     const fetchMonthStatus = async () => {
+    //         try {
+    //             const year = currentDate.getFullYear();
+    //             const month = currentDate.getMonth() + 1;
+    //             const resultAction = await dispatch(monthStatus({ year, month }));
+    //             const data = unwrapResult(resultAction);
 
-                const { checked_days } = data;
-                const formattedDates = checked_days.map(day => `${year}-${month - 1}-${day}`);
-                setSelectedDates(formattedDates);
-            } catch (error) {
-                console.error('출석 상태 불러오기 실패:', error.message);
-            }
-        };
-        fetchMonthStatus();
-    }, [currentDate]);
+    //             const { checked_days } = data;
+    //             const formattedDates = checked_days.map(day => `${year}-${month - 1}-${day}`);
+    //             setSelectedDates(formattedDates);
+    //         } catch (error) {
+    //             console.error('출석 상태 불러오기 실패:', error.message);
+    //         }
+    //     };
+    //     fetchMonthStatus();
+    // }, [currentDate]);
 
     const getCalendarDates = (date) => {
         const year = date.getFullYear();

@@ -14,6 +14,7 @@ import Splash1 from "../screens/Splash/Splash1";
 import Splash2 from "../screens/Splash/Splash2";
 import ExerciseEnd2 from "../screens/Exercise/ExerciseEnd2";
 import ExerciseEnd1 from "../screens/Exercise/ExerciseEnd1";
+import ExerciseIntensity from "../screens/UserStatus/ExerciseIntensity";
 
 const Stack = createStackNavigator();
 
@@ -58,18 +59,19 @@ export default function RootNavigator() {
           headerTintColor: "#FFFFFF",
           headerBackTitle: ''
         }} />
+        <Stack.Screen name="ExerciseIntensity" component={ExerciseIntensity} options={{
+          title: "",
+          headerStyle: { backgroundColor: '#0A0A0A', shadowOpacity: 0, elevation: 0, borderBottomWidth: 0, },
+          headerTintColor: "#FFFFFF",
+          headerBackTitle: ''
+        }} />
         <Stack.Screen name="HrvResult" component={HrvResult} options={{
           title: "",
           headerStyle: { backgroundColor: '#0A0A0A', shadowOpacity: 0, elevation: 0, borderBottomWidth: 0, },
           headerTintColor: "#FFFFFF",
           headerBackTitle: ''
         }} />
-        <Stack.Screen name="ExerciseEnd2" component={ExerciseEnd2} options={{
-          title: "",
-          headerStyle: { backgroundColor: '#111111', shadowOpacity: 0, elevation: 0, borderBottomWidth: 0, },
-          headerTintColor: "#FFFFFF",
-          headerBackTitle: '러닝'
-        }} />
+        <Stack.Screen name="ExerciseEnd2" component={ExerciseEnd2} options={{ headerShown: false, gestureEnabled: false, }} />
         <Stack.Screen name="ExerciseEnd1" component={ExerciseEnd1} options={{ headerShown: false }} />
         <Stack.Screen name="StairsGoal" component={StairsGoal} options={{
           title: "목표를 설정해봐요!",

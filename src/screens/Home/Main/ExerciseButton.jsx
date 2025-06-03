@@ -5,7 +5,7 @@ export default function ExerciseButton({ navigation }) {
     return (
         <View style={styles.container}>
             <View style={styles.leftColumn}>
-                <TouchableOpacity style={styles.healthAndRunning} onPress={() => navigation.navigate("HrvMeasurement", { button: '헬스' })}>
+                <TouchableOpacity style={styles.healthAndRunning} onPress={() => navigation.navigate("ExerciseIntensity", { button: '헬스' })}>
                     <View style={styles.textBox}>
                         <Text style={styles.title}>헬스</Text>
                         <Text style={styles.subtitle}>근육 성장을 위한 첫 걸음!</Text>
@@ -16,7 +16,7 @@ export default function ExerciseButton({ navigation }) {
                     />
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.healthAndRunning} onPress={() => navigation.navigate("HrvMeasurement", { button: '러닝' })}>
+                <TouchableOpacity style={styles.healthAndRunning} onPress={() => navigation.navigate("ExerciseIntensity", { button: '러닝' })}>
                     <View style={styles.textBox}>
                         <Text style={styles.title}>러닝</Text>
                         <Text style={styles.subtitle}>오늘도 활기찬 하루를 시작해볼까요?</Text>
