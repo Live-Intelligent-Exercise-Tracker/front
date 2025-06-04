@@ -12,9 +12,9 @@ import { View, ActivityIndicator } from "react-native";
 import MainTabNavigator from "./MainTabNavigator";
 import Splash1 from "../screens/Splash/Splash1";
 import Splash2 from "../screens/Splash/Splash2";
-import ExerciseEnd2 from "../screens/Exercise/ExerciseEnd2";
-import ExerciseEnd1 from "../screens/Exercise/ExerciseEnd1";
+import ExerciseEndAll from "../screens/Exercise/ExerciseEndAll";
 import ExerciseIntensity from "../screens/UserStatus/ExerciseIntensity";
+import StairsEnd from "../screens/Stairs/StairsEnd";
 
 const Stack = createStackNavigator();
 
@@ -36,7 +36,7 @@ export default function RootNavigator() {
 
   return (
     <NavigationContainer ref={navigationRef}>
-      <Stack.Navigator initialRouteName={"ExerciseEnd1"}>
+      <Stack.Navigator initialRouteName={"StairsEnd"}>
         <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
         <Stack.Screen name="Terms" component={Terms} options={{
           title: "약관 동의",
@@ -71,8 +71,8 @@ export default function RootNavigator() {
           headerTintColor: "#FFFFFF",
           headerBackTitle: ''
         }} />
-        <Stack.Screen name="ExerciseEnd2" component={ExerciseEnd2} options={{ headerShown: false, gestureEnabled: false, }} />
-        <Stack.Screen name="ExerciseEnd1" component={ExerciseEnd1} options={{ headerShown: false }} />
+        <Stack.Screen name="ExerciseEndAll" component={ExerciseEndAll} options={{ headerShown: false }} />
+        <Stack.Screen name="StairsEnd" component={StairsEnd} options={{ headerShown: false }} />
         <Stack.Screen name="StairsGoal" component={StairsGoal} options={{
           title: "목표를 설정해봐요!",
           headerTintColor: "#FFFFFF",
