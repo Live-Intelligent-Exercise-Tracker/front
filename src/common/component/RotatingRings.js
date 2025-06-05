@@ -1,8 +1,36 @@
 import React, { useEffect, useRef } from 'react';
 import { View, StyleSheet, Image, Animated } from 'react-native';
 import Svg, { Rect } from 'react-native-svg';
+import { Easing } from 'react-native';
 
-export default function RotatingRings() {
+
+export default function RotatingRings({ HrvSpeed = 'stable' }) { //속도 설정
+
+const getRingImage = () => {
+  switch (HrvSpeed) {
+    case 'rapid':
+      return require('../../assets/images/Loading/rapid_ring.png');
+    case 'slow':
+      return require('../../assets/images/Loading/slow_ring.png');
+    case 'stable':
+    default:
+      return require('../../assets/images/Loading/stable_ring.png');
+  }
+};
+
+const getShakeConfig = () => {
+  switch (HrvSpeed) {
+    case 'rapid':
+      return { minDuration: 200, maxDuration: 600, amplitude: 18 };
+    case 'slow':
+      return { minDuration: 1700, maxDuration: 2000, amplitude: 16 };
+    case 'stable':
+    default:
+      return { minDuration: 600, maxDuration: 800, amplitude: 14 };
+  }
+};
+
+
   // 3개의 원 각각의 흔들림 중심값 정의
   const shakes = Array.from({ length: 3 }, () => ({
     x: useRef(new Animated.Value(0)).current,
@@ -11,34 +39,40 @@ export default function RotatingRings() {
 
   // 각각의 중심을 무작위로 움직이게 함
   useEffect(() => {
-    shakes.forEach(({ x, y }) => {
-      const animate = () => {
-        const offsetX = (Math.random() - 0.5) * 15; // -7.5 ~ +7.5
-        const offsetY = (Math.random() - 0.5) * 15;
-        const duration = 900 + Math.random() * 600;
+  const { minDuration, maxDuration, amplitude } = getShakeConfig();
 
-        Animated.parallel([
-          Animated.timing(x, {
-            toValue: offsetX,
-            duration,
-            useNativeDriver: true,
-          }),
-          Animated.timing(y, {
-            toValue: offsetY,
-            duration,
-            useNativeDriver: true,
-          }),
-        ]).start(() => animate());
-      };
-      animate();
-    });
-  }, []);
+  shakes.forEach(({ x, y }) => {
+    const animate = () => {
+      const offsetX = (Math.random() - 0.5) * amplitude * 2;
+      const offsetY = (Math.random() - 0.5) * amplitude * 2;
+      const duration = minDuration + Math.random() * (maxDuration - minDuration);
+
+      Animated.parallel([
+        Animated.timing(x, {
+          toValue: offsetX,
+          duration,
+          easing: Easing.inOut(Easing.ease),
+          useNativeDriver: true,
+        }),
+        Animated.timing(y, {
+          toValue: offsetY,
+          duration,
+          easing: Easing.inOut(Easing.ease),
+          useNativeDriver: true,
+        }),
+      ]).start(() => animate());
+    };
+
+    animate();
+  });
+}, [HrvSpeed]);
+
 
   return (
     <View style={styles.wrapper}>
       {/* 중앙 이미지 */}
       <Image
-        source={require('../../assets/images/Loading/gradient_ring.png')}
+        source={getRingImage()} // ✅ 함수로 이미지 동적 설정
         style={styles.ringImage}
         resizeMode="contain"
       />

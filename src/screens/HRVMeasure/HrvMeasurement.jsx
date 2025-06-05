@@ -67,7 +67,8 @@ export default function HrvMeasurement({ navigation, route }) {
             </View>
             <View style={{ paddingTop: moderateScale(150) }}>
                 <View style={styles.chartContainer}>
-                    <RotatingRings />
+                    {/* rapid, stable, slow 속도 설정 가능 */}
+                    <RotatingRings HrvSpeed='stable'/> 
                 </View>
                 <View style={{
                     width: moderateScale(339),
@@ -102,18 +103,7 @@ const styles = StyleSheet.create({
         height: moderateScale(196),
         width: '90%',
         alignSelf: 'center',
-        justifyContent: 'center',
-
-        borderRadius: moderateScale(12),
-        padding: moderateScale(10),
-
-        shadowColor: '#507DFA',  // 은은한 파란색 그림자
-        shadowOffset: { width: 0, height: 0 },
-        shadowOpacity: 3,
-        shadowRadius: 100,
-
-        // 🔹 Android 그림자 설정
-        elevation: 15, // 높을수록 그림자 강해짐
+        justifyContent: 'center'
     },
     hrvText: {
         fontWeight: 'semibold',
