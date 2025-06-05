@@ -1,8 +1,9 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useEffect } from 'react';
 import { moderateScale } from 'react-native-size-matters';
-import Chart from './Chart';
+import HrvChart from './HrvChart';
 import RunButton from './RunButton';
+import StatSummary from './StatSummary';
 
 export default function HrvResult({ navigation, route }) {
     const { button } = route.params;
@@ -28,7 +29,8 @@ export default function HrvResult({ navigation, route }) {
                 ]}>편안
                 </Text>
             </Text>
-            <Chart />
+            <HrvChart />
+            <StatSummary />
             <View style={{ justifyContent: 'center', alignSelf: 'center', width: '75%' }}>
                 <Text style={{ fontSize: moderateScale(20), fontWeight: 'bold', color: '#FFFFFF', textAlign: 'center' }}>
                     가벼운 워밍업이나 낮은 강도의 운동으로 시작하면 좋습니다.
