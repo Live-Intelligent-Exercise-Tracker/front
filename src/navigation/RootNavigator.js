@@ -7,9 +7,12 @@ import Terms from "../screens/auth/SignUp/Terms";
 import SignUp from "../screens/auth/SignUp/SignUp";
 import StairsGoal from "../screens/Stairs/StairsGoal";
 import HrvMeasurement from "../screens/HRVMeasure/HrvMeasurement";
-import HrvResult from "../screens/HRVMeasure/HrvResult";
+
+
 import { View, ActivityIndicator } from "react-native";
 import MainTabNavigator from "./MainTabNavigator";
+import HrvResult from "../screens/HRVResult/HRVResult";
+import HRVResult from "../screens/HRVResult/HRVResult";
 
 const Stack = createStackNavigator();
 
@@ -52,7 +55,7 @@ export default function RootNavigator() {
           headerTintColor: "#FFFFFF",
           headerBackTitle: ''
         }} />
-        <Stack.Screen name="HrvResult" component={HrvResult} options={{
+        <Stack.Screen name="HRVResult" component={HRVResult} options={{
           title: "",
           headerStyle: { backgroundColor: '#0A0A0A', shadowOpacity: 0, elevation: 0, borderBottomWidth: 0, },
           headerTintColor: "#FFFFFF",
