@@ -20,10 +20,10 @@ export default function StairsGoal({ navigation }) {
 
     return (
         <LinearGradient
-            colors={['#0A0A0A', '#0A0A0A', '#111F45']} 
-            locations={[0, 0.7, 1]} 
-            start={{ x: 0, y: 0 }} 
-            end={{ x: 0, y: 1 }} 
+            colors={['#0A0A0A', '#0A0A0A', '#111F45']}
+            locations={[0, 0.7, 1]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 0, y: 1 }}
             style={styles.container}
         >
             <View style={{ flexDirection: 'row', marginBottom: moderateScale(20) }}>
@@ -79,8 +79,8 @@ export default function StairsGoal({ navigation }) {
                     styles.button,
                     selectedTower ? styles.buttonEnabled : styles.buttonDisabled,
                 ]}
-                disabled={!selectedTower} 
-                onPress={() => navigation.navigate("ExerciseIntensity", { button: '계단 오르기' })}
+                disabled={!selectedTower}
+                onPress={() => navigation.navigate("HrvBefore", { button: '계단 오르기', tower: selectedTower })}
             >
                 <Text style={styles.buttonText}>선택 완료</Text>
             </TouchableOpacity>
@@ -114,21 +114,21 @@ const styles = StyleSheet.create({
         marginTop: moderateScale(60),
     },
     selectedTower: {
-        opacity: 1, 
-        shadowColor: '#507DFA', 
-        shadowOffset: { width: 0, height: 0 }, 
-        shadowOpacity: 1, 
-        shadowRadius: 10, 
-        elevation: 10, 
+        opacity: 1,
+        shadowColor: '#507DFA',
+        shadowOffset: { width: 0, height: 0 },
+        shadowOpacity: 1,
+        shadowRadius: 10,
+        elevation: 10,
     },
     dimmed: {
-        opacity: 0.5, 
+        opacity: 0.5,
     },
     buttonEnabled: {
         backgroundColor: '#507DFA',
     },
     buttonDisabled: {
-        backgroundColor: '#505050', 
+        backgroundColor: '#505050',
     },
     buttonText: {
         color: '#FFFFFF',

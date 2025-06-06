@@ -15,7 +15,8 @@ import FeedbackContainer from '../../common/component/FeedbackContainer';
 import { FEEDBACK_THEME } from '../../common/component/feedbackTheme';
 import TowerChart from './component/TowerChart';
 
-export default function StairsEnd({ navigation }) {
+export default function StairsEnd({ navigation, route }) {
+    const { tower } = route.params;
     const feedbackAnim = useRef(new Animated.Value(100)).current;
     const feedbackOpacity = useRef(new Animated.Value(0)).current;
     const [modalVisible, setModalVisible] = useState(false);
@@ -69,7 +70,7 @@ export default function StairsEnd({ navigation }) {
                 contentContainerStyle={styles.scrollContent}
                 showsVerticalScrollIndicator={false}
             >
-                <TowerChart onAnimationEnd={handleTowerAnimEnd} />
+                <TowerChart onAnimationEnd={handleTowerAnimEnd} tower={tower} />
                 {showFeedback && (
                     <>
                         <Animated.View

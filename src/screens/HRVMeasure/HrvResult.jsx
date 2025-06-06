@@ -5,7 +5,7 @@ import Chart from './Chart';
 import RunButton from './RunButton';
 
 export default function HrvResult({ navigation, route }) {
-    const { button } = route.params;
+    const { button, tower } = route.params;
 
     useEffect(() => {
         // 버튼에 따라 headerBackTitle 설정
@@ -34,7 +34,7 @@ export default function HrvResult({ navigation, route }) {
                     가벼운 워밍업이나 낮은 강도의 운동으로 시작하면 좋습니다.
                 </Text>
             </View>
-            <RunButton button={button} />
+            <RunButton button={button} navigation={navigation} tower={tower} />
         </View>
     );
 }

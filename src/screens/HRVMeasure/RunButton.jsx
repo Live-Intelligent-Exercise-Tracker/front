@@ -1,10 +1,10 @@
 import { TouchableOpacity, StyleSheet, Text, View } from 'react-native';
 import { moderateScale } from 'react-native-size-matters';
 
-export default function RunButton({ button }) {
+export default function RunButton({ button, navigation, tower }) {
     return (
         <View style={styles.container}>
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("ExerciseStart", { button: button, tower: tower })}>
                 <Text style={styles.text}>
                     {button} 하러 가기
                 </Text>

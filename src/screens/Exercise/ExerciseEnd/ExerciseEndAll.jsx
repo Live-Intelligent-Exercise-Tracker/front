@@ -11,12 +11,12 @@ import {
 } from 'react-native';
 import { moderateScale } from 'react-native-size-matters';
 import { LinearGradient } from 'expo-linear-gradient';
-import ExerciseChart from './component/ExerciseChart';
-import FeedbackContainer from '../../common/component/FeedbackContainer';
-import { FEEDBACK_THEME } from '../../common/component/feedbackTheme';
+import ExerciseChart from '../component/ExerciseChart';
+import FeedbackContainer from '../../../common/component/FeedbackContainer';
+import { FEEDBACK_THEME } from '../../../common/component/feedbackTheme';
 
-export default function ExerciseEndAll({ navigation }) {
-
+export default function ExerciseEndAll({ navigation, route }) {
+    const { button } = route.params;
     const titleOpacity = useRef(new Animated.Value(0)).current;
     const titleDimOpacity = useRef(new Animated.Value(1)).current;
     const titleTranslateY = useRef(new Animated.Value(50)).current;
@@ -118,7 +118,7 @@ export default function ExerciseEndAll({ navigation }) {
                                 zIndex: 2,
                             }}
                         >
-                            <Text style={styles.text}>러닝 완료 👏</Text>
+                            <Text style={styles.text}>{button} 완료 👏</Text>
                         </Animated.View>
                         <Animated.View
                             style={{

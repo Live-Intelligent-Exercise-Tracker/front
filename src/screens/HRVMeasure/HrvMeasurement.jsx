@@ -4,7 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient'
 import { useState, useEffect } from 'react';
 
 export default function HrvMeasurement({ navigation, route }) {
-    const { button } = route.params;
+    const { button, tower } = route.params;
     const [dots, setDots] = useState('');
     const [timeoutId, setTimeoutId] = useState(null); // 타이머 상태 관리
 
@@ -26,7 +26,7 @@ export default function HrvMeasurement({ navigation, route }) {
     // 타이머를 실행하고 상태로 저장하는 함수
     const startTimer = () => {
         const id = setTimeout(() => {
-            navigation.navigate('HrvResult', { button: button }); // 이동할 페이지 이름
+            navigation.navigate('HrvResult', { button: button, tower: tower }); // 이동할 페이지 이름
         }, 5000); // 5초 후 실행
 
         setTimeoutId(id); // 타이머 id 저장

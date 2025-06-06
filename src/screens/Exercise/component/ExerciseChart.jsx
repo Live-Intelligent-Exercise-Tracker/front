@@ -9,18 +9,34 @@ import {
 } from 'react-native';
 import { moderateScale } from 'react-native-size-matters';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import Chart from './Chart';
 
 const data = [
     { label: '페이스', value: '페이스' },
     { label: '심박수', value: '심박수' },
 ];
 
+const chartData = {
+    페이스: [3, 9, 15, 20, 35, 45, 40, 38, 36],
+    심박수: [70, 82, 95, 110, 125, 139, 157, 145, 130],
+}
+
+const chartColor = {
+    페이스: '#507DFA',
+    심박수: '#FF5F5F',
+}
+
+const chartSuffix = {
+    페이스: 'km',
+    심박수: 'bpm',
+}
+
 export default function ExerciseChart() {
     const [dropdownVisible, setDropdownVisible] = useState(false);
     const [value, setValue] = useState('페이스');
-    const fadeAnim = useRef(new Animated.Value(0)).current; 
-    const scaleAnim = useRef(new Animated.Value(0.95)).current; 
-    const textFadeAnim = useRef(new Animated.Value(1)).current; 
+    const fadeAnim = useRef(new Animated.Value(0)).current;
+    const scaleAnim = useRef(new Animated.Value(0.95)).current;
+    const textFadeAnim = useRef(new Animated.Value(1)).current;
 
     const openDropdown = () => {
         setDropdownVisible(true);
@@ -153,16 +169,20 @@ export default function ExerciseChart() {
             </View>
 
             <View style={styles.viewBox}>
-                {value === '페이스' &&
-                    <View style={{ backgroundColor: '#ffffff' }}>
-                        <Text>차트부분 </Text>
-                    </View>
-                }
-                {value === '심박수' &&
-                    <View style={{ backgroundColor: '#ffffff' }}>
-                        <Text>심박수부분 </Text>
-                    </View>
-                }
+                {value === '페이스' && (
+                    <Chart
+                        data={chartData['페이스']}
+                        color={chartColor['페이스']}
+                        suffix={chartSuffix['페이스']}
+                    />
+                )}
+                {value === '심박수' && (
+                    <Chart
+                        data={chartData['심박수']}
+                        color={chartColor['심박수']}
+                        suffix={chartSuffix['심박수']}
+                    />
+                )}
                 <View style={{ marginTop: moderateScale(20), flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'flex-start' }}>
                     {[
                         { label: '총 시간', value: '3.2' },

@@ -10,29 +10,30 @@ import { moderateScale } from 'react-native-size-matters';
 
 const towerData = [
     {
-        key: '남산 타워',
+        key: '남산타워',
         stair: '68',
-        image: require('../../../assets/images/StairsGoal/남산타워 1.png'),
+        image: require('../../../assets/images/TowerChart/남산타워 이미지 -완료 page.png'),
     },
     {
-        key: '포스코 타워',
+        key: '포스코타워',
         stair: '68',
-        image: require('../../../assets/images/StairsGoal/포스코타워.png'),
+        image: require('../../../assets/images/TowerChart/포스코타워 -완료 page.png'),
     },
     {
         key: '엘시티',
         stair: '101',
-        image: require('../../../assets/images/StairsGoal/엘시티 1.png'),
+        image: require('../../../assets/images/TowerChart/엘시티 이미지- 완료 page.png'),
     },
     {
-        key: '롯데 타워',
+        key: '롯데타워',
         stair: '123',
-        image: require('../../../assets/images/StairsGoal/롯데타워 3.png'),
+        image: require('../../../assets/images/TowerChart/롯데타워 이미지-완료 page.png'),
     },
 ];
 
-export default function TowerChart({ onAnimationEnd }) {
-    const Tower = towerData.find(tower => tower.key === '포스코 타워');
+export default function TowerChart({ onAnimationEnd, tower }) {
+    const TowerKey = tower
+    const Tower = towerData.find(tower => tower.key === TowerKey);
 
     const recordData = [
         { label: '총 시간', value: '01:12:03' },
@@ -141,16 +142,16 @@ export default function TowerChart({ onAnimationEnd }) {
                     alignItems: 'flex-end',
                     opacity: rowOpacity,
                     transform: [{ translateY: rowY }],
-                    marginTop: moderateScale(10),
+                    marginTop: moderateScale(8),
                 }}
             >
-                <Text style={{ fontWeight: 'bold', fontSize: moderateScale(43), color: '#ffffff' }}>
+                <Text style={{ fontWeight: 'bold', fontSize: moderateScale(37), color: '#ffffff' }}>
                     57/
                 </Text>
-                <Text style={{ fontWeight: 'bold', fontSize: moderateScale(37), color: '#ffffff', marginRight: moderateScale(3) }}>
+                <Text style={{ fontSize: moderateScale(30), color: '#ffffff', marginRight: moderateScale(3), marginBottom: moderateScale(1) }}>
                     {Tower.stair}
                 </Text>
-                <Text style={{ fontWeight: 'bold', fontSize: moderateScale(26), color: '#ffffff', marginBottom: moderateScale(8) }}>
+                <Text style={{ fontSize: moderateScale(23), color: '#ffffff', marginBottom: moderateScale(6) }}>
                     층
                 </Text>
             </Animated.View>
@@ -236,5 +237,3 @@ const styles = StyleSheet.create({
         color: '#ffffff',
     },
 });
-
-
