@@ -24,7 +24,7 @@ const HRVMeasure = ({navigation}) => {
   });
 
   const progress = useRef(new Animated.Value(0)).current;
-  console.log("progress 초기값:", progress);
+  // console.log("progress 초기값:", progress);
   const [percent, setPercent] = useState(0);
 
   useEffect(() => {
@@ -35,7 +35,8 @@ const HRVMeasure = ({navigation}) => {
       useNativeDriver: false,
     }).start(() => {
       console.log("애니메이션 완료됨");
-      navigation.navigate("HrvResult",{ button: "심박수 측정" })
+      // navigation.navigate("HRVResult",{ button: "심박수 측정" })
+      navigation.replace("HRVResult");
     });
 
     // return () => clearInterval(interval);

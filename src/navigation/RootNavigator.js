@@ -7,7 +7,7 @@ import Terms from "../screens/auth/SignUp/Terms";
 import SignUp from "../screens/auth/SignUp/SignUp";
 import StairsGoal from "../screens/Stairs/StairsGoal";
 import HrvMeasurement from "../screens/HRVMeasure/HrvMeasurement";
-import HrvResult from "../screens/HRVMeasure/HrvResult";
+import HRVResult from "../screens/HRVResult/HRVResult";
 import { View, ActivityIndicator } from "react-native";
 import MainTabNavigator from "./MainTabNavigator";
 import WorkoutIntesity from "../screens/WorkoutIntensity/WorkoutIntesity";
@@ -34,7 +34,7 @@ export default function RootNavigator() {
   return (
     <NavigationContainer ref={navigationRef}>
       {/* <Stack.Navigator initialRouteName={!user ? "Login" : "MainTabNavigator"}> */}
-      <Stack.Navigator initialRouteName={"MainTabNavigator"}>
+      <Stack.Navigator initialRouteName={"HRVResult"}>
         <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
         <Stack.Screen name="Terms" component={Terms} options={{
           title: "약관 동의",
@@ -61,13 +61,13 @@ export default function RootNavigator() {
           headerTintColor: "#FFFFFF",
           headerBackTitle: '강도'
         }} />
-        <Stack.Screen name="HrvMeasurement" component={HrvMeasurement} options={{
+        {/* <Stack.Screen name="HrvMeasurement" component={HrvMeasurement} options={{
           title: "",
           headerStyle: { backgroundColor: '#0A0A0A', shadowOpacity: 0, elevation: 0, borderBottomWidth: 0, },
           headerTintColor: "#FFFFFF",
           headerBackTitle: ''
-        }} />
-        <Stack.Screen name="HrvResult" component={HrvResult} options={{
+        }} /> */}
+        <Stack.Screen name="HRVResult" component={HRVResult} options={{
           title: "",
           headerStyle: { backgroundColor: '#0A0A0A', shadowOpacity: 0, elevation: 0, borderBottomWidth: 0, },
           headerTintColor: "#FFFFFF",

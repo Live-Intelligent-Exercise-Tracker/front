@@ -4,7 +4,7 @@ import { moderateScale } from 'react-native-size-matters';
 import Chart from './Chart';
 import RunButton from './RunButton';
 
-export default function HrvResult({ navigation, route }) {
+export default function HrvResultOld({ navigation, route }) {
     const { button } = route.params;
 
     useEffect(() => {

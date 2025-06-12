@@ -11,24 +11,28 @@ import {
 import React, {useRef, useState} from "react";
 import {moderateScale} from "react-native-size-matters";
 import {Dimensions} from "react-native";
+import { useDispatch } from "react-redux";
+import { setWorkoutIntensity } from "../../redux/slices/workoutSlice";
 
 const {width, height} = Dimensions.get("window");
 
 const WorkoutIntesity = ({navigation}) => {
   const options = [
-    {label: "오늘 제대로 불태운다🔥🔥", value: "very hard"},
-    {label: "적당히 끌어올려볼까🔥", value: "hard"},
-    {label: "몸 푸는 느낌으로 가볍게😌", value: "medium"},
-    {label: "오늘은 자유롭게~ 😎", value: "easy"},
+    {label: "오늘 제대로 불태운다🔥🔥", value: "very hard", num: 3},
+    {label: "적당히 끌어올려볼까🔥", value: "hard", num: 2},
+    {label: "몸 푸는 느낌으로 가볍게😌", value: "medium", num: 1},
+    {label: "오늘은 자유롭게~ 😎", value: "easy", num: 0},
   ];
 
+  const dispatch = useDispatch();
   const [intensity, setIntensity] = useState(null);
   const animationRefs = useRef(
     options.map(() => new Animated.Value(1))
   ).current;
 
-  const handleRadioButton = (index, value) => {
-    setIntensity(value);
+  const handleRadioButton = (index, option) => {
+    setIntensity(option.value);
+    dispatch(setWorkoutIntensity(option.num));
 
     animationRefs.forEach((anim, i) => {
       Animated.timing(anim, {
@@ -41,6 +45,7 @@ const WorkoutIntesity = ({navigation}) => {
 
   const handleNext = () => {
     console.log(navigation)
+    
     // navigation.navigate("HrvMeasurement", { button: '헬스' }); //{button:'헬스'}를 추가하면 navigate할 때 오류 뜸
     navigation.navigate("HRVMeasure")
   };
@@ -68,7 +73,7 @@ const WorkoutIntesity = ({navigation}) => {
                 >
                   <TouchableOpacity
                     key={index}
-                    onPress={() => handleRadioButton(index, option.value)}
+                    onPress={() => handleRadioButton(index, option)}
                     activeOpacity={0.8}
                     style={[
                       styles.button,
