@@ -37,7 +37,7 @@ export default function RootNavigator() {
 
   return (
     <NavigationContainer ref={navigationRef}>
-      <Stack.Navigator initialRouteName={"MainTabNavigator"}>
+      <Stack.Navigator initialRouteName={"Login"}>
         <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
         <Stack.Screen name="Terms" component={Terms} options={{
           title: "약관 동의",

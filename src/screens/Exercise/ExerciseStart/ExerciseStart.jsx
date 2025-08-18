@@ -10,7 +10,7 @@ export default function ExerciseStart({ navigation, route }) {
     const [timer, setTimer] = useState(0); 
     const intervalRef = useRef(null);
 
-    const bpmStatus = 'stable'; // 임시로 보여주려고 설정한 색 백엔드 연결시 여기에 값만 넣으면 됨
+    const bpmStatus = 'rapid'; // 임시로 보여주려고 설정한 색 백엔드 연결시 여기에 값만 넣으면 됨
     const bpmColor = finished 
         ? '#161616'
         : bpmStatus === 'stable'
@@ -107,7 +107,7 @@ export default function ExerciseStart({ navigation, route }) {
                 <Text style={{ fontWeight: 'medium', fontSize: moderateScale(16), color: bpmColor }}>BPM</Text>
             </View>
             <View style={{ marginTop: moderateScale(106), marginBottom: moderateScale(56) }}>
-                <RotatingRings HrvSpeed='stable' />
+                <RotatingRings HrvSpeed='rapid' />
             </View>
             <View>
                 <Text style={{ color: '#ffffff', fontSize: moderateScale(53) }}>

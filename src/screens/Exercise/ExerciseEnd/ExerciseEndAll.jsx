@@ -16,10 +16,10 @@ import FeedbackContainer from '../../../common/component/FeedbackContainer';
 import { FEEDBACK_THEME } from '../../../common/component/feedbackTheme';
 
 export default function ExerciseEndAll({ navigation, route }) {
-    const { button } = route.params;
+    // const { button } = route.params;
     const titleOpacity = useRef(new Animated.Value(0)).current;
     const titleDimOpacity = useRef(new Animated.Value(1)).current;
-    const titleTranslateY = useRef(new Animated.Value(50)).current;
+    const titleTranslateY = useRef(new Animated.Value(0)).current;
     const subtitleOpacity = useRef(new Animated.Value(0)).current;
     const subtitleTranslateY = useRef(new Animated.Value(150)).current;
     const buttonOpacity = useRef(new Animated.Value(0)).current;
@@ -45,7 +45,7 @@ export default function ExerciseEndAll({ navigation, route }) {
                             useNativeDriver: true,
                         }),
                         Animated.timing(titleTranslateY, {
-                            toValue: -70,
+                            toValue: -35,
                             duration: 600,
                             useNativeDriver: true,
                         }),
@@ -55,7 +55,7 @@ export default function ExerciseEndAll({ navigation, route }) {
                             useNativeDriver: true,
                         }),
                         Animated.timing(subtitleTranslateY, {
-                            toValue: 0,
+                            toValue: 20,
                             duration: 600,
                             useNativeDriver: true,
                         }),
@@ -107,7 +107,7 @@ export default function ExerciseEndAll({ navigation, route }) {
             {!showNext && (
                 <Animated.View style={{ opacity: mainOpacity, flex: 1, width: '100%', alignItems: 'center', justifyContent: 'center' }}>
                     <View style={{ height: moderateScale(310) }} />
-                    <View style={{ alignItems: 'center', marginBottom: moderateScale(250) }}>
+                    <View style={{ alignItems: 'center', marginBottom: moderateScale(290) }}>
                         <Animated.View
                             style={{
                                 opacity: Animated.multiply(titleOpacity, titleDimOpacity),
@@ -118,7 +118,9 @@ export default function ExerciseEndAll({ navigation, route }) {
                                 zIndex: 2,
                             }}
                         >
-                            <Text style={styles.text}>{button} 완료 👏</Text>
+                            <Text style={[styles.text, { marginLeft: moderateScale(4) }]}>
+                                {/* {button} */}
+                                러닝 완료 👏</Text>
                         </Animated.View>
                         <Animated.View
                             style={{
@@ -147,8 +149,8 @@ export default function ExerciseEndAll({ navigation, route }) {
                     >
                         <ExerciseChart />
                         <FeedbackContainer
-                            theme={FEEDBACK_THEME.red}
-                            score="70점"
+                            theme={FEEDBACK_THEME.green}
+                            score="90점"
                             mainText="오늘의 운동 피드백"
                             subText="이용 방법이 직관적이라 누구나 쉽게 사용할 수 있어요."
                         />
@@ -251,7 +253,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     modalBox: {
-        width: moderateScale(340),
+        width: moderateScale(302),
         height: moderateScale(170),
         backgroundColor: '#ffffff',
         borderRadius: 10,
