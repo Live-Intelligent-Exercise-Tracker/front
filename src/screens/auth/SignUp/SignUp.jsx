@@ -205,15 +205,14 @@ export default function SignUp({ navigation }) {
         }
     }
 
-    const apiButton = () => {
-        dispatch(registerUser({email:"hrhaxq@gmail.com",nickname:"qafhcc",password:"1234Aa!!",gender:"MALE",age:28,height:175,weight:75,navigation}))
-
-        // Toast.show({
-        //     type: 'customToast',
-        //     props:{text1:'회원가입 성공!'}
-        // })
-        // navigation.navigate("Login");
-    }
+    // const apiButton = () => {
+    //     dispatch(registerUser({email:"hrhaxq@gmail.com",nickname:"qafhcc",password:"1234Aa!!",gender:"MALE",age:28,height:175,weight:75,navigation}))
+    //     // Toast.show({
+    //     //     type: 'customToast',
+    //     //     props:{text1:'회원가입 성공!'}
+    //     // })
+    //     // navigation.navigate("Login");
+    // }
 
     if(loading){
         return <LoadingSpinner/>;
@@ -230,7 +229,7 @@ export default function SignUp({ navigation }) {
                         <PasswordRow type="pass" pass={formData.pass} verifPass={formData.verifPass} handleInputChange={handleInputChange} checkEmptyField={checkEmptyField} errors={errors} placeholder="영어, 숫자를 포함한 8~20자리를 입력해 주세요."/>
                     </View>
 
-                    <Button title="호출 테스트" onPress={apiButton}/>
+                    {/* <Button title="호출 테스트" onPress={apiButton}/> */}
 
                     <View style={styles.signupButtonSection}>
                         <SignupButton isFormValid={isFormValid} page={page} handleSignupButton={handleSignupButton}/>
